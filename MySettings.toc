@@ -1,0 +1,11 @@
+## Interface: 70000
+## Title: MySettings
+## Author: Haselnussbomber
+## Version: 1.0.0
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## Dependencies: SharedMedia
+
+FCTFix.lua
+UIScale.lua
+Fonts.lua
