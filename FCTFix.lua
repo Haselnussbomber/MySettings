@@ -7,4 +7,13 @@ C_Timer.After(3, function()
 	SetCVar("floatingCombatTextCombatHealing", 1)             -- Healing
 	SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 1) -- Schilde
 	SetCVar("floatingCombatTextFriendlyHealers", 1)           -- Namen verbündeter Heiler
+
+	-- from HideHealingText <https://mods.curse.com/addons/wow/hidehealingtext>
+	COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL"]["show"]        = nil;
+	COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL_CRIT"]["show"]   = nil;
+	COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL_ABSORB"]["show"] = nil;
+	COMBAT_TEXT_TYPE_INFO["HEAL"]["show"]                 = nil;
+	COMBAT_TEXT_TYPE_INFO["HEAL_CRIT"]["show"]            = nil;
+	COMBAT_TEXT_TYPE_INFO["HEAL_ABSORB"]["show"]          = nil;
+	COMBAT_TEXT_TYPE_INFO["HEAL_CRIT_ABSORB"]["show"]     = nil;
 end)
