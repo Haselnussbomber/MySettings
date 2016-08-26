@@ -6,6 +6,6 @@
 ## LoadOnDemand: 0
 ## Dependencies: SharedMedia
 
-FCTFix.lua
+CVars.lua
 UIScale.lua
 Fonts.lua

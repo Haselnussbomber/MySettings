@@ -1,12 +1,15 @@
 C_Timer.After(3, function()
-	SetCVar("enableFloatingCombatText", 1)
-	SetCVar("floatingCombatTextCombatDamage", 1)              -- Schaden
-	SetCVar("floatingCombatTextCombatLogPeriodicSpells", 1)   -- Schaden über Zeit
-	SetCVar("floatingCombatTextPetMeleeDamage", 1)            -- Begleiterschaden
+	--------------------------
+	-- Floating Combat Text --
+	--------------------------
 
+	SetCVar("enableFloatingCombatText", 1)
+	SetCVar("floatingCombatTextCombatDamage", 1)              -- Damage
+	SetCVar("floatingCombatTextCombatLogPeriodicSpells", 1)   -- Damage over Time
+	SetCVar("floatingCombatTextPetMeleeDamage", 1)            -- Pet Damage
 	SetCVar("floatingCombatTextCombatHealing", 1)             -- Healing
-	SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 1) -- Schilde
-	SetCVar("floatingCombatTextFriendlyHealers", 1)           -- Namen verbündeter Heiler
+	SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 1) -- Shields
+	SetCVar("floatingCombatTextFriendlyHealers", 1)           -- Healer Names
 
 	-- from HideHealingText <https://mods.curse.com/addons/wow/hidehealingtext>
 	COMBAT_TEXT_TYPE_INFO["PERIODIC_HEAL"]["show"]        = nil;
