@@ -14,4 +14,6 @@ C_Timer.After(5, function()
 
 	SetFont(FramerateLabel, RobotoRegular);
 	SetFont(FramerateText, RobotoRegular);
+
+	SetFont(QuestFont, SegoeUISemibold);
 end);
