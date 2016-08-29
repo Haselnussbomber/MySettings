@@ -7,5 +7,4 @@
 ## Dependencies: SharedMedia
 
 CVars.lua
-UIScale.lua
 Fonts.lua
