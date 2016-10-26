@@ -1,10 +1,4 @@
 C_Timer.After(3, function()
-	--------------------
-	-- Tabbing System --
-	--------------------
-
-	SetCVar("TargetNearestUseOld", 1)
-
 	--------------------------
 	-- Floating Combat Text --
 	--------------------------
