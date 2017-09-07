@@ -1,6 +1,6 @@
 ## Interface: 70100
 ## Title: MySettings
-## Author: Haselnussbomber
+## Author: Quinvy-Blackhand(EU)
 ## Version: 1.0.0
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
