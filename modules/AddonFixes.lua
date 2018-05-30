@@ -1,7 +1,5 @@
 local addonName, addon = ...;
 
-local match = string.match
-
 local Module = {
 	name = "addonfixes",
 	events = { "ADDON_LOADED" }
@@ -9,12 +7,12 @@ local Module = {
 
 function Module:ADDON_LOADED(addon)
 	-- hide vendor price when TSM is active
-	if ( addon == "TradeSkillMaster" ) then
+	if (addon == "TradeSkillMaster") then
 		GameTooltip_OnTooltipAddMoney = function() end;
 	end
 
 	-- hide vuhdo minimap button
-	if ( addon == "VuhDo" and VuhDoMinimapButton ) then
+	if (addon == "VuhDo" and VuhDoMinimapButton) then
 		VuhDoMinimapButton:SetShown(false);
 	end
 end
@@ -23,7 +21,7 @@ local unitStatus = {};
 local statustimer = ElvUF.Tags.Methods['statustimer'];
 ElvUF.Tags.Methods['statustimer'] = function(unit)
 	local output = statustimer(unit);
-	if ( output ) then
+	if (output) then
 		return "|r\n" .. output;
 	end
 end
