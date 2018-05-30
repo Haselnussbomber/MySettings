@@ -1,4 +1,4 @@
-local addonName, addon = ...
+local addonName, addon = ...;
 
 local SegoeUISemibold = [[Interface\Addons\SharedMedia_MyMedia\font\seguisb.ttf]];
 local RobotoRegular = [[Interface\Addons\SharedMedia_MyMedia\font\Roboto-Regular.ttf]];
@@ -11,11 +11,10 @@ end
 local Module = {
 	name = "fonts",
 	events = { "PLAYER_ENTERING_WORLD" }
-}
+};
 
-function Module:OnEvent()
+function Module:PLAYER_ENTERING_WORLD()
 	C_Timer.After(3, function()
-
 		SetFont(ZoneTextString, SegoeUISemibold);
 		SetFont(SubZoneTextString, SegoeUISemibold);
 		SetFont(PVPInfoTextString, SegoeUISemibold);
@@ -25,8 +24,7 @@ function Module:OnEvent()
 		SetFont(FramerateText, RobotoRegular);
 
 		SetFont(QuestFont, SegoeUISemibold);
-
-	end)
+	end);
 end
 
-addon:Register(Module)
+addon:Register(Module);
