@@ -10,7 +10,7 @@ end
 
 local function timerCallback(key)
 	return function(...)
-		if  modules[key] and modules[key].OnUpdate) then
+		if (modules[key] and modules[key].OnUpdate) then
 			modules[key]:OnUpdate(...);
 		end
 	end
