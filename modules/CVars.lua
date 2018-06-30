@@ -108,7 +108,7 @@ function Module:PLAYER_ENTERING_WORLD()
 
 	for cvar, value in pairs(tutorialFrameBits) do
 		if (not GetCVarBitfield("closedInfoFrames", cvar)) then
-			SetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_BAG_SETTINGS, true);
+			SetCVarBitfield("closedInfoFrames", cvar, true);
 		end
 	end
 end
