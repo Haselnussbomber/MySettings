@@ -9,5 +9,6 @@
 core.lua
 modules/CVars.lua
 modules/Fonts.lua
+modules/Tooltip.lua
 modules/AddonFixes.lua
 modules/Chat.lua
