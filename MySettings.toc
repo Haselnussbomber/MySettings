@@ -1,7 +1,7 @@
-## Interface: 70100
+## Interface: 80000
 ## Title: MySettings
-## Author: Quinvy-Blackhand(EU)
-## Version: 1.0.0
+## Author: Haselnussbomber
+## Version: 1.1.0
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## Dependencies: SharedMedia
