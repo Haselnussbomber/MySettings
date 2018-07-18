@@ -50,9 +50,17 @@ local cvars = {
 	Sound_EnableMusic = "0",
 	Sound_EnableSoundWhenGameIsInBG = "1",
 
-	-- Tutorials
-	lastVoidStorageTutorial = 3, -- #voidStorageTutorials from AddOns\Blizzard_VoidStorageUI\Blizzard_VoidStorageUI.lua
-	orderHallMissionTutorial = 0x000F0004, -- seenAllTutorials from AddOns\Blizzard_GarrisonUI\Blizzard_OrderHallMissionUI.lua
+	-- Tutorials from AddOns\Blizzard_VoidStorageUI\Blizzard_VoidStorageUI.lua (#voidStorageTutorials)
+	lastVoidStorageTutorial = 3,
+
+	-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_OrderHallMissionUI.lua (seenAllTutorials)
+	orderHallMissionTutorial = 0x000F0004,
+
+	-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_GarrisonShipyardUI.lua
+	shipyardMissionTutorialFirst = 1,
+	shipyardMissionTutorialBlockade = 1,
+	shipyardMissionTutorialAreaBuff = 1,
+	dangerousShipyardMissionWarningAlreadyShown = 1,
 };
 
 function Module:PLAYER_ENTERING_WORLD()
