@@ -8,23 +8,14 @@ local function SetFont(frame, font)
 	frame:SetFont(font, fontHeight, fontFlags);
 end
 
-local Module = {
-	name = "fonts",
-	events = { "PLAYER_ENTERING_WORLD" }
-};
+C_Timer.After(3, function()
+	SetFont(ZoneTextString, SegoeUISemibold);
+	SetFont(SubZoneTextString, SegoeUISemibold);
+	SetFont(PVPInfoTextString, SegoeUISemibold);
+	SetFont(PVPArenaTextString, SegoeUISemibold);
 
-function Module:PLAYER_ENTERING_WORLD()
-	C_Timer.After(3, function()
-		SetFont(ZoneTextString, SegoeUISemibold);
-		SetFont(SubZoneTextString, SegoeUISemibold);
-		SetFont(PVPInfoTextString, SegoeUISemibold);
-		SetFont(PVPArenaTextString, SegoeUISemibold);
+	SetFont(FramerateLabel, RobotoRegular);
+	SetFont(FramerateText, RobotoRegular);
 
-		SetFont(FramerateLabel, RobotoRegular);
-		SetFont(FramerateText, RobotoRegular);
-
-		SetFont(QuestFont, SegoeUISemibold);
-	end);
-end
-
-addon:Register(Module);
+	SetFont(QuestFont, SegoeUISemibold);
+end);

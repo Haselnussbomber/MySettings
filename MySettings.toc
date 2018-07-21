@@ -1,14 +1,19 @@
 ## Interface: 80000
 ## Title: MySettings
 ## Author: Haselnussbomber
-## Version: 1.1.0
+## Version: 1.2.0
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Dependencies: SharedMedia
+## Dependencies: LibStub, Ace3, SharedMedia
 
 core.lua
+
+modules/Chat.lua
 modules/CVars.lua
 modules/Fonts.lua
 modules/Tooltip.lua
-modules/AddonFixes.lua
-modules/Chat.lua
+modules/WorldMap.lua
+
+modules/addons/ElvUI.lua
+modules/addons/TradeSkillMaster.lua
+modules/addons/VuhDo.lua

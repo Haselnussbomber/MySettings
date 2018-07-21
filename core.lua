@@ -30,6 +30,15 @@ function addon:Register(obj)
 	end
 end
 
+function addon:Unregister(obj)
+	for i, v in ipairs(modules) do
+		if (v.name == obj.name) then
+			table.remove(modules, i);
+			break;
+		end
+	end
+end
+
 function addon:OnEvent(event, ...)
 	for key in pairs(modules) do
 		if (modules[key]) then
@@ -41,4 +50,30 @@ function addon:OnEvent(event, ...)
 			end
 		end
 	end
+end
+
+function addon:RegisterAddonFix(name, func)
+	local module = {
+		name = "addonfixes-" .. string.lower(name),
+		events = { "PLAYER_ENTERING_WORLD", "ADDON_LOADED" }
+	};
+
+	function module:ADDON_LOADED(addon)
+		if (addon == name) then
+			module:Fix();
+		end
+	end
+
+	function module:PLAYER_ENTERING_WORLD()
+		if (IsAddOnLoaded(name)) then
+			module:Fix();
+		end
+	end
+
+	function module:Fix()
+		func(module);
+		addon:Unregister(module);
+	end
+
+	addon:Register(module);
 end

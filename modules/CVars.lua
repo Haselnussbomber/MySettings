@@ -64,6 +64,8 @@ local cvars = {
 };
 
 function Module:PLAYER_ENTERING_WORLD()
+    Module.PLAYER_ENTERING_WORLD = nil;
+
 	for cvar, value in pairs(cvars) do
 		local current = tostring(GetCVar(cvar));
 		if (current ~= value) then
@@ -80,6 +82,8 @@ end
 
 function Module:ADDON_LOADED(addon)
 	if (addon == "Blizzard_CombatText") then
+    	Module.ADDON_LOADED = nil;
+
 		-- Combat Text (incoming)
 		CombatText:Hide();
 	end
