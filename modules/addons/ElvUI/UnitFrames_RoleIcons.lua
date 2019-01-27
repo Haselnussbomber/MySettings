@@ -146,6 +146,37 @@ local bind = function(self, fn, ...)
     end
 end
 
+local detailsHooked = false
+
+local hookDetails = function()
+    if not ElvUI or not Details or detailsHooked then
+        return
+    end
+    detailsHooked = true
+
+	local E = ElvUI[1]
+	local UF = E:GetModule("UnitFrames")
+
+    local locked = false
+    local update = function()
+        if locked then return end
+        locked = true
+        C_Timer.After(1, function()
+            locked = false
+            UF:HeaderUpdateSpecificElement("party", "GroupRoleIndicator")
+            UF:HeaderUpdateSpecificElement("raid", "GroupRoleIndicator")
+        end)
+    end
+
+    hooksecurefunc(Details, "IlvlFromNetwork", update)
+    hooksecurefunc(Details, "GuessSpec", update)
+    hooksecurefunc(Details, "ReGuessSpec", update)
+
+    if Details.LibGroupInSpecT_UpdateReceived then
+        hooksecurefunc(Details, "LibGroupInSpecT_UpdateReceived", update)
+    end
+end
+
 tinsert(addon.addons.ElvUI, function()
 	local E = ElvUI[1]
 	local UF = E:GetModule("UnitFrames")
@@ -162,4 +193,8 @@ tinsert(addon.addons.ElvUI, function()
 
         frame._injectedRoleIconFix = true
     end)
+
+    hookDetails()
 end)
+
+addon:RegisterAddonFix("Details", hookDetails)
