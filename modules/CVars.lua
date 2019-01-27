@@ -1,9 +1,14 @@
-local addonName, addon = ...;
+local _, addon = ...
+
+local GetCVar = GetCVar
+local SetCVar = SetCVar
+local GetCVarBitfield = GetCVarBitfield
+local SetCVarBitfield = SetCVarBitfield
 
 local Module = {
 	name = "cvars",
 	events = { "PLAYER_ENTERING_WORLD", "ADDON_LOADED" }
-};
+}
 
 local cvars = {
 	-- Camera
@@ -61,32 +66,32 @@ local cvars = {
 	shipyardMissionTutorialBlockade = 1,
 	shipyardMissionTutorialAreaBuff = 1,
 	dangerousShipyardMissionWarningAlreadyShown = 1,
-};
+}
 
 function Module:PLAYER_ENTERING_WORLD()
-    Module.PLAYER_ENTERING_WORLD = nil;
+    Module.PLAYER_ENTERING_WORLD = nil
 
 	for cvar, value in pairs(cvars) do
-		local current = tostring(GetCVar(cvar));
+		local current = tostring(GetCVar(cvar))
 		if (current ~= value) then
-			SetCVar(cvar, value);
+			SetCVar(cvar, value)
 		end
 	end
 
 	for key, value in pairs(_G) do
 		if (string.sub(key, 0, 18) == "LE_FRAME_TUTORIAL_" and not GetCVarBitfield("closedInfoFrames", value)) then
-			SetCVarBitfield("closedInfoFrames", value, true);
+			SetCVarBitfield("closedInfoFrames", value, true)
 		end
 	end
 end
 
-function Module:ADDON_LOADED(addon)
-	if (addon == "Blizzard_CombatText") then
-    	Module.ADDON_LOADED = nil;
+function Module:ADDON_LOADED(arg1)
+	if (arg1 == "Blizzard_CombatText") then
+		Module.ADDON_LOADED = nil
 
 		-- Combat Text (incoming)
-		CombatText:Hide();
+		CombatText:Hide()
 	end
 end
 
-addon:Register(Module);
+addon:Register(Module)

@@ -1,12 +1,11 @@
-local _, addon = ...;
+local _, addon = ...
 
-addon:RegisterAddonFix("ElvUI", function(module)
-	local statustimer = ElvUF.Tags.Methods.statustimer;
+addon.addons.ElvUI = {}
 
-	ElvUF.Tags.Methods.statustimer = function(unit)
-		local output = statustimer(unit);
-		if (output) then
-			return "|r\n" .. output;
+addon:RegisterAddonFix("ElvUI", function()
+	for _, v in ipairs(addon.addons.ElvUI) do
+		if (v and type(v) == 'function') then
+			v()
 		end
 	end
-end);
+end)

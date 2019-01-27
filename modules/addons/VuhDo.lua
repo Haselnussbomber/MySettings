@@ -1,7 +1,7 @@
-local _, addon = ...;
+local _, addon = ...
 
-addon:RegisterAddonFix("VuhDo", function(module)
-	if VuhDoMinimapButton then
-		VuhDoMinimapButton:SetShown(false);
+addon:RegisterAddonFix("VuhDo", function()
+	if (VuhDoMinimapButton) then
+		VuhDoMinimapButton:SetShown(false)
 	end
-end);
+end)

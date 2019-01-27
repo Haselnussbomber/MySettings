@@ -1,3 +1,6 @@
+local WorldMapFrame = WorldMapFrame
+local GetCursorPosition = GetCursorPosition
+
 -- hide tutorial button
 WorldMapFrame.BorderFrame.Tutorial:Hide();
 WorldMapFrame.BorderFrame.Tutorial:SetScript("OnShow", WorldMapFrame.BorderFrame.Tutorial.Hide);

@@ -1,5 +1,5 @@
-local _, addon = ...;
+local _, addon = ...
 
-addon:RegisterAddonFix("TradeSkillMaster", function(module)
-	GameTooltip_OnTooltipAddMoney = function() end;
-end);
+addon:RegisterAddonFix("TradeSkillMaster", function()
+	GameTooltip_OnTooltipAddMoney = function() end
+end)
