@@ -1,6 +1,6 @@
-local addonName, addon = ...
+local _, addon = ...
 
-local date =  date
+local date = date
 
 -- adds clickable timestamp to copy text
 local Module = {
@@ -18,7 +18,7 @@ local function AddMessage(chat, text, ...)
     return chat:OriginalAddMessage(text, ...)
 end
 
-function Module:PLAYER_ENTERING_WORLD()
+function Module.PLAYER_ENTERING_WORLD()
     Module.PLAYER_ENTERING_WORLD = nil
 
     -- inject timestamp link
@@ -31,7 +31,7 @@ function Module:PLAYER_ENTERING_WORLD()
 	end
 end
 
-function Module:UPDATE_CHAT_WINDOWS()
+function Module.UPDATE_CHAT_WINDOWS()
     Module.UPDATE_CHAT_WINDOWS = nil
 
     -- reset chat colors, channels, font-sizes

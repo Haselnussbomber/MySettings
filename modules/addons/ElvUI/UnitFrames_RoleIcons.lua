@@ -2,10 +2,8 @@ local _, addon = ...
 
 --Cache global variables
 --Lua functions
-local random = math.random
 local select = select
 local tonumber = tonumber
-local unpack = unpack
 --WoW API / Variables
 local GetBattlefieldScore = GetBattlefieldScore
 local GetNumBattlefieldScores = GetNumBattlefieldScores
@@ -107,8 +105,7 @@ local function getUnitRole(unit, isForced)
     end
 
     if isForced then
-        local rnd = random(1, 3)
-        role = rnd == 1 and "TANK" or (rnd == 2 and "HEALER" or (rnd == 3 and "DAMAGER"))
+        role = "DAMAGER"
     end
     return role
 end
@@ -136,13 +133,6 @@ local UpdateRoleIcon = function(self, event)
         end
     else
         lfdrole:Hide()
-    end
-end
-
-local bind = function(self, fn, ...)
-    local outerArgs = {...}
-    return function(_, ...)
-        fn(self, unpack({unpack(outerArgs), unpack({...})}))
     end
 end
 
@@ -189,7 +179,9 @@ tinsert(addon.addons.ElvUI, function()
         local role = frame.GroupRoleIndicator
         role.Override = UpdateRoleIcon
         self:UnregisterEvent("UNIT_CONNECTION")
-        self:RegisterEvent("UNIT_CONNECTION", bind(frame, UpdateRoleIcon, "UNIT_CONNECTION"))
+        self:RegisterEvent("UNIT_CONNECTION", function(_, event)
+            UpdateRoleIcon(frame, event)
+        end)
 
         frame._injectedRoleIconFix = true
     end)
