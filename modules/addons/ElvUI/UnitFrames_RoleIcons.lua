@@ -1,14 +1,22 @@
 local _, addon = ...
 
+if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) then
+    return
+end
+
 --Cache global variables
 --Lua functions
 local select = select
 local tonumber = tonumber
 --WoW API / Variables
 local GetBattlefieldScore = GetBattlefieldScore
+local GetClassInfo = GetClassInfo
 local GetNumBattlefieldScores = GetNumBattlefieldScores
+local GetNumClasses = GetNumClasses
+local GetNumSpecializationsForClassID = GetNumSpecializationsForClassID
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetSpecializationInfoByID = GetSpecializationInfoByID
+local GetSpecializationInfoForClassID = GetSpecializationInfoForClassID
 local GetUnitName = GetUnitName
 local IsInInstance = IsInInstance
 local IsInRaid = IsInRaid
