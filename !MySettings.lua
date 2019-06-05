@@ -75,8 +75,11 @@ function addon:RegisterAddonFix(name, func)
 	end
 
 	function module:Fix()
-		func(module)
-		addon:Unregister(module)
+		if (not module.fixed) then
+			func(module)
+			module.fixed = true
+			addon:Unregister(module)
+		end
 	end
 
 	addon:Register(module)
