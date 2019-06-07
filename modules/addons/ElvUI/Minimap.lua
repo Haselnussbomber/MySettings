@@ -1,6 +1,6 @@
 local addonName, addon = ...
 
-tinsert(addon.addons.ElvUI, function()
+addon:RegisterAddonFix("ElvUI", function()
 	local E = ElvUI[1]
 
 	local maskHover = "Interface\\Addons\\"..addonName.."\\media\\minimap-mask"

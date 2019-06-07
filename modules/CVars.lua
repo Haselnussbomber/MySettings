@@ -4,14 +4,9 @@ local SetCVar = SetCVar -- from SharedXML/Util.lua
 local GetCVarBitfield = C_CVar.GetCVarBitfield
 local SetCVarBitfield = C_CVar.SetCVarBitfield
 
-local Module = {
-	name = "cvars",
-	events = { "PLAYER_ENTERING_WORLD", "ADDON_LOADED" }
-}
+local module = addon:RegisterModule("CVars")
 
-function Module:PLAYER_ENTERING_WORLD()
-    Module.PLAYER_ENTERING_WORLD = nil
-
+function module:PLAYER_ENTERING_WORLD()
 	-- see https://wow.gamepedia.com/Console_variables/Complete_list
 	-- cameraDistanceMaxZoomFactor calculation by https://www.wowinterface.com/downloads/info24927-MaxCamClassic.html
 
@@ -97,15 +92,11 @@ function Module:PLAYER_ENTERING_WORLD()
 		ALWAYS_SHOW_MULTIBARS = 1
 		InterfaceOptions_UpdateMultiActionBars()
 	end
+
+	addon:Unregister(self)
 end
 
-function Module:ADDON_LOADED(arg1)
-	if (arg1 == "Blizzard_CombatText") then
-		Module.ADDON_LOADED = nil
-
-		-- Combat Text (incoming)
-		CombatText:Hide()
-	end
-end
-
-addon:Register(Module)
+addon:RegisterAddonFix("Blizzard_CombatText", function()
+	-- Combat Text (incoming)
+	CombatText:Hide()
+end)

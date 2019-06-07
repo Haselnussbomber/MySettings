@@ -1,6 +1,6 @@
 local _, addon = ...
 
-tinsert(addon.addons.ElvUI, function()
+addon:RegisterAddonFix("ElvUI", function()
     local ElvUF = ElvUI.oUF
 
 	local statustimer = ElvUF.Tags.Methods.statustimer

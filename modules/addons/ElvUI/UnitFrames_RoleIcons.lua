@@ -175,7 +175,7 @@ local hookDetails = function()
     end
 end
 
-tinsert(addon.addons.ElvUI, function()
+addon:RegisterAddonFix("ElvUI", function()
 	local E = ElvUI[1]
 	local UF = E:GetModule("UnitFrames")
 

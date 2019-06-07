@@ -6,7 +6,7 @@
 ## LoadOnDemand: 0
 ## Dependencies: LibStub, Ace3, SharedMedia
 
-!MySettings.lua
+core.lua
 
 modules/Chat.lua
 modules/CVars.lua
@@ -14,8 +14,6 @@ modules/Fonts.lua
 modules/WorldMap.lua
 
 modules/addons/+Wowhead_Looter.lua
-modules/addons/ElvUI.lua
-modules/addons/ElvUI/Chat.lua
 modules/addons/ElvUI/Minimap.lua
 modules/addons/ElvUI/UnitFrames_RoleIcons.lua
 modules/addons/ElvUI/UnitFrames_StatusTimer.lua

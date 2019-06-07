@@ -2,23 +2,23 @@ local _, addon = ...
 
 local date = date
 
--- adds clickable timestamp to copy text
-local Module = {
-	name = "chat",
-	events = { "PLAYER_ENTERING_WORLD", "UPDATE_CHAT_WINDOWS" }
-}
-
 local function AddMessage(chat, text, ...)
 	local id = chat:GetID()
     if (id and text) then
-        text = ("|cff%02x%02x%02x|Hcpl:%s|h[%s]|h|r %s"):format(245, 245, 245, id, date("%X"), text)
+        if (IsAddOnLoaded("ElvUI")) then
+            text = ("|cff%02x%02x%02x|Hcpl:%s|h[%s]|h|r %s"):format(245, 245, 245, id, date("%X"), text)
+        else
+            text = ("|cff%02x%02x%02x[%s]|r %s"):format(245, 245, 245, date("%X"), text)
+        end
     end
     return chat:OriginalAddMessage(text, ...)
 end
 
-function Module.PLAYER_ENTERING_WORLD()
-    Module.PLAYER_ENTERING_WORLD = nil
+-- adds timestamp. clickable to copy text if ElvUI is loaded
+local module = addon:RegisterModule("Chat")
+module:RegisterEvent("UPDATE_CHAT_WINDOWS")
 
+function module:PLAYER_ENTERING_WORLD()
     -- inject timestamp link
 	for i = 1, NUM_CHAT_WINDOWS do
 		local cf = _G["ChatFrame"..i]
@@ -27,11 +27,11 @@ function Module.PLAYER_ENTERING_WORLD()
             cf.AddMessage = AddMessage
 		end
 	end
+
+    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
-function Module.UPDATE_CHAT_WINDOWS()
-    Module.UPDATE_CHAT_WINDOWS = nil
-
+function module:UPDATE_CHAT_WINDOWS()
     -- reset chat colors, channels, font-sizes
     ResetChatWindows()
     FCF_SetChatWindowFontSize(nil, ChatFrame1, 12)
@@ -52,6 +52,6 @@ function Module.UPDATE_CHAT_WINDOWS()
     end
 
     ChatFrame1:SetMaxLines(1024)
-end
 
-addon:Register(Module)
+    self:UnregisterEvent("UPDATE_CHAT_WINDOWS")
+end
