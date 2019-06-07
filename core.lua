@@ -7,7 +7,7 @@ addon.registeredEvents = {}
 
 function addon:OnEvent(event, ...)
 	for _, module in pairs(self.modules) do
-		if (module[event]) then
+		if (module:IsEventRegistered(event) and module[event]) then
 			module[event](module, ...)
 		end
 		if (module.OnEvent) then
@@ -56,14 +56,20 @@ function ModuleMixin:GetEvents()
 	return self.events
 end
 
+function ModuleMixin:IsEventRegistered(name)
+	return tContains(self.events, name)
+end
+
 function ModuleMixin:RegisterEvent(name)
-	if (not tIndexOf(self.events, name)) then
+	if (not self:IsEventRegistered(name)) then
 		table.insert(self.events, name)
 	end
 end
 
 function ModuleMixin:UnregisterEvent(name)
-	tDeleteItem(self.events, name)
+	if (self:IsEventRegistered(name)) then
+		tDeleteItem(self.events, name)
+	end
 end
 
 
