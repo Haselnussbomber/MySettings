@@ -2,6 +2,7 @@ local addonName, addon = ...
 
 addon:RegisterAddonFix("ElvUI", function()
 	local E = ElvUI[1]
+	local Minimap = Minimap
 
 	local maskHover = "Interface\\Addons\\"..addonName.."\\media\\minimap-mask"
 	local maskDefault = "Interface\\ChatFrame\\ChatFrameBackground"
@@ -21,4 +22,8 @@ addon:RegisterAddonFix("ElvUI", function()
 		Minimap:SetMaskTexture(maskHover)
 		Minimap.backdrop:Hide()
 	end)
+
+	if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
+		MinimapToggleButton:Hide()
+	end
 end)

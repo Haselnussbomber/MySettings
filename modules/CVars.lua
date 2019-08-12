@@ -1,8 +1,6 @@
 local _, addon = ...
 
 local SetCVar = SetCVar -- from SharedXML/Util.lua
-local GetCVarBitfield = C_CVar.GetCVarBitfield
-local SetCVarBitfield = C_CVar.SetCVarBitfield
 
 local module = addon:RegisterModule("CVars")
 
@@ -71,7 +69,12 @@ function module:PLAYER_ENTERING_WORLD()
 		SetCVar("shipyardMissionTutorialAreaBuff", true)
 		SetCVar("dangerousShipyardMissionWarningAlreadyShown", true)
 
+		-- [8.2.0] Tutorials from FrameXML\AzeriteEssenceUtil.lua (ESSENCE_SWAP_TUTORIAL_STATE_ACKNOWLEDGED)
+		-- SetCVar("azeriteEssenceSwapTutorial", 2)
+
 		-- more Tutorials
+		local GetCVarBitfield = C_CVar.GetCVarBitfield
+		local SetCVarBitfield = C_CVar.SetCVarBitfield
 		for key, value in pairs(_G) do
 			if (string.sub(key, 0, 18) == "LE_FRAME_TUTORIAL_" and not GetCVarBitfield("closedInfoFrames", value)) then
 				SetCVarBitfield("closedInfoFrames", value, true)
@@ -83,14 +86,6 @@ function module:PLAYER_ENTERING_WORLD()
 
 		-- Interface
 		SetCVar("instantQuestText", true)
-
-		-- Action Bars (uvars)
-		SHOW_MULTI_ACTIONBAR_1 = 1
-		SHOW_MULTI_ACTIONBAR_2 = 1
-		SHOW_MULTI_ACTIONBAR_3 = 1
-		SHOW_MULTI_ACTIONBAR_4 = 1
-		ALWAYS_SHOW_MULTIBARS = 1
-		InterfaceOptions_UpdateMultiActionBars()
 	end
 
 	addon:Unregister(self)
