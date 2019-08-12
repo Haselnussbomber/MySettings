@@ -8,7 +8,9 @@
 
 core.lua
 
-modules/shared/Chat.lua
+modules/shared/Chat/ItemIcons.lua
+modules/shared/Chat/ItemLevel.lua
+modules/shared/Chat/Timestamp.lua
 modules/shared/CVars.lua
 modules/shared/Fonts.lua
 modules/shared/PaperDoll.lua
