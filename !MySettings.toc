@@ -11,6 +11,7 @@ core.lua
 modules/Chat.lua
 modules/CVars.lua
 modules/Fonts.lua
+modules/PaperDoll.lua
 modules/Tooltips.lua
 modules/WorldMap.lua
 
