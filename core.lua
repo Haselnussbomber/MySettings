@@ -7,11 +7,31 @@ addon.registeredEvents = {}
 
 function addon:OnEvent(event, ...)
 	for _, module in pairs(self.modules) do
-		if (module:IsEventRegistered(event) and module[event]) then
-			module[event](module, ...)
+		if (module:IsEventRegistered(event)) then
+			if (module[event]) then
+				module[event](module, ...)
+			end
+			if (module.OnEvent) then
+				module:OnEvent(event, ...)
+			end
 		end
-		if (module.OnEvent) then
-			module:OnEvent(event, ...)
+	end
+end
+
+function addon:InternalRegisterEvent(event)
+	if (not self.registeredEvents[event]) then
+		self:RegisterEvent(event, "OnEvent")
+		self.registeredEvents[event] = 0
+	end
+	self.registeredEvents[event] = self.registeredEvents[event] + 1
+end
+
+function addon:InternalUnregisterEvent(event)
+	if (self.registeredEvents[event]) then
+		self.registeredEvents[event] = self.registeredEvents[event] - 1
+		if (self.registeredEvents[event] == 0) then
+			self:UnregisterEvent(event)
+			self.registeredEvents[event] = nil
 		end
 	end
 end
@@ -19,11 +39,7 @@ end
 function addon:Register(module)
 	local events = module:GetEvents()
 	for _, event in pairs(events) do
-		if (not self.registeredEvents[event]) then
-			self:RegisterEvent(event, "OnEvent")
-			self.registeredEvents[event] = 0
-		end
-		self.registeredEvents[event] = self.registeredEvents[event] + 1
+		self:InternalRegisterEvent(event)
 	end
 
 	table.insert(self.modules, module)
@@ -32,13 +48,7 @@ end
 function addon:Unregister(module)
 	local events = module:GetEvents()
 	for _, event in pairs(events) do
-		if (self.registeredEvents[event]) then
-			self.registeredEvents[event] = self.registeredEvents[event] - 1
-			if (self.registeredEvents[event] == 0) then
-				self:UnregisterEvent(event)
-				self.registeredEvents[event] = nil
-			end
-		end
+		self:InternalUnregisterEvent(event)
 	end
 
 	tDeleteItem(self.modules, module)
@@ -64,12 +74,14 @@ function ModuleMixin:RegisterEvent(name)
 	if (not self:IsEventRegistered(name)) then
 		table.insert(self.events, name)
 	end
+	addon:InternalRegisterEvent(name)
 end
 
 function ModuleMixin:UnregisterEvent(name)
 	if (self:IsEventRegistered(name)) then
 		tDeleteItem(self.events, name)
 	end
+	addon:InternalUnregisterEvent(name)
 end
 
 

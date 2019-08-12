@@ -19,6 +19,8 @@ local module = addon:RegisterModule("Chat")
 module:RegisterEvent("UPDATE_CHAT_WINDOWS")
 
 function module:PLAYER_ENTERING_WORLD()
+    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+
     -- inject timestamp link
 	for i = 1, NUM_CHAT_WINDOWS do
 		local cf = _G["ChatFrame"..i]
@@ -27,11 +29,11 @@ function module:PLAYER_ENTERING_WORLD()
             cf.AddMessage = AddMessage
 		end
 	end
-
-    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end
 
 function module:UPDATE_CHAT_WINDOWS()
+    self:UnregisterEvent("UPDATE_CHAT_WINDOWS")
+
     -- reset chat colors, channels, font-sizes
     ResetChatWindows()
     FCF_SetChatWindowFontSize(nil, ChatFrame1, 12)
@@ -52,6 +54,4 @@ function module:UPDATE_CHAT_WINDOWS()
     end
 
     ChatFrame1:SetMaxLines(1024)
-
-    self:UnregisterEvent("UPDATE_CHAT_WINDOWS")
 end
