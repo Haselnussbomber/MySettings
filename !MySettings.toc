@@ -8,13 +8,13 @@
 
 core.lua
 
-modules/Chat.lua
-modules/CVars.lua
-modules/Fonts.lua
-modules/PaperDoll.lua
-modules/QuestReward.lua
-modules/Tooltips.lua
-modules/WorldMap.lua
+modules/shared/Chat.lua
+modules/shared/CVars.lua
+modules/shared/Fonts.lua
+modules/shared/PaperDoll.lua
+modules/shared/QuestReward.lua
+modules/classic/Tooltips.lua
+modules/mainline/WorldMap.lua
 
 modules/addons/+Wowhead_Looter.lua
 modules/addons/ElvUI/Minimap.lua

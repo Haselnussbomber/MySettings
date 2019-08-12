@@ -46,14 +46,12 @@ end
 local function GetAverageItemLevel()
 	local itemCount, totalItemLevel = 0, 0
 
-	for k, showDurability in pairs(slots) do
+	for k in pairs(slots) do
 		local slot = GetInventorySlotInfo(k)
-		if showDurability then
-			local itemLevel = GetItemLevel(slot)
-			if itemLevel then
-				itemCount = itemCount + 1
-				totalItemLevel = totalItemLevel + itemLevel
-			end
+		local itemLevel = GetItemLevel(slot)
+		if itemLevel then
+			itemCount = itemCount + 1
+			totalItemLevel = totalItemLevel + itemLevel
 		end
 	end
 
@@ -130,7 +128,7 @@ function module:OnEvent()
         end
 
 		if showDurability then
-			frame.DurabilityInfo:SetText()
+			frame.DurabilityInfo:SetText("")
 
             local current, maximum = GetInventoryItemDurability(slot)
             if current and maximum then

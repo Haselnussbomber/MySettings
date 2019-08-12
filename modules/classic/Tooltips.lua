@@ -23,14 +23,16 @@ local function SellPriceHook(tooltip)
     local container = GetMouseFocus()
     local count = container.count
     if not count then
-        count = (container.Count and container.Count:GetText())
+        count = container.Count and container.Count:GetText()
     end
     if not count then
         count = container.Quantity and container.Quantity:GetText()
     end
-    if not count then
-        local button = container:GetName() and (container:GetName() .. "Count")
-        count = button and _G[button] and _G[button]:GetText()
+    if not count and container:GetName() then
+        local name = container:GetName() .. "Count"
+        if name and _G[name] then
+            count = _G[name]:GetText()
+        end
     end
     count = tonumber(count or 1)
 

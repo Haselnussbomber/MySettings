@@ -9,7 +9,7 @@ function module:QUEST_COMPLETE()
 	local num = GetNumQuestChoices()
 
 	if num <= 0 then
-		return	-- no choices, quick exit
+		return -- no choices, quick exit
 	end
 
 	for index = 1, num do

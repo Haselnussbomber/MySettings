@@ -86,6 +86,9 @@ function module:PLAYER_ENTERING_WORLD()
 
 		-- Interface
 		SetCVar("instantQuestText", true)
+
+		-- Chat
+		SetCVar("chatClassColorOverride", 0)
 	end
 
 	addon:Unregister(self)
