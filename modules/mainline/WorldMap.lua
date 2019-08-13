@@ -8,15 +8,9 @@ local GetCursorPosition = GetCursorPosition
 local module = addon:NewModule("WorldMap", "AceEvent-3.0")
 
 function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED")
-end
-
-function module:ADDON_LOADED(_, addonName)
-	if (addonName ~= "Blizzard_WorldMap") then
-		return
+	if not IsAddOnLoaded("Blizzard_WorldMap") then
+		LoadAddOn("Blizzard_WorldMap")
 	end
-
-	self:UnregisterEvent("ADDON_LOADED")
 
 	local WorldMapFrame = WorldMapFrame
 
