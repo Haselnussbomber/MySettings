@@ -16,6 +16,7 @@ modules/shared/CVars.lua
 modules/shared/Fonts.lua
 modules/shared/PaperDoll.lua
 modules/shared/QuestReward.lua
+modules/classic/ShamanColor.lua
 modules/classic/Tooltips.lua
 modules/mainline/WorldMap.lua
 
