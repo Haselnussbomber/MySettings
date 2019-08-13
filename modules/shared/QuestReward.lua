@@ -1,7 +1,10 @@
 local _, addon = ...
 
-local module = addon:RegisterModule("QuestReward")
-module:RegisterEvent("QUEST_COMPLETE")
+local module = addon:NewModule("QuestReward", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("QUEST_COMPLETE")
+end
 
 function module:QUEST_COMPLETE()
 	-- default first button when no item has a sell value.

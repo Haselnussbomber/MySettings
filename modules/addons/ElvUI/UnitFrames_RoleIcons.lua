@@ -175,26 +175,44 @@ local hookDetails = function()
     end
 end
 
-addon:RegisterAddonFix("ElvUI", function()
-	local E = ElvUI[1]
-	local UF = E:GetModule("UnitFrames")
+local module = addon:NewModule("ElvUIRoleIcons", "AceEvent-3.0")
 
-	hooksecurefunc(UF, "Configure_RoleIcon", function(self, frame)
-        if frame._injectedRoleIconFix then
-            return
-        end
+function module:OnInitialize()
+	self:RegisterEvent("ADDON_LOADED")
+end
 
-        local role = frame.GroupRoleIndicator
-        role.Override = UpdateRoleIcon
-        self:UnregisterEvent("UNIT_CONNECTION")
-        self:RegisterEvent("UNIT_CONNECTION", function(_, event)
-            UpdateRoleIcon(frame, event)
+local state = 0
+
+function module:ADDON_LOADED(_, addonName)
+	if (addonName == "ElvUI") then
+        local E = ElvUI[1]
+        local UF = E:GetModule("UnitFrames")
+
+        hooksecurefunc(UF, "Configure_RoleIcon", function(self, frame)
+            if frame._injectedRoleIconFix then
+                return
+            end
+
+            local role = frame.GroupRoleIndicator
+            role.Override = UpdateRoleIcon
+            self:UnregisterEvent("UNIT_CONNECTION")
+            self:RegisterEvent("UNIT_CONNECTION", function(_, event)
+                UpdateRoleIcon(frame, event)
+            end)
+
+            frame._injectedRoleIconFix = true
         end)
 
-        frame._injectedRoleIconFix = true
-    end)
+        hookDetails()
+        state = state + 1
+	end
 
-    hookDetails()
-end)
+	if (addonName == "Details") then
+        hookDetails()
+        state = state + 1
+	end
 
-addon:RegisterAddonFix("Details", hookDetails)
+    if (state >= 2) then
+        self:UnregisterEvent("ADDON_LOADED")
+    end
+end

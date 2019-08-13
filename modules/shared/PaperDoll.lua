@@ -73,11 +73,9 @@ local function ColorGradient(perc, ...)
 	return r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc
 end
 
-local module = addon:RegisterModule("PaperDoll")
-module:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-module:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+local module = addon:NewModule("PaperDoll", "AceEvent-3.0", "AceTimer-3.0")
 
-function module:Initialize()
+function module:OnInitialize()
     PaperDollFrame:HookScript("OnShow", function() module:OnEvent("PaperDollFrame_OnShow") end)
     local fontFileName = GameFontNormal:GetFont()
 
@@ -95,18 +93,14 @@ function module:Initialize()
 		end
 	end
 
+	module:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", "OnEvent")
+	module:RegisterEvent("UPDATE_INVENTORY_DURABILITY", "OnEvent")
+
+    self.locked = false
     self.initialized = true
 end
 
-function module:OnEvent()
-    if not self.initialized then
-        self:Initialize()
-    end
-
-	if InCombatLockdown() then
-        return
-	end
-
+function module:Update()
 	local avgEquipItemLevel = GetAverageItemLevel()
 
 	for k, showDurability in pairs(slots) do
@@ -146,4 +140,15 @@ function module:OnEvent()
             end
 		end
 	end
+
+	self.locked = false
+end
+
+function module:OnEvent()
+	if not self.initialized or self.locked or InCombatLockdown() then
+        return
+	end
+
+	self.locked = true
+	self:ScheduleTimer("Update", 0.1);
 end

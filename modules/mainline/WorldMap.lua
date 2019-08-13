@@ -5,7 +5,19 @@ end
 local _, addon = ...
 local GetCursorPosition = GetCursorPosition
 
-addon:RegisterAddonFix("Blizzard_WorldMap", function()
+local module = addon:NewModule("WorldMap", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("ADDON_LOADED")
+end
+
+function module:ADDON_LOADED(_, addonName)
+	if (addonName ~= "Blizzard_WorldMap") then
+		return
+	end
+
+	self:UnregisterEvent("ADDON_LOADED")
+
 	local WorldMapFrame = WorldMapFrame
 
 	-- hide tutorial button
@@ -31,4 +43,4 @@ addon:RegisterAddonFix("Blizzard_WorldMap", function()
 	hooksecurefunc(WorldMapFrame, "Minimize", function()
 		WorldMapFrame:SetScale(scale)
 	end)
-end)
+end

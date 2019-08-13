@@ -1,6 +1,18 @@
 local _, addon = ...
 
-addon:RegisterAddonFix("ElvUI", function()
+local module = addon:NewModule("ElvUIStatusTimer", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("ADDON_LOADED")
+end
+
+function module:ADDON_LOADED(_, addonName)
+	if (addonName ~= "ElvUI") then
+		return
+	end
+
+	self:UnregisterEvent("ADDON_LOADED")
+
     local ElvUF = ElvUI.oUF
 
 	local statustimer = ElvUF.Tags.Methods.statustimer
@@ -10,4 +22,4 @@ addon:RegisterAddonFix("ElvUI", function()
 			return "|r\n" .. output
 		end
 	end
-end)
+end

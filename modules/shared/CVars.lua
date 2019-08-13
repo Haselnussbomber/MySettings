@@ -2,9 +2,16 @@ local _, addon = ...
 
 local SetCVar = SetCVar -- from SharedXML/Util.lua
 
-local module = addon:RegisterModule("CVars")
+local module = addon:NewModule("CVars", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("ADDON_LOADED")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+end
 
 function module:PLAYER_ENTERING_WORLD()
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+
 	-- see https://wow.gamepedia.com/Console_variables/Complete_list
 	-- cameraDistanceMaxZoomFactor calculation by https://www.wowinterface.com/downloads/info24927-MaxCamClassic.html
 
@@ -90,11 +97,15 @@ function module:PLAYER_ENTERING_WORLD()
 		-- Chat
 		SetCVar("chatClassColorOverride", 0)
 	end
-
-	addon:Unregister(self)
 end
 
-addon:RegisterAddonFix("Blizzard_CombatText", function()
+function module:ADDON_LOADED(_, addonName)
+	if (addonName ~= "Blizzard_CombatText") then
+		return
+	end
+
+	self:UnregisterEvent("ADDON_LOADED")
+
 	-- Combat Text (incoming)
 	CombatText:Hide()
-end)
+end

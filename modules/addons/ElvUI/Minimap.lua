@@ -1,6 +1,18 @@
 local addonName, addon = ...
 
-addon:RegisterAddonFix("ElvUI", function()
+local module = addon:NewModule("ElvUIMinimap", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("ADDON_LOADED")
+end
+
+function module:ADDON_LOADED(_, _addonName)
+	if (_addonName ~= "ElvUI") then
+		return
+	end
+
+	self:UnregisterEvent("ADDON_LOADED")
+
 	local E = ElvUI[1]
 	local Minimap = Minimap
 
@@ -26,4 +38,4 @@ addon:RegisterAddonFix("ElvUI", function()
 	if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
 		MinimapToggleButton:Hide()
 	end
-end)
+end

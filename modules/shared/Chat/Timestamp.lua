@@ -15,8 +15,12 @@ local function AddMessage(chat, text, ...)
 end
 
 -- adds timestamp. clickable to copy text if ElvUI is loaded
-local module = addon:RegisterModule("ChatTimestamp")
-module:RegisterEvent("UPDATE_CHAT_WINDOWS")
+local module = addon:NewModule("ChatTimestamp", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("UPDATE_CHAT_WINDOWS")
+end
 
 function module:PLAYER_ENTERING_WORLD()
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
