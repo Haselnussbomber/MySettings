@@ -1,3 +1,5 @@
+local LibItemUpgradeInfo = LibStub("LibItemUpgradeInfo-1.0")
+
 local function shouldShow(link)
 	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link)
 
@@ -16,8 +18,7 @@ local function replacer(link)
 		return link
 	end
 
-	local item = Item:CreateFromItemLink(link)
-	local itemLevel = item:GetCurrentItemLevel()
+	local itemLevel = LibItemUpgradeInfo:GetUpgradedItemLevel(link)
 	if itemLevel then
 		return link .. " (" .. itemLevel .. ")"
 	end

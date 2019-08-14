@@ -6,6 +6,8 @@ local GetInventoryItemLink = GetInventoryItemLink
 local GetInventorySlotInfo = GetInventorySlotInfo
 local GetItemInfo = GetItemInfo
 
+local LibItemUpgradeInfo = LibStub("LibItemUpgradeInfo-1.0")
+
 local slots = {
 	["HeadSlot"] = true,
 	["NeckSlot"] = false,
@@ -109,7 +111,8 @@ function module:Update()
 
         frame.ItemLevel:SetText("")
 
-        local itemLevel = GetItemLevel(slot)
+        local itemLink = GetInventoryItemLink("player", slot)
+		local itemLevel = LibItemUpgradeInfo:GetUpgradedItemLevel(itemLink)
         if itemLevel and avgEquipItemLevel then
             local color = 2
             if itemLevel < avgEquipItemLevel - 10 then

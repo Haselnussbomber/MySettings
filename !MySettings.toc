@@ -4,7 +4,10 @@
 ## Version: 1.3.0
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Dependencies: LibStub, Ace3, SharedMedia
+## Dependencies: Ace3, SharedMedia
+
+libs/LibStub.lua
+libs/LibItemUpgradeInfo-1.0.lua
 
 core.lua
 
