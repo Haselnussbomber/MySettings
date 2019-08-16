@@ -13,7 +13,7 @@ function module:ADDON_LOADED(_, addonName)
 
 	self:UnregisterEvent("ADDON_LOADED")
 
-    local ElvUF = ElvUI.oUF
+	local ElvUF = ElvUI.oUF
 
 	local statustimer = ElvUF.Tags.Methods.statustimer
 	ElvUF.Tags.Methods.statustimer = function(unit)

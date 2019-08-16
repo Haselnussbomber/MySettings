@@ -15,6 +15,6 @@ function module:ADDON_LOADED(_, addonName)
 
 	if (wlMinimapButton) then
 		wlMinimapButton:SetShown(false)
-        wlSetting.minimap = false
+		wlSetting.minimap = false
 	end
 end

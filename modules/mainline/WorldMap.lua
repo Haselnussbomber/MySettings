@@ -1,5 +1,5 @@
 if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) then
-    return
+	return
 end
 
 local _, addon = ...

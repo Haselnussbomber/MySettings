@@ -28,7 +28,7 @@ function module:ADDON_LOADED(_, _addonName)
 	Minimap:HookScript("OnEnter", function()
 		Minimap:SetMaskTexture(maskDefault)
 		Minimap.backdrop:Show()
-	end);
+	end)
 
 	Minimap:HookScript("OnLeave", function()
 		Minimap:SetMaskTexture(maskHover)

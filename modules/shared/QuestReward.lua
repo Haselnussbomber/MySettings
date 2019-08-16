@@ -16,7 +16,7 @@ function module:QUEST_COMPLETE()
 	end
 
 	for index = 1, num do
-		local link = GetQuestItemLink("choice", index);
+		local link = GetQuestItemLink("choice", index)
 		if (link) then
 			local itemSellPrice = select(11, GetItemInfo(link))
 			if itemSellPrice and itemSellPrice > price then
@@ -26,5 +26,5 @@ function module:QUEST_COMPLETE()
 		end
 	end
 
-    QuestInfoItem_OnClick(QuestInfo_GetRewardButton(QuestInfoFrame.rewardsFrame, choice))
+	QuestInfoItem_OnClick(QuestInfo_GetRewardButton(QuestInfoFrame.rewardsFrame, choice))
 end
