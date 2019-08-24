@@ -2,7 +2,22 @@ if (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC) then
     return
 end
 
-RAID_CLASS_COLORS["SHAMAN"]["r"] = 0.25
-RAID_CLASS_COLORS["SHAMAN"]["g"] = 0.32
-RAID_CLASS_COLORS["SHAMAN"]["b"] = 0.96
-RAID_CLASS_COLORS["SHAMAN"]["colorStr"] = "ff4254f5"
+local _, addon = ...
+
+local module = addon:NewModule("ElvUIShamanClassColor", "AceEvent-3.0")
+
+function module:OnInitialize()
+	self:RegisterEvent("ADDON_LOADED")
+end
+
+function module:ADDON_LOADED(_, addonName)
+	if (addonName ~= "ElvUI") then
+		return
+	end
+
+	self:UnregisterEvent("ADDON_LOADED")
+
+	local color = CreateColor(0.0, 0.44, 0.87) -- #0070DE
+	color.colorStr = color:GenerateHexColor()
+	RAID_CLASS_COLORS["SHAMAN"] = color
+end
