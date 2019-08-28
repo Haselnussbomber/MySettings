@@ -19,6 +19,7 @@ modules/shared/PaperDoll.lua
 modules/shared/QuestReward.lua
 modules/classic/ShamanColor.lua
 modules/classic/Tooltips.lua
+modules/classic/ChatSkillLevel.lua
 modules/mainline/WorldMap.lua
 
 modules/addons/+Wowhead_Looter.lua
