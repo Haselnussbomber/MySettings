@@ -15,5 +15,7 @@ C_Timer.After(3, function()
 	SetFont(FramerateLabel, RobotoRegular)
 	SetFont(FramerateText, RobotoRegular)
 
-	SetFont(QuestFont, SegoeUISemibold)
+	if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+		SetFont(QuestFont, SegoeUISemibold)
+	end
 end)
