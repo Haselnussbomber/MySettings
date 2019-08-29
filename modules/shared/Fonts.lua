@@ -14,6 +14,7 @@ C_Timer.After(3, function()
 
 	SetFont(FramerateLabel, RobotoRegular)
 	SetFont(FramerateText, RobotoRegular)
+	FramerateLabel:SetText("FPS:")
 
 	if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 		SetFont(QuestFont, SegoeUISemibold)
