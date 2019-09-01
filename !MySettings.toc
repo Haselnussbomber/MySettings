@@ -12,6 +12,7 @@ core.lua
 modules/shared/Chat/FilterAddonLoginMessages.lua
 modules/shared/Chat/ItemIcons.lua
 modules/shared/Chat/ItemLevel.lua
+modules/shared/Chat/Reputation.lua
 modules/shared/Chat/Timestamp.lua
 modules/shared/CVars.lua
 modules/shared/Fonts.lua
