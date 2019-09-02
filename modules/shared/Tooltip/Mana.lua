@@ -20,6 +20,7 @@ end
 hooksecurefunc(GameTooltip, "SetAction", hook)
 hooksecurefunc(GameTooltip, "SetSpellBookItem", hook)
 hooksecurefunc(GameTooltip, "SetSpellByID", hook)
+hooksecurefunc(GameTooltip, "SetTalent", hook)
 
 if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
 	C_Timer.After(3, function()
