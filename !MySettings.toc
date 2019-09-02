@@ -17,6 +17,7 @@ modules/shared/Chat/Timestamp.lua
 modules/shared/Tooltip/Mana.lua
 modules/shared/CVars.lua
 modules/shared/Fonts.lua
+modules/shared/FriendListColors.lua
 modules/shared/PaperDoll.lua
 modules/shared/QuestReward.lua
 modules/classic/ShamanColor.lua
