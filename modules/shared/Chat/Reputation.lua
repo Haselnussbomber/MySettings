@@ -1,5 +1,4 @@
-local CollapseFactionHeader = CollapseFactionHeader
-local ExpandFactionHeader = ExpandFactionHeader
+-- Original: zifRep <https://www.curseforge.com/wow/addons/zifrep>
 local GetFactionInfo = GetFactionInfo
 local GetFactionInfoByID = GetFactionInfoByID
 local GetNumFactions = GetNumFactions
@@ -44,13 +43,14 @@ local function replacer(message)
 		loadFactions()
 		if factions[name] == nil then
 			-- NOTE: if we get here, something is wrong. Probably found a new faction.
+			-- TODO: sometimes we get reputation for the whole faction, check header name
 			return format("|cFF9B8900Neue Fraktion! %s%s %s%d", textColor, name, changeColor, delta)
 		end
 	end
 
 	local _, _, standingID, bottomValue, topValue, earnedValue = GetFactionInfoByID(factions[name])
 	local repStanding = _G["FACTION_STANDING_LABEL" .. standingID]
-	if repStanding == FACTION_STANDING_LABEL8 then
+	if standingID == 8 then
 		-- This is a paragon reward message.
 		-- We need to subtrack from earned value till we are less than the topValue.
 		while earnedValue > topValue do
@@ -68,10 +68,11 @@ local function replacer(message)
 	end
 
 	local msg
-	if repStanding == FACTION_STANDING_LABEL8 then
+	if standingID == 8 then
 		msg = format("%s%s%s schon %s%s%s.", textColor, name, textColor, repColor, repStanding, textColor)
 	else
-		local perTotal = math.floor(earnedValue * 100 / (absTopValue - absBottomValue) * 10 + 0.5) / 10
+		local absEarnedValue = math.abs(earnedValue)
+		local perTotal = math.floor((absEarnedValue - absBottomValue) * 100 / (absTopValue - absBottomValue) * 10 + 0.5) / 10
 		if delta < 0 then
 			perTotal = 100 - perTotal
 		end

@@ -130,6 +130,10 @@ local function hook(self)
 
 	if buttonType == FRIENDS_BUTTON_TYPE_BNET then
 		local data = GetFriendInfoFromBattleNet(id)
+		if not data.isOnline then
+			return
+		end
+
 		local wowData = GetFirstWowGameAccount(data)
 
 		if wowData then
@@ -147,6 +151,10 @@ local function hook(self)
 		end
 	elseif buttonType == FRIENDS_BUTTON_TYPE_WOW then
 		local data = GetFriendInfoFromWow(id)
+
+		if not data.connected then
+			return
+		end
 
 		self:origSetText(("|c%sL%d |c%s%s"):format(
 			GetColor(data, buttonType, "level"), data.level,
