@@ -20,9 +20,12 @@ modules/shared/Fonts.lua
 modules/shared/FriendListColors.lua
 modules/shared/PaperDoll.lua
 modules/shared/QuestReward.lua
-modules/classic/ShamanColor.lua
+
+modules/classic/ActionButtonGlow.lua
 modules/classic/ChatSkillLevel.lua
 modules/classic/ChatXP.lua
+modules/classic/ShamanColor.lua
+
 modules/mainline/WorldMap.lua
 
 modules/addons/+Wowhead_Looter.lua
