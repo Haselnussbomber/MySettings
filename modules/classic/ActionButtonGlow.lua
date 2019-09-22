@@ -7,7 +7,14 @@ local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 local ActionButton_ShowOverlayGlow = ActionButton_ShowOverlayGlow
 local ActionButton_HideOverlayGlow = ActionButton_HideOverlayGlow
 
+local UnitExists = UnitExists
+local UnitCanAttack = UnitCanAttack
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+local UnitHealth = UnitHealth
+local UnitHealthMax = UnitHealthMax
+
 local _, addon = ...
+local playerClass = select(2, UnitClass("player"))
 
 -- original by: https://gist.github.com/Konctantin/66d729abdb9379e79e7eff3a5060475d
 local ACTION_BAR_TYPES = {
@@ -35,9 +42,12 @@ local function SetGlow(spellId, visible)
 	end
 end
 
-local spells = {
-	-- Paladin: Hammer of Wrath
-	[24275] = function()
+local spells = {}
+
+-- Paladin
+if playerClass == "PALADIN" then
+	-- Hammer of Wrath
+	spells[24275] = function()
 		return (
 			UnitExists("target")
 			and UnitCanAttack("player", "target")
@@ -45,7 +55,7 @@ local spells = {
 			and (UnitHealth("target") / UnitHealthMax("target")) < 0.2
 		)
 	end
-}
+end
 
 local module = addon:NewModule("ActionButtonGlow", "AceEvent-3.0")
 
