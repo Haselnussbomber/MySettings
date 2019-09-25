@@ -163,7 +163,7 @@ local function hook(self)
 	end
 end
 
-for _, button in ipairs(FriendsFrameFriendsScrollFrame.buttons) do
+for _, button in ipairs((FriendsListFrameScrollFrame or FriendsFrameFriendsScrollFrame).buttons) do
 	button.name.origSetText = button.name.SetText
 	hooksecurefunc(button.name, "SetText", hook);
 end
