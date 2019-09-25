@@ -19,23 +19,25 @@ function module:ADDON_LOADED(_, _addonName)
 	local maskHover = "Interface\\Addons\\"..addonName.."\\media\\minimap-mask"
 	local maskDefault = "Interface\\ChatFrame\\ChatFrameBackground"
 
-	E.db.general.minimap.locationText = 'MOUSEOVER'
-	Minimap.location:Hide()
+	C_Timer.After(2, function()
+		E.db.general.minimap.locationText = 'MOUSEOVER'
+		Minimap.location:Hide()
 
-	Minimap:SetMaskTexture(maskHover)
-	Minimap.backdrop:Hide()
-
-	Minimap:HookScript("OnEnter", function()
-		Minimap:SetMaskTexture(maskDefault)
-		Minimap.backdrop:Show()
-	end)
-
-	Minimap:HookScript("OnLeave", function()
 		Minimap:SetMaskTexture(maskHover)
 		Minimap.backdrop:Hide()
-	end)
 
-	if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
-		MinimapToggleButton:Hide()
-	end
+		Minimap:HookScript("OnEnter", function()
+			Minimap:SetMaskTexture(maskDefault)
+			Minimap.backdrop:Show()
+		end)
+
+		Minimap:HookScript("OnLeave", function()
+			Minimap:SetMaskTexture(maskHover)
+			Minimap.backdrop:Hide()
+		end)
+
+		if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
+			MinimapToggleButton:Hide()
+		end
+	end)
 end
