@@ -19,7 +19,14 @@ function module:ADDON_LOADED(_, _addonName)
 	local maskHover = "Interface\\Addons\\"..addonName.."\\media\\minimap-mask"
 	local maskDefault = "Interface\\ChatFrame\\ChatFrameBackground"
 
-	C_Timer.After(2, function()
+	local fn
+
+	fn = function()
+		if (not Minimap.location) then
+			C_Timer.After(1, fn)
+			return
+		end
+
 		E.db.general.minimap.locationText = 'MOUSEOVER'
 		Minimap.location:Hide()
 
@@ -39,5 +46,7 @@ function module:ADDON_LOADED(_, _addonName)
 		if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
 			MinimapToggleButton:Hide()
 		end
-	end)
+	end
+
+	fn()
 end
