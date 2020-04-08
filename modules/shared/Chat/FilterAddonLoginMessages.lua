@@ -17,6 +17,7 @@ local messages = {
 	"FleecingTip",
 	"AAP Loaded",
 	"%[RareScanner%]: loaded",
+	"Capping is missing locale for"
 }
 
 local function shouldShutUp(message)
@@ -43,5 +44,7 @@ end
 function module:LOADING_SCREEN_DISABLED()
 	self:UnregisterEvent("LOADING_SCREEN_DISABLED")
 
-	shouldShutUp = function() return false end
+	C_Timer.After(30, function()
+		shouldShutUp = function() return false end
+	end)
 end
