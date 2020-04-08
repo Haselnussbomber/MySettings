@@ -50,7 +50,7 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 
 	handlers["(|?%x*|Hcurrency:(.-)|h.-|h|?r?)"] = function(link, linkData)
 		local currencyId = match(linkData, "^%d+")
-		local texture = select(3, GetCurrencyInfo(currencyId))
+		local texture = C_CurrencyInfo.GetCurrencyInfo(currencyId).iconFileID
 		if (texture) then
 			return textureFormat:format(texture) .. link
 		end
