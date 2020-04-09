@@ -1,7 +1,7 @@
 ## Interface: 80200
 ## Title: !MySettings
 ## Author: Haselnussbomber
-## Version: 1.3.0
+## Version: 1.4.0
 ## Dependencies: Ace3, SharedMedia
 
 libs/LibStub.lua
@@ -28,6 +28,7 @@ modules/classic/ShamanColor.lua
 
 modules/mainline/WorldMap.lua
 
+modules/addons/PersonalBlacklist.lua
 modules/addons/+Wowhead_Looter.lua
 modules/addons/ElvUI/Minimap.lua
 modules/addons/ElvUI/UnitFrames_RoleIcons.lua
