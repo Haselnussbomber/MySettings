@@ -5,8 +5,8 @@ local function shouldShow(link)
 
 	return (
 		IsEquippableItem(link)
-		and itemRarity > LE_ITEM_QUALITY_COMMON
-		and not ( WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and itemRarity == LE_ITEM_QUALITY_HEIRLOOM and iLevel == 1 )
+		and itemRarity > Enum.ItemQuality.Common
+		and not ( WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and itemRarity == Enum.ItemQuality.Heirloom and iLevel == 1 )
 		and equipSlot ~= "INVTYPE_TABARD"
 		and equipSlot ~= "INVTYPE_BAG"
 		and equipSlot ~= "INVTYPE_BODY"
