@@ -19,7 +19,7 @@ function module:ADDON_LOADED(_, addonName)
 	ElvUF.Tags.Methods.statustimer = function(unit)
 		local output = statustimer(unit)
 		if (output) then
-			return "|r\n" .. output
+			return "|r|n" .. output
 		end
 	end
 end
