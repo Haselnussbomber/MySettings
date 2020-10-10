@@ -1,6 +1,5 @@
 local addonName, addon = ...;
 
-local playerGuild = GetGuildInfo("player");
 local TT_LevelMatch = "^"..TOOLTIP_UNIT_LEVEL:gsub("%%[^s ]*s",".+");
 local TT_NPCGuild = "^|c[^<]+";
 local classifications = {
@@ -22,15 +21,18 @@ local reactionTexts = {
 	DEAD,						-- Dead
 };
 
-local defaultTextColor = CreateColorFromHexString("ffc0c0c0");
-local defaultBorderColor = CreateColor(0.25, 0.25, 0.25, 1);
+local colorDefaultText = CreateColorFromHexString("ffc0c0c0");
+local colorDefaultBorder = CreateColor(0.25, 0.25, 0.25, 1);
+local colorGuild = CreateColorFromHexString("ff0080cc");
+local colorSameGuild = CreateColorFromHexString("ffff32ff");
+
 local ctx = {};
 
 local healthBar = CreateFrame("STATUSBAR", nil, GameTooltip, "TooltipStatusBarTemplate");
 local powerBar = CreateFrame("STATUSBAR", nil, GameTooltip, "TooltipStatusBarTemplate");
 
-local function getTextLeft(index)
-	return _G["GameTooltipTextLeft"..index];
+local function getTextLeft(self, index)
+	return _G[self:GetName() .. "TextLeft" .. index];
 end
 local function getDifficultyColor(unit)
 	local canAttack = UnitCanAttack(unit, "player") or UnitCanAttack("player", unit);
@@ -39,7 +41,7 @@ local function getDifficultyColor(unit)
 		local color = GetDifficultyColor(difficulty);
 		return CreateColor(color.r, color.g, color.b);
 	end
-	return defaultTextColor;
+	return colorDefaultText;
 end
 
 local function UpdateTooltip(self)
@@ -47,8 +49,11 @@ local function UpdateTooltip(self)
 		return;
 	end
 
+	local borderColor = colorDefaultBorder;
+
 	local unit = addon.GetTooltipUnit(self);
 	if (not unit) then
+		self:SetBackdropBorderColor(borderColor:GetRGB()); -- no unit => just reset border colors
 		return;
 	end
 
@@ -61,7 +66,6 @@ local function UpdateTooltip(self)
 	local level = UnitLevel(unit) or -1;
 	local difficultyColor = getDifficultyColor(unit);
 	local levelText = (classifications[UnitClassification(unit) or ""] or "%s?"):format(level == -1 and "??" or level);
-	local nameColor;
 
 	if (UnitIsPlayer(unit)) then
 		ctx.race = UnitRace(unit);
@@ -71,19 +75,19 @@ local function UpdateTooltip(self)
 		local className, classFilename, classID = UnitClass(unit);
 		local guild, guildRank = GetGuildInfo(unit);
 
-		nameColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
+		local nameColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
+		borderColor = nameColor;
 
 		-- name line
 		do
 			local tbl = {};
 
 			-- name
-			table.insert(tbl, nameColor:WrapTextInColorCode(pvpName or name));
-
-			-- realm
+			local fullName = pvpName or name;
 			if (realm) then
-				table.insert(tbl, "- " .. realm);
+				fullName = fullName .. " - " .. realm;
 			end
+			table.insert(tbl, nameColor:WrapTextInColorCode(fullName));
 
 			-- status (DC/AFK/DND)
 			local status = (not UnitIsConnected(unit) and "<DC>") or (UnitIsAFK(unit) and "<AFK>") or (UnitIsDND(unit) and "<DND>");
@@ -94,7 +98,7 @@ local function UpdateTooltip(self)
 			-- target
 			local unittarget = unit.."target";
 			if (UnitExists(unittarget)) then
-				table.insert(tbl, defaultTextColor:WrapTextInColorCode(":"));
+				table.insert(tbl, colorDefaultText:WrapTextInColorCode(":"));
 
 				if (UnitIsUnit(unittarget, "player")) then
 					table.insert(tbl, "<<YOU>>");
@@ -105,14 +109,16 @@ local function UpdateTooltip(self)
 					local targetNameColor = RAID_CLASS_COLORS["PRIEST"];
 
 					if (UnitIsDead(unittarget) or not UnitIsConnected(unittarget)) then
-						targetNameColor = defaultTextColor;
+						targetNameColor = colorDefaultText;
 					elseif (UnitIsPlayer(unittarget)) then
 						targetNameColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
 					else
 						targetNameColor = addon.GetUnitReactionColor(unittarget);
 					end
 
-					table.insert(tbl, targetNameColor:WrapTextInColorCode("[" .. (pvpName or name) .. "]"));
+					table.insert(tbl, nameColor:WrapTextInColorCode("[") ..
+						targetNameColor:WrapTextInColorCode("[" .. (pvpName or name) .. "]") ..
+						nameColor:WrapTextInColorCode("]"));
 				end
 			end
 
@@ -121,8 +127,9 @@ local function UpdateTooltip(self)
 
 		-- guild line
 		if (guild) then
-			local guildColor = (guild == playerGuild and "|cffff32ff") or "|cff0080cc";
-			GameTooltipTextLeft2:SetFormattedText("%s<%s> |cffc0c0c0%s", guildColor, guild, guildRank);
+			local playerGuild = GetGuildInfo("player");
+			local guildColor = (guild == playerGuild and colorSameGuild) or colorGuild;
+			GameTooltipTextLeft2:SetFormattedText("%s<%s>%s %s", guildColor:GenerateHexColorMarkup(), guild, FONT_COLOR_CODE_CLOSE, colorDefaultText:WrapTextInColorCode(guildRank));
 		end
 
 		-- info line
@@ -147,48 +154,59 @@ local function UpdateTooltip(self)
 				table.insert(tbl, ctx.reactionColor:WrapTextInColorCode(ctx.reactionText));
 			end
 
-			getTextLeft(guild and 3 or 2):SetText(table.concat(tbl, " "));
+			getTextLeft(self, guild and 3 or 2):SetText(table.concat(tbl, " "));
 		end
 	else -- NPCs
-		if (ctx.guid) then
-			if (ctx.guid ~= guid) then
-				local line = getTextLeft(infoLineOffset);
-				local text = line:GetText();
-				if (text and text ~= "" and text ~= " " and not text:find(TT_LevelMatch) and not text:find(TT_NPCGuild)) then
-					ctx.npcGuild = text;
-				else
-					ctx.npcGuild = nil;
+		if ((ctx.guid and ctx.guid ~= guid) or not ctx.guid or ctx.npcNumLines == 0) then
+			ctx.npcNumLines = self:NumLines();
+			ctx.npcOriginalLines = {};
+			ctx.npcGuildLineIndex = 0;
+			ctx.npcLevelLineIndex = 0;
+
+			for i = 1, ctx.npcNumLines do
+				local text = getTextLeft(self, i):GetText();
+				ctx.npcOriginalLines[i] = text;
+
+				if (text:find(TT_NPCGuild)) then
+					ctx.npcGuildLineIndex = i;
+				end
+
+				if (text:find(TT_LevelMatch)) then
+					ctx.npcLevelLineIndex = i;
 				end
 			end
 		end
 
 		ctx.reactionColor = addon.GetUnitReactionColor(unit);
 		ctx.reactionText = addon.GetUnitReactionText(unit);
-		nameColor = defaultBorderColor;
+		borderColor = ctx.reactionColor;
 
 		-- name line
-		GameTooltipTextLeft1:SetText(ctx.reactionColor:WrapTextInColorCode(pvpName or name));
+		GameTooltipTextLeft1:SetText(ctx.reactionColor:WrapTextInColorCode(name));
 
-		-- guild line
-		if (ctx.npcGuild) then
-			GameTooltipTextLeft2:SetFormattedText("%s<%s>", ctx.reactionColor:GenerateHexColorMarkup(), ctx.npcGuild);
-		end
-
-		-- info line
-		do
+		-- level line
+		if (ctx.npcLevelLineIndex > 0) then
 			local tbl = {};
 
 			-- level
 			table.insert(tbl, difficultyColor:WrapTextInColorCode(levelText));
 
 			-- class
-			className = UnitCreatureFamily(unit) or UnitCreatureType(unit);
-			if (not className) then
-				className = UNKNOWN;
-			end
-			table.insert(tbl, className);
+			table.insert(tbl, UnitCreatureFamily(unit) or UnitCreatureType(unit) or UNKNOWN);
 
-			getTextLeft(ctx.npcGuild and 3 or 2):SetText(table.concat(tbl, " "));
+			local line = getTextLeft(self, ctx.npcLevelLineIndex);
+			line:SetTextColor(1, 1, 1, 1);
+			line:SetText(table.concat(tbl, " "));
+		end
+
+		-- guild line
+		if (ctx.npcGuildLineIndex > 0) then
+			local text = ctx.npcOriginalLines[ctx.npcGuildLineIndex];
+			if (text) then
+				local color = ctx.reactionColor:GenerateHexColorMarkup();
+				local line = getTextLeft(self, ctx.npcGuildLineIndex);
+				line:SetFormattedText("%s<%s>", color, text);
+			end
 		end
 	end
 
@@ -211,7 +229,7 @@ local function UpdateTooltip(self)
 
 			if (#targetedByList > 0) then
 				GameTooltip_AddBlankLinesToTooltip(self, 1);
-				local line = getTextLeft(self:NumLines());
+				local line = getTextLeft(self, self:NumLines());
 				line:SetFormattedText("Targeted By (|cffffffff%d|r): %s", #targetedByList, table.concat(targetedByList, ", "));
 			end
 		end
@@ -234,13 +252,14 @@ local function UpdateTooltip(self)
 ]]--
 
 	ctx.guid = guid;
-	self:SetBackdropBorderColor(nameColor:GetRGB());
+	self:SetBackdropBorderColor(borderColor:GetRGB());
+	self:Show(); -- to trigger size update
 end
 
 GameTooltip:HookScript("OnTooltipSetUnit", UpdateTooltip);
+GameTooltip:HookScript("OnTooltipCleared", UpdateTooltip);
 
---hooksecurefunc("GameTooltip_ShowStatusBar", GameTooltip_ClearStatusBars);
---hooksecurefunc("GameTooltip_OnHide", SharedTooltip_ClearInsertedFrames);
+-- hooksecurefunc("SharedTooltip_SetDefaultAnchor", UpdateTooltip);
 
 -- handle target updates
 local f = CreateFrame("frame");

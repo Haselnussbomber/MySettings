@@ -98,6 +98,7 @@ local itemTooltips = {
 	ItemRefShoppingTooltip2,
 }
 for _, frame in pairs(itemTooltips) do
+	SharedTooltip_SetBackdropStyle(frame, TOOLTIP_BACKDROP_STYLE_DEFAULT); -- OnLoad
 	frame:HookScript("OnTooltipSetItem", handlers.item);
 end
 
@@ -123,4 +124,7 @@ end);
 hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	tooltip:ClearAllPoints();
 	tooltip:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, 0);
+
+	-- reset border color here, because it's basically called every time
+	tooltip:SetBackdropBorderColor(0.25, 0.25, 0.25);
 end);
