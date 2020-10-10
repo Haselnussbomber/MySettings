@@ -128,3 +128,7 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	-- reset border color here, because it's basically called every time
 	tooltip:SetBackdropBorderColor(0.25, 0.25, 0.25);
 end);
+
+
+-- always hide default status bars
+GameTooltipStatusBar:HookScript("OnShow", GameTooltipStatusBar.Hide);

@@ -78,22 +78,3 @@ end
 function addon.GetUnitReactionText(unit)
 	return reactionTexts[addon.GetUnitReactionIndex(unit)];
 end
-
-function addon.GetTooltipUnit(self)
-	local name, unit = self:GetUnit();
-
-	if (not unit) then
-		local mouseFocus = GetMouseFocus();
-		unit = mouseFocus and mouseFocus.GetAttribute and mouseFocus:GetAttribute("unit");
-	end
-
-	if (not unit and UnitExists("mouseover")) then
-		unit = "mouseover";
-	end
-
-	if (unit and UnitIsUnit(unit, "mouseover")) then
-		unit = "mouseover";
-	end
-
-	return UnitExists(unit) and unit;
-end
