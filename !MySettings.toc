@@ -9,12 +9,17 @@ libs/LibItemUpgradeInfo-1.0.lua
 
 core.lua
 
+modules/shared/Tooltip/Utils.lua
+
 modules/shared/Chat/FilterAddonLoginMessages.lua
 modules/shared/Chat/ItemIcons.lua
 modules/shared/Chat/ItemLevel.lua
 modules/shared/Chat/Reputation.lua
 modules/shared/Chat/Timestamp.lua
+modules/shared/Tooltip/IDs.lua
 modules/shared/Tooltip/Mana.lua
+modules/shared/Tooltip/Style.lua
+modules/shared/Tooltip/Units.lua
 modules/shared/CVars.lua
 modules/shared/Fonts.lua
 modules/shared/FriendListColors.lua
