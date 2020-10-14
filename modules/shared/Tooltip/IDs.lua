@@ -32,7 +32,7 @@ local setItemHook = function(self)
 	end
 end
 for _, frame in pairs(itemTooltips) do
-	ItemRefTooltip:HookScript("OnTooltipSetItem", setItemHook)
+	frame:HookScript("OnTooltipSetItem", setItemHook)
 end
 
 
