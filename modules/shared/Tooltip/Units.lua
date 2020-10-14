@@ -346,7 +346,9 @@ local function OnTooltipSetUnit(self)
 	self:Show(); -- to trigger size update
 end
 
-GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit);
+C_Timer.After(1, function()
+	GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit);
+end);
 GameTooltip:HookScript("OnTooltipCleared", Reset);
 hooksecurefunc("GameTooltip_ClearStatusBars", Reset);
 
