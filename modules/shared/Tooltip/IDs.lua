@@ -1,5 +1,18 @@
 local function AddLine(self, text)
-	self:AddLine(text, 0.2, 0.6, 1);
+	local numLines = self:NumLines();
+	local lineExists = false;
+	for i = 1, numLines do
+		local line = _G[self:GetName().."TextLeft"..i];
+		local lineText = line:GetText();
+		if (lineText == text) then
+			lineExists = true;
+		end
+	end
+
+	if (not lineExists) then
+		self:AddLine(text, 0.2, 0.6, 1);
+		self:Show();
+	end
 end
 
 -- item ids
