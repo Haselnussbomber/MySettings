@@ -164,11 +164,18 @@ local function OnTooltipSetUnit(self)
 			local tbl = {};
 
 			-- name
+			local playerFlag = ""
+			local mentorshipStatus = C_PlayerMentorship.GetMentorshipStatus(PlayerLocation:CreateFromUnit(unit))
+			if (mentorshipStatus == Enum.PlayerMentorshipStatus.Mentor) then
+				playerFlag = "|A:newplayerchat-chaticon-guide:0:0:0:0|a "; -- NPEV2_CHAT_USER_TAG_GUIDE
+			elseif (mentorshipStatus == Enum.PlayerMentorshipStatus.Newcomer) then
+				playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
+			end
 			local fullName = pvpName or name;
 			if (realm) then
 				fullName = fullName .. " - " .. realm;
 			end
-			table.insert(tbl, classColor:WrapTextInColorCode(fullName));
+			table.insert(tbl, playerFlag .. classColor:WrapTextInColorCode(fullName));
 
 			-- status (DC/AFK/DND)
 			local status = (not UnitIsConnected(unit) and "<DC>") or (UnitIsAFK(unit) and "<AFK>") or (UnitIsDND(unit) and "<DND>");
