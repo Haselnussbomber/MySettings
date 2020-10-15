@@ -308,12 +308,12 @@ local function OnTooltipSetUnit(self)
 
 			local inRaid = IsInRaid();
 			for i = 1, numGroup do
-				local unit = (inRaid and "raid"..i or "party"..i);
-				if (UnitIsUnit(unit.."target", unit) and not UnitIsUnit(unit, "player")) then
-					local _, _, classID = UnitClass(unit);
+				local groupUnit = (inRaid and "raid"..i or "party"..i);
+				if (UnitIsUnit(groupUnit.."target", unit) and not UnitIsUnit(groupUnit, "player")) then
+					local _, _, classID = UnitClass(groupUnit);
 					local classInfo = C_CreatureInfo.GetClassInfo(classID);
 					local classColorInfo = RAID_CLASS_COLORS[classInfo.classFile];
-					table.insert(targetedByList, WrapTextInColorCode(UnitName(unit), classColorInfo.colorStr));
+					table.insert(targetedByList, WrapTextInColorCode(UnitName(groupUnit), classColorInfo.colorStr));
 				end
 			end
 
