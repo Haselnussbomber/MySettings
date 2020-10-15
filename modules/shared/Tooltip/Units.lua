@@ -205,7 +205,7 @@ local function OnTooltipSetUnit(self)
 					end
 
 					table.insert(tbl, classColor:WrapTextInColorCode("[") ..
-						targetClassColor:WrapTextInColorCode("[" .. (pvpName or name) .. "]") ..
+						targetClassColor:WrapTextInColorCode(pvpName or name) ..
 						classColor:WrapTextInColorCode("]"));
 				end
 			end
