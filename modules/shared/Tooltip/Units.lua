@@ -172,7 +172,7 @@ local function OnTooltipSetUnit(self)
 				playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
 			end
 			local fullName = pvpName or name;
-			if (realm) then
+			if (realm and realm ~= "" and realm ~= " ") then
 				fullName = fullName .. " - " .. realm;
 			end
 			table.insert(tbl, playerFlag .. classColor:WrapTextInColorCode(fullName));
