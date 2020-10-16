@@ -28,7 +28,9 @@ local setItemHook = function(self)
 	local _, itemLink = self:GetItem();
 	if (itemLink) then
 		local id = GetItemInfoInstant(itemLink);
-		AddLine(self, ("ItemID: %d"):format(id))
+		if (id) then
+			AddLine(self, ("ItemID: %d"):format(id))
+		end
 	end
 end
 for _, frame in pairs(itemTooltips) do
