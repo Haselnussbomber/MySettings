@@ -76,3 +76,12 @@ hooksecurefunc("QuestMapLogTitleButton_OnEnter", function(self)
 		AddLine(GameTooltip, ("QuestID: %d, QuestLevel: %d"):format(self.questID, info.level))
 	end
 end)
+
+
+-- currencies
+hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
+	local id = tonumber(string.match(C_CurrencyInfo.GetCurrencyListLink(index), "currency:(%d+)"))
+	if (id) then
+		AddLine(GameTooltip, ("CurrencyID: %d"):format(id))
+	end
+end)
