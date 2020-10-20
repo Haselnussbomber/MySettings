@@ -9,6 +9,8 @@ libs/LibItemUpgradeInfo-1.0.lua
 
 core.lua
 
+modules/shared/Setup.lua
+
 modules/shared/Tooltip/Utils.lua
 
 modules/shared/Chat/FilterAddonLoginMessages.lua
