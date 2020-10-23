@@ -1,5 +1,28 @@
 SLASH_SETUP1 = "/setup"
 SlashCmdList["SETUP"] = function()
+	-- Minimap Tracking
+	local trackingTextures = {
+		136025, -- Mineraliensuche
+		136456, -- Flugmeister
+		237607, -- Niedrigstufige Quests
+
+		136452, -- Auktionator
+		136453, -- Bankier
+		3852099, -- Barbier
+		136458, -- Gastwirt
+		136459, -- Briefkasten
+		136465, -- Reparieren
+		1598183, -- Transmogrifizierer
+		524051, -- Fokusziel
+	}
+	local count = GetNumTrackingTypes();
+	for id=1, count do
+		local _, texture, active = GetTrackingInfo(id);
+		if tContains(trackingTextures, texture) and not active then
+			SetTracking(id, true);
+		end
+	end
+
 	-- AutoTurnIn
 	if (AutoTurnInCharacterDB) then
 	AutoTurnInCharacterDB["all"] = 3
