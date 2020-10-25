@@ -12,6 +12,7 @@ local function hook(self)
 		if power > 0 then
 			local percent = tonumber(power) / powerMax * 100
 			line:SetText(string.format("%s (%.2f%%)", text, percent))
+			self:Show()
 			return
 		end
 	end
