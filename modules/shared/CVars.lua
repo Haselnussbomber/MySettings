@@ -32,6 +32,7 @@ function module:PLAYER_ENTERING_WORLD()
 	-- Chat
 	SetCVar("chatBubblesParty", false)
 	SetCVar("profanityFilter", false)
+	SetCVar("whisperMode", "inline")
 
 	-- Tutorials
 	SetCVar("addFriendInfoShown", true)
