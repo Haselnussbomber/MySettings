@@ -55,10 +55,10 @@ hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unit, slotNumber) se
 
 
 -- spell ids
-hooksecurefunc("SetItemRef", function(self, link, ...)
+hooksecurefunc("SetItemRef", function(link, ...)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if (id) then
-		AddLine(self, ("Spell: %d"):format(id))
+		AddLine(ItemRefTooltip, ("Spell: %d"):format(id))
 	end
 end)
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
