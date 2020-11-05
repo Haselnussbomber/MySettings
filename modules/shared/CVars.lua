@@ -1,6 +1,6 @@
 local _, addon = ...
 
-local SetCVar = SetCVar -- from SharedXML/Util.lua
+local SetCVar = SetCVar -- from SharedXML/CvarUtil.lua
 
 local module = addon:NewModule("CVars", "AceEvent-3.0")
 
