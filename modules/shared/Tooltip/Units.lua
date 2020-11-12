@@ -189,7 +189,7 @@ local function DisplayAuras(unit, auraType, auraOffset)
 		if ((auraFrameIndex - 1) % aurasPerRow == 0) or (auraFrameIndex == auraOffset) then
 			-- new aura line
 			local x = xOffsetBasis * 2;
-			local y = (AURA_SIZE + 1) * floor((auraFrameIndex - 1) / aurasPerRow) + 2;
+			local y = (AURA_SIZE + 1) * floor((auraFrameIndex - 1) / aurasPerRow) + 1;
 			aura:SetPoint("TOP"..horzAnchor1, GameTooltip, "BOTTOM"..horzAnchor1, x, -y);
 		else
 			-- anchor to last
@@ -487,7 +487,7 @@ f:SetScript("OnEvent", function(self, event, unit, ...)
 		UpdateStatusBars(unit, UnitPowerMax(unit) > 0);
 		return;
 	end
-	if (event == "UNIT_AURA") then
+	if (event == "UNIT_AURA" and ctx.guid and ctx.guid == UnitGUID(unit)) then
 		UpdateAuras(unit);
 	end
 	if (event == "UNIT_NAME_UPDATE") then
