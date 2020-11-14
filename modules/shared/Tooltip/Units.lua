@@ -425,7 +425,19 @@ local function OnTooltipSetUnit(self)
 			end
 
 			if (#targetedByList > 0) then
-				self:AddLine(("Targeted By (|cffffffff%d|r): %s"):format(#targetedByList, table.concat(targetedByList, ", ")));
+				local firstLine = ("Targeted by (|cffffffff%d|r): "):format(#targetedByList);
+				local players = {};
+				for i = 1, #targetedByList do
+					table.insert(players, targetedByList[i]);
+					if (#players == 5) then
+						self:AddLine(firstLine .. table.concat(players, ", "));
+						firstLine = "";
+						players = {};
+					end
+				end
+				if (#players > 0) then
+					self:AddLine(firstLine .. table.concat(players, ", "));
+				end
 			end
 		end
 	end
