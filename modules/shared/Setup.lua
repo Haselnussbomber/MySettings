@@ -25,7 +25,7 @@ SlashCmdList["SETUP"] = function()
 
 	-- AutoTurnIn
 	if (AutoTurnInCharacterDB) then
-		AutoTurnInCharacterDB.all = 3
+		AutoTurnInCharacterDB.all = 1 -- Q_ALL
 		AutoTurnInCharacterDB.showrewardtext = false
 	end
 
