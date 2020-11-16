@@ -82,6 +82,7 @@ local function ResetAuras()
 end
 
 local function Reset(self)
+	ctx = {};
 	self:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
 	healthBar:Hide();
 	powerBar:Hide();
@@ -233,6 +234,8 @@ local function UpdateAuras(unit)
 end
 
 local function OnTooltipSetUnit(self)
+	Reset(self);
+
 	if (C_PetBattles.IsInBattle()) then
 		return;
 	end
@@ -246,7 +249,6 @@ local function OnTooltipSetUnit(self)
 		unit = "mouseover";
 	end
 	if (not UnitExists(unit)) then
-		Reset(self);
 		return;
 	end
 
@@ -471,7 +473,6 @@ local function OnTooltipSetUnit(self)
 	ctx.guid = guid;
 	self:Show(); -- to trigger size update
 
-	ResetAuras();
 	UpdateAuras(unit);
 end
 
