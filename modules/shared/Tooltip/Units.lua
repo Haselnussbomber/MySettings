@@ -33,7 +33,7 @@ local colorDefaultBorder = CreateColor(0.25, 0.25, 0.25, 1);
 local colorGuild = CreateColorFromHexString("ff0080cc");
 local colorSameGuild = CreateColorFromHexString("ffff32ff");
 
-local ctx = {};
+local guid = nil;
 
 local auras = {};
 
@@ -82,7 +82,7 @@ local function ResetAuras()
 end
 
 local function Reset(self)
-	ctx = {};
+	guid = nil;
 	self:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
 	healthBar:Hide();
 	powerBar:Hide();
@@ -234,8 +234,6 @@ local function UpdateAuras(unit)
 end
 
 local function OnTooltipSetUnit(self)
-	Reset(self);
-
 	if (C_PetBattles.IsInBattle()) then
 		return;
 	end
@@ -248,11 +246,12 @@ local function OnTooltipSetUnit(self)
 	if (not unit or (UnitExists("mouseover") and UnitIsUnit(unit, "mouseover"))) then
 		unit = "mouseover";
 	end
-	if (not UnitExists(unit)) then
+	if (not UnitExists(unit) or guid) then
+		Reset(self);
 		return;
 	end
 
-	local guid = UnitGUID(unit);
+	local _guid = UnitGUID(unit);
 	local name, realm = UnitName(unit);
 	local pvpName = UnitPVPName(unit);
 	local level = UnitLevel(unit) or -1;
@@ -260,9 +259,9 @@ local function OnTooltipSetUnit(self)
 	local levelText = (classifications[UnitClassification(unit) or ""] or "%s?"):format(level == -1 and "??" or level);
 
 	if (UnitIsPlayer(unit)) then
-		ctx.race = UnitRace(unit);
-		ctx.reactionColor = addon.GetUnitReactionColor(unit);
-		ctx.reactionText = addon.GetUnitReactionText(unit);
+		local race = UnitRace(unit);
+		local reactionColor = addon.GetUnitReactionColor(unit);
+		local reactionText = addon.GetUnitReactionText(unit);
 
 		local className, classFilename = UnitClass(unit);
 		local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
@@ -338,8 +337,8 @@ local function OnTooltipSetUnit(self)
 			table.insert(tbl, difficultyColor:WrapTextInColorCode(levelText));
 
 			-- race
-			if (ctx.race) then
-				table.insert(tbl, ctx.race);
+			if (race) then
+				table.insert(tbl, race);
 			end
 
 			-- class
@@ -348,43 +347,40 @@ local function OnTooltipSetUnit(self)
 			end
 
 			-- reaction
-			if (ctx.reaction) then
-				table.insert(tbl, ctx.reactionColor:WrapTextInColorCode(ctx.reactionText));
+			if (reaction) then
+				table.insert(tbl, reactionColor:WrapTextInColorCode(reactionText));
 			end
 
 			getTextLeft(self, guild and 3 or 2):SetText(table.concat(tbl, " "));
 		end
 	else -- NPCs
-		if ((ctx.guid and ctx.guid ~= guid) or not ctx.guid or ctx.npcNumLines == 0) then
-			ctx.npcNumLines = self:NumLines();
-			ctx.npcOriginalLines = {};
-			ctx.npcGuildLineIndex = 0;
-			ctx.npcLevelLineIndex = 0;
+		local npcNumLines = self:NumLines();
+		local npcOriginalLines = {};
+		local npcGuildLineIndex = 0;
+		local npcLevelLineIndex = 0;
 
-			for i = 1, ctx.npcNumLines do
-				local text = getTextLeft(self, i):GetText();
-				ctx.npcOriginalLines[i] = text;
+		for i = 1, npcNumLines do
+			local text = getTextLeft(self, i):GetText();
+			npcOriginalLines[i] = text;
 
-				if (ctx.npcGuildLineIndex == 0 and ctx.npcLevelLineIndex == 0 and i > 1 and not text:find(TT_NPCGuild) and not text:find(TT_LevelMatch)) then
-					ctx.npcGuildLineIndex = i;
-				end
+			if (npcGuildLineIndex == 0 and npcLevelLineIndex == 0 and i > 1 and not text:find(TT_NPCGuild) and not text:find(TT_LevelMatch)) then
+				npcGuildLineIndex = i;
+			end
 
-				if (ctx.npcLevelLineIndex == 0 and i > ctx.npcGuildLineIndex and text:find(TT_LevelMatch)) then
-					ctx.npcLevelLineIndex = i;
-				end
+			if (npcLevelLineIndex == 0 and i > npcGuildLineIndex and text:find(TT_LevelMatch)) then
+				npcLevelLineIndex = i;
 			end
 		end
 
-		ctx.reactionColor = addon.GetUnitReactionColor(unit);
-		ctx.reactionText = addon.GetUnitReactionText(unit);
-		--self:SetBackdropBorderColor(ctx.reactionColor:GetRGB());
+		local reactionColor = addon.GetUnitReactionColor(unit);
+		--self:SetBackdropBorderColor(reactionColor:GetRGB());
 		self:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
 
 		-- name line
-		GameTooltipTextLeft1:SetText(ctx.reactionColor:WrapTextInColorCode(name));
+		GameTooltipTextLeft1:SetText(reactionColor:WrapTextInColorCode(name));
 
 		-- level line
-		if (ctx.npcLevelLineIndex > 0) then
+		if (npcLevelLineIndex > 0) then
 			local tbl = {};
 
 			-- level
@@ -393,23 +389,23 @@ local function OnTooltipSetUnit(self)
 			-- race
 			table.insert(tbl, UnitCreatureFamily(unit) or UnitCreatureType(unit) or UNKNOWN);
 
-			local line = getTextLeft(self, ctx.npcLevelLineIndex);
+			local line = getTextLeft(self, npcLevelLineIndex);
 			line:SetTextColor(1, 1, 1, 1);
 			line:SetText(table.concat(tbl, " "));
 		end
 
 		-- guild line
-		if (ctx.npcGuildLineIndex > 0) then
-			local text = ctx.npcOriginalLines[ctx.npcGuildLineIndex];
+		if (npcGuildLineIndex > 0) then
+			local text = npcOriginalLines[npcGuildLineIndex];
 			if (text) then
-				local line = getTextLeft(self, ctx.npcGuildLineIndex);
-				line:SetTextColor(ctx.reactionColor:GetRGB());
+				local line = getTextLeft(self, npcGuildLineIndex);
+				line:SetTextColor(reactionColor:GetRGB());
 				line:SetFormattedText("<%s>", text);
 			end
 		end
 	end
 
-	-- Add "Targeted By" line
+	-- Add "Targeted by" line
 	do
 		local numGroup = GetNumGroupMembers();
 		if (numGroup and numGroup > 1) then
@@ -445,7 +441,7 @@ local function OnTooltipSetUnit(self)
 	end
 
 	-- Add status bars
-	if (not healthBar:IsShown() or (ctx.guid and ctx.guid ~= guid) or not ctx.guid) then
+	if (not healthBar:IsShown()) then
 		local hasPower = UnitPowerMax(unit) > 0;
 
 		GameTooltip_AddBlankLinesToTooltip(self, hasPower and 3 or 2);
@@ -470,9 +466,9 @@ local function OnTooltipSetUnit(self)
 		end
 	end
 
-	ctx.guid = guid;
-	self:Show(); -- to trigger size update
+	guid = _guid;
 
+	self:Show(); -- to trigger size update
 	UpdateAuras(unit);
 end
 
@@ -490,17 +486,16 @@ f:RegisterEvent("UNIT_POWER_UPDATE");
 f:RegisterEvent("UNIT_MAXPOWER");
 f:RegisterEvent("UNIT_NAME_UPDATE");
 f:RegisterEvent("UNIT_AURA");
---f:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 f:SetScript("OnEvent", function(self, event, unit, ...)
 	if ((event == "UNIT_HEALTH" or
 		event == "UNIT_MAXHEALTH" or
 		event == "UNIT_DISPLAYPOWER" or
 		event == "UNIT_POWER_UPDATE" or
-		event == "UNIT_MAXPOWER") and ctx.guid and ctx.guid == UnitGUID(unit)) then
+		event == "UNIT_MAXPOWER") and guid and guid == UnitGUID(unit)) then
 		UpdateStatusBars(unit, UnitPowerMax(unit) > 0);
 		return;
 	end
-	if (event == "UNIT_AURA" and ctx.guid and ctx.guid == UnitGUID(unit)) then
+	if (event == "UNIT_AURA" and guid and guid == UnitGUID(unit)) then
 		UpdateAuras(unit);
 	end
 	if (event == "UNIT_NAME_UPDATE") then
