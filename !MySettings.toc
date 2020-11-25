@@ -8,6 +8,7 @@ libs/LibStub.lua
 libs/LibItemUpgradeInfo-1.0.lua
 
 core.lua
+mawpower.lua
 
 modules/shared/Setup.lua
 
