@@ -1,3 +1,5 @@
+local _, addon = ...
+
 local function AddLine(self, text)
 	local numLines = self:NumLines();
 	local lineExists = false;
@@ -55,7 +57,7 @@ hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unit, slotNumber) se
 
 
 -- spell ids
-hooksecurefunc("SetItemRef", function(link, ...)
+hooksecurefunc("SetItemRef", function(link)
 	local id = tonumber(link:match("spell:(%d+)"))
 	if (id) then
 		AddLine(ItemRefTooltip, ("Spell: %d"):format(id))
@@ -83,5 +85,19 @@ hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
 	local id = tonumber(string.match(C_CurrencyInfo.GetCurrencyListLink(index), "currency:(%d+)"))
 	if (id) then
 		AddLine(GameTooltip, ("CurrencyID: %d"):format(id))
+	end
+end)
+
+
+-- mawpower
+hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
+	local id = tonumber(link:match("mawpower:(%d+)"))
+	if (id) then
+		local spellID = addon.GetMawPowerSpellID(id)
+		if (spellID) then
+			AddLine(self, ("ID: %d, Spell: %d"):format(id, spellID))
+		else
+			AddLine(self, ("ID: %d"):format(id))
+		end
 	end
 end)
