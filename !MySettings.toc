@@ -38,6 +38,7 @@ modules/classic/ShamanColor.lua
 modules/mainline/WorldMap.lua
 
 modules/addons/+Wowhead_Looter.lua
+modules/addons/FarmHud.lua
 modules/addons/MinimalArchaeology.lua
 modules/addons/PersonalBlacklist.lua
 modules/addons/ElvUI/Minimap.lua
