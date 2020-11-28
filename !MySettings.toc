@@ -1,11 +1,8 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Version: 1.4.0
-## Dependencies: Ace3, SharedMedia
-
-libs/LibStub.lua
-libs/LibItemUpgradeInfo-1.0.lua
+## Dependencies: Ace3, SharedMedia, LibStub, LibItemUpgradeInfo-1.0
 
 core.lua
 mawpower.lua
