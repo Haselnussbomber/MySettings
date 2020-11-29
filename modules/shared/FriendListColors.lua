@@ -22,7 +22,16 @@ local function GetClassName(localizedClassName)
 end
 
 local function GetClassColor(className)
-	return (RAID_CLASS_COLORS[className] or RAID_CLASS_COLORS[GetClassName(className)]):GenerateHexColor()
+	if (not className) then
+		return RAID_CLASS_COLORS["PRIEST"]
+	end
+
+	className = GetClassName(className)
+	if (not className) then
+		return RAID_CLASS_COLORS["PRIEST"]
+	end
+
+	return (RAID_CLASS_COLORS[className]):GenerateHexColor()
 end
 
 hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
