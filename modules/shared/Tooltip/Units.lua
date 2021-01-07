@@ -297,7 +297,7 @@ local function OnTooltipSetUnit(self)
 				table.insert(tbl, colorDefaultText:WrapTextInColorCode(":"));
 
 				if (UnitIsUnit(unittarget, "player")) then
-					table.insert(tbl, "<<YOU>>");
+					table.insert(tbl, WHITE_FONT_COLOR:WrapTextInColorCode("<<YOU>>"));
 				else
 					local name, realm = UnitName(unittarget);
 					local pvpName = UnitPVPName(unittarget);
