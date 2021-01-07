@@ -1,59 +1,81 @@
--- replace names in loot messages with colored player links
+local _, addon = ...
 
 if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) then
-	return
+	return;
 end
 
--- multiple first!
-local strings = {
-	LOOT_ITEM_MULTIPLE,            -- %s erhält Beute: %sx%d.
-	LOOT_ITEM,                     -- %s bekommt Beute: %s.
-	LOOT_ITEM_BONUS_ROLL_MULTIPLE, -- %s erhält Bonusbeute: %sx%d.
-	LOOT_ITEM_BONUS_ROLL,          -- %s erhält Bonusbeute: %s.
-	LOOT_ITEM_PUSHED_MULTIPLE,     -- %s erhält den Gegenstand: %sx%d.
-	LOOT_ITEM_PUSHED,              -- %s erhält den Gegenstand: %s.
-	CREATED_ITEM_MULTIPLE,         -- %s stellt her: %sx%d.
-	CREATED_ITEM,                  -- %s stellt her: %s.
-};
+local playerRealm = GetRealmName();
 
-for i=1,#strings do
-	strings[i] = strings[i]:gsub("%.$", "%%."):gsub("(%%[sd])", "(.*)");
+local module = addon:NewModule("PlayerLinks", "AceEvent-3.0");
+module.players = {};
+
+local function processGUID(guid)
+	if (not guid or module.players[guid]) then
+		return;
+	end
+
+	local _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid);
+	if (realm == "") then
+		realm = playerRealm;
+	end
+
+	module.players[guid] = {
+		name = name,
+		realm = realm,
+		color = RAID_CLASS_COLORS[englishClass].colorStr
+	};
 end
 
-local filter = function(_, _, text, ...)
+local function getPlayerLink(player)
+	local fullname = player.name .. "-" .. player.realm;
+	local relativename = player.name;
+	if (player.realm ~= playerRealm) then
+		relativename = relativename .. "-" .. player.realm;
+	end
+	return GetPlayerLink(fullname, WrapTextInColorCode(relativename, player.color))
+end
+
+function module:OnInitialize()
+	self:RegisterEvent("GROUP_ROSTER_UPDATE");
+end
+
+function module:GROUP_ROSTER_UPDATE()
 	local numGroup = GetNumGroupMembers();
-
 	if (numGroup and numGroup > 1) then
 		local inRaid = IsInRaid();
+		for i = 1, numGroup do
+			local groupUnit = inRaid and ("raid"..i) or ("party"..i);
+			if (UnitExists(groupUnit)) then
+				processGUID(UnitGUID(groupUnit));
+			end
+		end
+	end
+end
 
-		for i=1,#strings do
-			local match = text:match(strings[i]);
-			if (match) then
-				for i = 1, numGroup do
-					local groupUnit = inRaid and ("raid"..i) or ("party"..i);
-					if (UnitExists(groupUnit)) then
-						local name, server = UnitNameUnmodified(groupUnit);
-						if ((server and (name.."-"..server) == match) or name == match) then
-							local _, _, classID = UnitClass(groupUnit);
-							local classInfo = C_CreatureInfo.GetClassInfo(classID);
-							local classColorInfo = RAID_CLASS_COLORS[classInfo.classFile];
-							text = text:gsub(
-								match:gsub("%-", "%%-"),
-								GetPlayerLink(
-									server and (name.."-"..server) or name,
-									WrapTextInColorCode(match, classColorInfo.colorStr)
-								)
-							);
-							return false, text, ...;
-						end
-					end
-				end
-				break;
+local filter = function(_, event, ...)
+	processGUID(select(12, ...));
+
+	local text = ...;
+	local words = {};
+
+	for word in text:gmatch("([^%s]+)") do
+		table.insert(words, word);
+	end
+
+	for i = 1, #words do
+		local word = words[i];
+
+		for _, player in pairs(module.players) do
+			local fullname = player.name .. "-" .. player.realm;
+			if (word == fullname or word == player.name) then
+				words[i] = getPlayerLink(player);
 			end
 		end
 	end
 
-	return false, text, ...;
+	return false, table.concat(words, " "), select(2, ...);
 end
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", filter);
+for k in pairs(getmetatable(ChatTypeInfo).__index) do
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..k, filter)
+end
