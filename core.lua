@@ -1,3 +1,3 @@
 local addonName, addon = ...
 
-LibStub("AceAddon-3.0"):NewAddon(addon, addonName)
+MySettings = LibStub("AceAddon-3.0"):NewAddon(addon, addonName)
