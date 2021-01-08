@@ -1,7 +1,7 @@
 local _, addon = ...
 
 -- https://wow.tools/dbc/?dbc=mawpower&hotfixes=true
--- 9.0.2.36734
+-- 9.0.2.37142
 
 local mawpowers = {
 	-- [id] = spellID,
@@ -940,6 +940,12 @@ local mawpowers = {
 	[1396] = 344588,
 	[1397] = 344590,
 	[1398] = 342458,
+	[1429] = 295073,
+	[1430] = 348482,
+	[1431] = 348483,
+	[1432] = 348511,
+	[1433] = 348541,
+	[1434] = 348545,
 };
 
 function addon.GetMawPowerSpellID(id)
