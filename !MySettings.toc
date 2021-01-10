@@ -36,6 +36,7 @@ modules/mainline/Chat/PlayerLinks.lua
 modules/mainline/WorldMap.lua
 
 modules/addons/+Wowhead_Looter.lua
+modules/addons/Details.lua
 modules/addons/FarmHud.lua
 modules/addons/MinimalArchaeology.lua
 modules/addons/PersonalBlacklist.lua
