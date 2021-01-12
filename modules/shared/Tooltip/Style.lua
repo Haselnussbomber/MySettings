@@ -47,7 +47,8 @@ function handlers.item(self, id)
 		return;
 	end
 	local _, _, itemRarity = GetItemInfo(itemLink);
-	local linkType = ExtractLinkData(itemLink);
+	local _, _, hyperLinkString = ExtractHyperlinkString(itemLink);
+	local linkType = ExtractLinkData(hyperLinkString);
 	if (linkType == "keystone") then
 		itemRarity = 4;
 	end
