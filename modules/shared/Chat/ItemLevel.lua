@@ -1,4 +1,9 @@
-local LibItemUpgradeInfo = LibStub("LibItemUpgradeInfo-1.0")
+local Enum = Enum
+local WOW_PROJECT_ID = WOW_PROJECT_ID
+local WOW_PROJECT_MAINLINE = WOW_PROJECT_MAINLINE
+local IsEquippableItem = IsEquippableItem
+local GetItemInfo = GetItemInfo
+local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo
 
 local function shouldShow(link)
 	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link)
@@ -18,9 +23,9 @@ local function replacer(link)
 		return link
 	end
 
-	local itemLevel = LibItemUpgradeInfo:GetUpgradedItemLevel(link)
-	if itemLevel then
-		return link .. " (" .. itemLevel .. ")"
+	local effectiveItemLevel = GetDetailedItemLevelInfo(link)
+	if effectiveItemLevel then
+		return link .. " (" .. effectiveItemLevel .. ")"
 	end
 
 	return link

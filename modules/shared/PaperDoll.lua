@@ -4,9 +4,8 @@ local InCombatLockdown = InCombatLockdown
 local GetInventoryItemDurability = GetInventoryItemDurability
 local GetInventoryItemLink = GetInventoryItemLink
 local GetInventorySlotInfo = GetInventorySlotInfo
-local GetItemInfo = GetItemInfo
-
-local LibItemUpgradeInfo = LibStub("LibItemUpgradeInfo-1.0")
+local GetAverageItemLevel = GetAverageItemLevel
+local GetCurrentItemLevel = C_Item.GetCurrentItemLevel
 
 local slots = {
 	["HeadSlot"] = true,
@@ -32,33 +31,6 @@ local levelColors = {
 	[1] = "|cff00ff00",
 	[2] = "|cffffff88",
 }
-
-local function GetItemLevel(slot)
-	local itemLink = GetInventoryItemLink("player", slot)
-	if not itemLink then
-		return nil
-	end
-	local itemLevel = select(4, GetItemInfo(itemLink))
-	if not itemLevel then
-		return nil
-	end
-	return tonumber(itemLevel)
-end
-
-local function GetAverageItemLevel()
-	local itemCount, totalItemLevel = 0, 0
-
-	for k in pairs(slots) do
-		local slot = GetInventorySlotInfo(k)
-		local itemLevel = GetItemLevel(slot)
-		if itemLevel then
-			itemCount = itemCount + 1
-			totalItemLevel = totalItemLevel + itemLevel
-		end
-	end
-
-	return totalItemLevel / itemCount
-end
 
 -- http://www.wowwiki.com/ColorGradient
 local function ColorGradient(perc, ...)
@@ -103,7 +75,7 @@ function module:OnInitialize()
 end
 
 function module:Update()
-	local avgEquipItemLevel = GetAverageItemLevel()
+	local avgEquipItemLevel = select(2, GetAverageItemLevel())
 
 	for k, showDurability in pairs(slots) do
 		local frame = _G["Character" .. k]
@@ -111,17 +83,23 @@ function module:Update()
 
 		frame.ItemLevel:SetText("")
 
-		local itemLink = GetInventoryItemLink("player", slot)
-		local itemLevel = LibItemUpgradeInfo:GetUpgradedItemLevel(itemLink)
-		if itemLevel and avgEquipItemLevel then
-			local color = 2
-			if itemLevel < avgEquipItemLevel - 10 then
-				color = 0
-			elseif itemLevel > avgEquipItemLevel + 10 then
-				color = 1
-			end
+		local itemLoc = ItemLocation:CreateFromEquipmentSlot(slot)
+		if itemLoc:IsValid() then
+			local itemLevel = GetCurrentItemLevel(itemLoc)
+			if itemLevel then
+				if avgEquipItemLevel then
+					local color = 2
+					if itemLevel < avgEquipItemLevel - 10 then
+						color = 0
+					elseif itemLevel > avgEquipItemLevel + 10 then
+						color = 1
+					end
 
-			frame.ItemLevel:SetFormattedText("%s%d|r", levelColors[color], itemLevel)
+					frame.ItemLevel:SetFormattedText("%s%d|r", levelColors[color], itemLevel)
+				else
+					frame.ItemLevel:SetFormattedText("%d", itemLevel)
+				end
+			end
 		end
 
 		if showDurability then
