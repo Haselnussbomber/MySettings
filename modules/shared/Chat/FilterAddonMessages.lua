@@ -8,7 +8,7 @@ local function clearString(str)
 	return str
 end
 
-local messages = {
+local addonMessages = {
 	"Wowhead Looter loaded",
 	"Wowhead Looter geladen",
 	"ALL THE THINGS.* loaded successfully",
@@ -20,8 +20,13 @@ local messages = {
 	"Capping is missing locale for"
 }
 
-local function shouldShutUp(message)
-	for _, v in ipairs(messages) do
+local playerMessages = {
+	"^Ich könnte .* gebrauchen, wenn du es nicht willst%.$",
+	"^May I please have .* if you don't need it%?$"
+}
+
+local function isFiltered(tbl, message)
+	for _, v in ipairs(tbl) do
 		if (string.find(clearString(message), v)) then
 			return true
 		end
@@ -30,12 +35,12 @@ local function shouldShutUp(message)
 end
 
 DEFAULT_CHAT_FRAME.AddMessage = function(self, message, r, g, b, ...)
-	if (not shouldShutUp(message)) then
+	if (not isFiltered(addonMessages, message) and not isFiltered(playerMessages, message)) then
 		orig_DEFAULT_CHAT_FRAME_AddMessage(self, message, r, g, b, ...)
 	end
 end
 
-local module = addon:NewModule("ChatFilterAddonLoginMessages", "AceEvent-3.0")
+local module = addon:NewModule("FilterAddonMessages", "AceEvent-3.0")
 
 function module:OnInitialize()
 	self:RegisterEvent("LOADING_SCREEN_DISABLED")
@@ -45,6 +50,6 @@ function module:LOADING_SCREEN_DISABLED()
 	self:UnregisterEvent("LOADING_SCREEN_DISABLED")
 
 	C_Timer.After(30, function()
-		shouldShutUp = function() return false end
+		addonMessages = {}
 	end)
 end
