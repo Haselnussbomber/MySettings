@@ -234,7 +234,7 @@ local function UpdateAuras(unit)
 end
 
 local function OnTooltipSetUnit(self)
-	if (C_PetBattles.IsInBattle()) then
+	if (C_PetBattles and C_PetBattles.IsInBattle()) then
 		return;
 	end
 
@@ -273,11 +273,13 @@ local function OnTooltipSetUnit(self)
 
 			-- name
 			local playerFlag = "";
-			local mentorshipStatus = C_PlayerMentorship.GetMentorshipStatus(PlayerLocation:CreateFromUnit(unit));
-			if (mentorshipStatus == Enum.PlayerMentorshipStatus.Mentor) then
-				playerFlag = "|A:newplayerchat-chaticon-guide:0:0:0:0|a "; -- NPEV2_CHAT_USER_TAG_GUIDE
-			elseif (mentorshipStatus == Enum.PlayerMentorshipStatus.Newcomer) then
-				playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
+			if C_PlayerMentorship then
+				local mentorshipStatus = C_PlayerMentorship.GetMentorshipStatus(PlayerLocation:CreateFromUnit(unit));
+				if (mentorshipStatus == Enum.PlayerMentorshipStatus.Mentor) then
+					playerFlag = "|A:newplayerchat-chaticon-guide:0:0:0:0|a "; -- NPEV2_CHAT_USER_TAG_GUIDE
+				elseif (mentorshipStatus == Enum.PlayerMentorshipStatus.Newcomer) then
+					playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
+				end
 			end
 			local fullName = pvpName or name;
 			if (realm and realm ~= "" and realm ~= " ") then

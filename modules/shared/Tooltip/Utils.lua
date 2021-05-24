@@ -22,6 +22,20 @@ for k, v in pairs(FACTION_BAR_COLORS) do
 	factionBarColors[k] = CreateColor(v.r, v.g, v.b);
 end
 
+if not CreateColorFromHexString then
+	local function ExtractColorValueFromHex(str, index)
+		return tonumber(str:sub(index, index + 1), 16) / 255;
+	end
+	function CreateColorFromHexString(hexColor)
+		if #hexColor == 8 then
+			local a, r, g, b = ExtractColorValueFromHex(hexColor, 1), ExtractColorValueFromHex(hexColor, 3), ExtractColorValueFromHex(hexColor, 5), ExtractColorValueFromHex(hexColor, 7);
+			return CreateColor(r, g, b, a);
+		else
+			GMError("CreateColorFromHexString input must be hexadecimal digits in this format: AARRGGBB.");
+		end
+	end
+end
+
 local reactionColors = {
 	[1] = CreateColorFromHexString("ffc0c0c0"), -- Tapped
 	[2] = CreateColorFromHexString("ffff0000"), -- Hostile

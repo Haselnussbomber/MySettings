@@ -72,32 +72,38 @@ end)
 
 
 -- quest ids
-hooksecurefunc("QuestMapLogTitleButton_OnEnter", function(self)
-	if (self.questID) and (self.questLogIndex) then
-		local info = C_QuestLog.GetInfo(self.questLogIndex);
-		AddLine(GameTooltip, ("QuestID: %d, QuestLevel: %d"):format(self.questID, info.level))
-	end
-end)
+if QuestMapLogTitleButton_OnEnter then
+	hooksecurefunc("QuestMapLogTitleButton_OnEnter", function(self)
+		if (self.questID) and (self.questLogIndex) then
+			local info = C_QuestLog.GetInfo(self.questLogIndex);
+			AddLine(GameTooltip, ("QuestID: %d, QuestLevel: %d"):format(self.questID, info.level))
+		end
+	end)
+end
 
 
 -- currencies
-hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
-	local id = tonumber(string.match(C_CurrencyInfo.GetCurrencyListLink(index), "currency:(%d+)"))
-	if (id) then
-		AddLine(GameTooltip, ("CurrencyID: %d"):format(id))
-	end
-end)
+if GameTooltip.SetCurrencyToken then
+	hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
+		local id = tonumber(string.match(C_CurrencyInfo.GetCurrencyListLink(index), "currency:(%d+)"))
+		if (id) then
+			AddLine(GameTooltip, ("CurrencyID: %d"):format(id))
+		end
+	end)
+end
 
 
 -- mawpower
-hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
-	local id = tonumber(link:match("mawpower:(%d+)"))
-	if (id) then
-		local spellID = addon.GetMawPowerSpellID(id)
-		if (spellID) then
-			AddLine(self, ("ID: %d, Spell: %d"):format(id, spellID))
-		else
-			AddLine(self, ("ID: %d"):format(id))
+if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+	hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
+		local id = tonumber(link:match("mawpower:(%d+)"))
+		if (id) then
+			local spellID = addon.GetMawPowerSpellID(id)
+			if (spellID) then
+				AddLine(self, ("ID: %d, Spell: %d"):format(id, spellID))
+			else
+				AddLine(self, ("ID: %d"):format(id))
+			end
 		end
-	end
-end)
+	end)
+end

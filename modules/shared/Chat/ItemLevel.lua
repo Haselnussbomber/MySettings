@@ -5,6 +5,11 @@ local IsEquippableItem = IsEquippableItem
 local GetItemInfo = GetItemInfo
 local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo
 
+if WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+	Enum.ItemQuality.Uncommon = Enum.ItemQuality.Standard
+	Enum.ItemQuality.Common = Enum.ItemQuality.Good
+end
+
 local function shouldShow(link)
 	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link)
 

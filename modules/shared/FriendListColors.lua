@@ -34,11 +34,35 @@ local function GetClassColor(className)
 	return (RAID_CLASS_COLORS[className]):GenerateHexColor()
 end
 
+local function GetBNGetFriendInfo(id)
+	local bnetIDAccount, accountName, battleTag, isBattleTag, characterName, bnetIDGameAccount, client = BNGetFriendInfo(id)
+	local obj = {
+		accountName = accountName,
+		battleTag = battleTag,
+	}
+
+	if (bnetIDGameAccount) then
+		local _, characterName, client, realmName, _, _, _, class, _, zoneName, level, _, _, _, online, _, _, _, _, _, wowProjectID = BNGetGameAccountInfo(bnetIDGameAccount)
+		obj.gameAccountInfo = {
+			areaName = zoneName,
+			characterLevel = level,
+			characterName = characterName,
+			className = class,
+			clientProgram = client,
+			isOnline = online,
+			realmName = realmName,
+			wowProjectID = wowProjectID,
+		}
+	end
+
+	return obj
+end
+
 hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
 	local buttonType, id = self.buttonType, self.id
-
+	
 	if buttonType == FRIENDS_BUTTON_TYPE_BNET then
-		local accountInfo = C_BattleNet.GetFriendAccountInfo(id)
+		local accountInfo = BNGetFriendInfo and GetBNGetFriendInfo(id) or C_BattleNet.GetFriendAccountInfo(id)
 
 		if not accountInfo or not accountInfo.gameAccountInfo or not accountInfo.gameAccountInfo.isOnline then
 			return
@@ -69,7 +93,11 @@ hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
 			))
 
 			if wowProjectID == WOW_PROJECT_CLASSIC then
-				self.info:SetText(BNET_FRIEND_ZONE_WOW_CLASSIC:format(accountInfo.gameAccountInfo.areaName or UNKNOWN))
+				self.info:SetText(("Classic Era: %s"):format(accountInfo.gameAccountInfo.areaName or UNKNOWN))
+			end
+
+			if wowProjectID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+				self.info:SetText(("Burning Crusade Classic: %s"):format(accountInfo.gameAccountInfo.areaName or UNKNOWN))
 			end
 		end
 

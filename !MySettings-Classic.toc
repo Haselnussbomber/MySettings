@@ -1,11 +1,10 @@
-## Interface: 90005
+## Interface: 11307
 ## Title: !MySettings
 ## Author: Haselnussbomber
-## Version: 1.6.0
+## Version: 1.6.0-Classic
 ## Dependencies: LibStub, Ace3, SharedMedia
 
 core.lua
-mawpower.lua
 
 modules/shared/Setup.lua
 
@@ -31,14 +30,9 @@ modules/classic/ChatSkillLevel.lua
 modules/classic/ChatXP.lua
 modules/classic/ShamanColor.lua
 
-#modules/mainline/Chat/PlayerLinks.lua
-modules/mainline/PaperDoll.lua
-modules/mainline/WorldMap.lua
-
 modules/addons/+Wowhead_Looter.lua
 modules/addons/Details.lua
 modules/addons/FarmHud.lua
-modules/addons/MinimalArchaeology.lua
 modules/addons/PersonalBlacklist.lua
 modules/addons/ElvUI/Minimap.lua
 modules/addons/ElvUI/UnitFrames_RoleIcons.lua

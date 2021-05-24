@@ -25,7 +25,7 @@ local handlers = {
 	end,
 }
 
-if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+if (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC) then
 	handlers["(|c%x+|Hachievement:(.-)|h.-|h|?r)"] = function(link, linkData)
 		local achievementId = match(linkData, "^%d+")
 		local texture = select(10, GetAchievementInfo(achievementId))
@@ -34,7 +34,9 @@ if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 		end
 		return link
 	end
+end
 
+if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 	handlers["(|c%x+|Hbattlepet:(.-)|h.-|h|?r)"] = function(link)
 		-- copied from Interface/FrameXML/DressUpFrames.lua (8.0.1)
 		local _, _, _, _, speciesIDString, _, _, _, _, _, battlePetID = strsplit(":|H", link)
