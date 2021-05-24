@@ -68,9 +68,15 @@ end
 local function getDifficultyColor(unit)
 	local canAttack = UnitCanAttack(unit, "player") or UnitCanAttack("player", unit);
 	if (canAttack) then
-		local difficulty = C_PlayerInfo.GetContentDifficultyCreatureForPlayer(unit);
-		local color = GetDifficultyColor(difficulty);
-		return CreateColor(color.r, color.g, color.b);
+		if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+			local difficulty = C_PlayerInfo.GetContentDifficultyCreatureForPlayer(unit);
+			local color = GetDifficultyColor(difficulty);
+			return CreateColor(color.r, color.g, color.b);
+		else
+			local level = UnitLevel(unit);
+			local color = GetQuestDifficultyColor(level);
+			return CreateColor(color.r, color.g, color.b);
+		end
 	end
 	return colorDefaultText;
 end
