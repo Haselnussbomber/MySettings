@@ -1,3 +1,5 @@
+local _, addon = ...
+
 local SegoeUISemibold = [[Interface\Addons\SharedMedia_MyMedia\font\seguisb.ttf]]
 local RobotoRegular = [[Interface\Addons\SharedMedia_MyMedia\font\Roboto-Regular.ttf]]
 
@@ -16,7 +18,7 @@ C_Timer.After(3, function()
 	SetFont(FramerateText, RobotoRegular)
 	FramerateLabel:SetText("FPS:")
 
-	if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+	if (addon.IsMainline) then
 		SetFont(QuestFont, SegoeUISemibold)
 	end
 end)

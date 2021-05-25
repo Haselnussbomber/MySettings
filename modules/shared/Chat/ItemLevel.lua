@@ -1,11 +1,10 @@
+local _, addon = ...
 local Enum = Enum
-local WOW_PROJECT_ID = WOW_PROJECT_ID
-local WOW_PROJECT_MAINLINE = WOW_PROJECT_MAINLINE
 local IsEquippableItem = IsEquippableItem
 local GetItemInfo = GetItemInfo
 local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo
 
-if WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+if addon.IsBCC then
 	Enum.ItemQuality.Uncommon = Enum.ItemQuality.Standard
 	Enum.ItemQuality.Common = Enum.ItemQuality.Good
 end
@@ -16,7 +15,7 @@ local function shouldShow(link)
 	return (
 		IsEquippableItem(link)
 		and itemRarity > Enum.ItemQuality.Common
-		and not ( WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and itemRarity == Enum.ItemQuality.Heirloom and iLevel == 1 )
+		and not ( addon.IsMainline and itemRarity == Enum.ItemQuality.Heirloom and iLevel == 1 )
 		and equipSlot ~= "INVTYPE_TABARD"
 		and equipSlot ~= "INVTYPE_BAG"
 		and equipSlot ~= "INVTYPE_BODY"

@@ -1,18 +1,14 @@
-if (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC) then
-    return
-end
-
 local function ConvertFormat(fmt)
-   -- remove non-English format params like "%1$s"
-   local find = string.gsub(fmt, "%%%d%$", "%%")
+	-- remove non-English format params like "%1$s"
+	local find = string.gsub(fmt, "%%%d%$", "%%")
 
-   -- remove any special characters with escaped versions
-   find = string.gsub(find, "([%^%$%(%)%.%[%]%*%+%-%?])", "%%%1")
+	-- remove any special characters with escaped versions
+	find = string.gsub(find, "([%^%$%(%)%.%[%]%*%+%-%?])", "%%%1")
 
-   -- finally replace standard "%s" and "%d"
-   find = string.gsub(find, "%%s", "(.+)")
-   find = string.gsub(find, "%%d", "(%%d+)")
-   return find
+	-- finally replace standard "%s" and "%d"
+	find = string.gsub(find, "%%s", "(.+)")
+	find = string.gsub(find, "%%d", "(%%d+)")
+	return find
 end
 
 local pattern = ConvertFormat(ERR_SKILL_UP_SI)

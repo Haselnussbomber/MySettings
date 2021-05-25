@@ -1,3 +1,5 @@
+local _, addon = ...
+
 local function hook(self)
 	local powerMax = UnitPowerMax("player", Enum.PowerType.Mana)
 	if powerMax <= 0 then
@@ -23,7 +25,7 @@ hooksecurefunc(GameTooltip, "SetSpellBookItem", hook)
 hooksecurefunc(GameTooltip, "SetSpellByID", hook)
 hooksecurefunc(GameTooltip, "SetTalent", hook)
 
-if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
+if (addon.IsClassic) then
 	C_Timer.After(3, function()
 		if WhatsTrainingTooltip then
 			hooksecurefunc(WhatsTrainingTooltip, "SetSpellByID", hook)

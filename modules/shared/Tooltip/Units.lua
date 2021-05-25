@@ -68,7 +68,7 @@ end
 local function getDifficultyColor(unit)
 	local canAttack = UnitCanAttack(unit, "player") or UnitCanAttack("player", unit);
 	if (canAttack) then
-		if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+		if (addon.IsMainline) then
 			local difficulty = C_PlayerInfo.GetContentDifficultyCreatureForPlayer(unit);
 			local color = GetDifficultyColor(difficulty);
 			return CreateColor(color.r, color.g, color.b);

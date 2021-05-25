@@ -1,9 +1,5 @@
 local _, addon = ...
 
-if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) then
-	return;
-end
-
 local playerRealm = GetRealmName();
 
 local module = addon:NewModule("PlayerLinks", "AceEvent-3.0");

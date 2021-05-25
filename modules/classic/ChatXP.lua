@@ -1,7 +1,3 @@
-if (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC) then
-    return
-end
-
 local curXP = UnitXP("player")
 local curMaxXP = UnitXPMax("player")
 local remaining = 0

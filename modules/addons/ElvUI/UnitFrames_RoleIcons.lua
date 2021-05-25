@@ -1,9 +1,5 @@
 local _, addon = ...
 
-if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) then
-	return
-end
-
 --Cache global variables
 --Lua functions
 local select = select

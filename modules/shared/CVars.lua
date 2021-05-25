@@ -54,7 +54,7 @@ function module:PLAYER_ENTERING_WORLD()
 	SetCVar("Sound_EnableMusic", false)
 	SetCVar("Sound_EnableSoundWhenGameIsInBG", true)
 
-	if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+	if (addon.IsMainline) then
 		-- Camera
 		SetCVar("cameraDistanceMaxZoomFactor", 39 / 15)
 

@@ -94,7 +94,7 @@ end
 
 
 -- mawpower
-if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+if (addon.IsMainline) then
 	hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
 		local id = tonumber(link:match("mawpower:(%d+)"))
 		if (id) then

@@ -43,7 +43,7 @@ function module:ADDON_LOADED(_, _addonName)
 			Minimap.backdrop:Hide()
 		end)
 
-		if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then
+		if (addon.IsClassic) then
 			MinimapToggleButton:Hide()
 		end
 	end

@@ -1,7 +1,3 @@
-if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) then
-	return
-end
-
 local _, addon = ...
 local modf = math.modf
 local InCombatLockdown = InCombatLockdown

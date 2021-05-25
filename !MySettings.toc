@@ -26,11 +26,6 @@ modules/shared/Fonts.lua
 modules/shared/FriendListColors.lua
 modules/shared/QuestReward.lua
 
-modules/classic/ActionButtonGlow.lua
-modules/classic/ChatSkillLevel.lua
-modules/classic/ChatXP.lua
-modules/classic/ShamanColor.lua
-
 #modules/mainline/Chat/PlayerLinks.lua
 modules/mainline/PaperDoll.lua
 modules/mainline/WorldMap.lua
@@ -41,4 +36,3 @@ modules/addons/FarmHud.lua
 modules/addons/MinimalArchaeology.lua
 modules/addons/PersonalBlacklist.lua
 modules/addons/ElvUI/Minimap.lua
-modules/addons/ElvUI/UnitFrames_RoleIcons.lua

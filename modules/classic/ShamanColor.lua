@@ -1,7 +1,3 @@
-if (WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC) then
-    return
-end
-
 local _, addon = ...
 
 local module = addon:NewModule("ElvUIShamanClassColor", "AceEvent-3.0")
