@@ -2,8 +2,8 @@ local addonName, addon = ...;
 local combineTables = addon.combineTables;
 
 TOOLTIP_BACKDROP_STYLE_DEFAULT = {
-	bgFile = "Interface/Buttons/WHITE8X8",
-	edgeFile = "Interface/Addons/SharedMedia_MyMedia/border/Caith2.tga",
+	bgFile = "Interface\\Buttons\\WHITE8X8",
+	edgeFile = "Interface\\Addons\\SharedMedia_MyMedia\\border\\Caith2.tga",
 	tile = false,
 	tileEdge = false,
 	edgeSize = 10,
@@ -11,6 +11,10 @@ TOOLTIP_BACKDROP_STYLE_DEFAULT = {
 	backdropColor = CreateColor(0.07, 0.07, 0.07, 0.9),
 	backdropBorderColor = CreateColor(0.25, 0.25, 0.25, 1)
 };
+
+if (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) then
+	GAME_TOOLTIP_BACKDROP_STYLE_DEFAULT = TOOLTIP_BACKDROP_STYLE_DEFAULT;
+end
 
 GAME_TOOLTIP_BACKDROP_STYLE_AZERITE_ITEM = combineTables(TOOLTIP_BACKDROP_STYLE_DEFAULT, {
 	overlayAtlasTop = "AzeriteTooltip-Topper";
