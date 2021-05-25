@@ -1,4 +1,4 @@
-local _, addon = ...
+local _, addon = ...;
 
 -- https://wow.tools/dbc/?dbc=mawpower&hotfixes=true
 -- 9.1.0.38709
@@ -1034,5 +1034,5 @@ local mawpowers = {
 };
 
 function addon.GetMawPowerSpellID(id)
-	return mawpowers[tonumber(id)]
+	return mawpowers[tonumber(id)];
 end

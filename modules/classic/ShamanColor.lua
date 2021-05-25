@@ -1,19 +1,19 @@
-local _, addon = ...
+local _, addon = ...;
 
-local module = addon:NewModule("ElvUIShamanClassColor", "AceEvent-3.0")
+local module = addon:NewModule("ElvUIShamanClassColor", "AceEvent-3.0");
 
 function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED")
+	self:RegisterEvent("ADDON_LOADED");
 end
 
 function module:ADDON_LOADED(_, addonName)
 	if (addonName ~= "ElvUI") then
-		return
+		return;
 	end
 
-	self:UnregisterEvent("ADDON_LOADED")
+	self:UnregisterEvent("ADDON_LOADED");
 
-	local color = CreateColor(0.0, 0.44, 0.87) -- #0070DE
-	color.colorStr = color:GenerateHexColor()
-	RAID_CLASS_COLORS["SHAMAN"] = color
+	local color = CreateColor(0.0, 0.44, 0.87); -- #0070DE
+	color.colorStr = color:GenerateHexColor();
+	RAID_CLASS_COLORS["SHAMAN"] = color;
 end

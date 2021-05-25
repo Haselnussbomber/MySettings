@@ -1,4 +1,4 @@
-SLASH_SETUP1 = "/setup"
+SLASH_SETUP1 = "/setup";
 SlashCmdList["SETUP"] = function()
 	-- Minimap Tracking
 	local trackingTextures = {
@@ -14,19 +14,19 @@ SlashCmdList["SETUP"] = function()
 		136465, -- Reparieren
 		1598183, -- Transmogrifizierer
 		524051, -- Fokusziel
-	}
+	};
 	local count = GetNumTrackingTypes();
 	for id=1, count do
 		local _, texture, active = GetTrackingInfo(id);
-		if tContains(trackingTextures, texture) and not active then
+		if (tContains(trackingTextures, texture) and not active) then
 			SetTracking(id, true);
 		end
 	end
 
 	-- AutoTurnIn
 	if (AutoTurnInCharacterDB) then
-		AutoTurnInCharacterDB.all = 1 -- Q_ALL
-		AutoTurnInCharacterDB.showrewardtext = false
+		AutoTurnInCharacterDB.all = 1; -- Q_ALL
+		AutoTurnInCharacterDB.showrewardtext = false;
 	end
 
 	if (AAP1) then
@@ -74,12 +74,12 @@ SlashCmdList["SETUP"] = function()
 			["DisableHeirloomWarning"] = 0,
 			["arrowleft"] = 1271.580200195313,
 			["AutoVendor"] = 0,
-		}
+		};
 	end
 
 	-- Kui Nameplates
-	KuiNameplatesCoreCharacterSaved["profile"] = "MyProfile"
+	KuiNameplatesCoreCharacterSaved["profile"] = "MyProfile";
 
 	-- /reflux switch MyProfile
-	SlashCmdList["REFLUX"]("switch MyProfile") -- reloads ui!
-end
+	SlashCmdList["REFLUX"]("switch MyProfile"); -- reloads ui!
+end;

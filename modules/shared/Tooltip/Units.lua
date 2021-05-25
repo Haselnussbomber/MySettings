@@ -43,10 +43,10 @@ local powerBar = CreateFrame("STATUSBAR", nil, GameTooltip);
 local bars = {
 	healthBar,
 	powerBar,
-}
+};
 for _, bar in pairs(bars) do
 	bar:SetSize(0, 15);
-	bar:SetStatusBarTexture([[Interface\Addons\SharedMedia_MyMedia\statusbar\Smoothv2.tga]]);
+	bar:SetStatusBarTexture("Interface\\Addons\\SharedMedia_MyMedia\\statusbar\\Smoothv2.tga");
 
 	bar.bg = bar:CreateTexture(nil, "BACKGROUND");
 	bar.bg:SetColorTexture(0.3, 0.3, 0.3, 0.6);
@@ -55,8 +55,7 @@ for _, bar in pairs(bars) do
 	bar.text = bar:CreateFontString(nil, "ARTWORK");
 	bar.text:SetPoint("CENTER");
 	bar.text:SetTextColor(1, 1, 1);
-	--bar.text:SetFont([[Interface\Addons\SharedMedia_MyMedia\font\museosans_500.ttf]], 12, "OUTLINE");
-	bar.text:SetFont([[Interface\Addons\SharedMedia_MyMedia\font\Roboto-Medium.ttf]], 11, "OUTLINE");
+	bar.text:SetFont("Interface\\Addons\\SharedMedia_MyMedia\\font\\Roboto-Medium.ttf", 11, "OUTLINE");
 	bar.text:SetShadowColor(0, 0, 0, 0.5);
 	bar.text:SetShadowOffset(0.8, -0.8);
 end
@@ -279,7 +278,7 @@ local function OnTooltipSetUnit(self)
 
 			-- name
 			local playerFlag = "";
-			if C_PlayerMentorship then
+			if (addon.IsMainline) then
 				local mentorshipStatus = C_PlayerMentorship.GetMentorshipStatus(PlayerLocation:CreateFromUnit(unit));
 				if (mentorshipStatus == Enum.PlayerMentorshipStatus.Mentor) then
 					playerFlag = "|A:newplayerchat-chaticon-guide:0:0:0:0|a "; -- NPEV2_CHAT_USER_TAG_GUIDE

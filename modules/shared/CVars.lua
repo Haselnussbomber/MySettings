@@ -1,112 +1,112 @@
-local _, addon = ...
+local _, addon = ...;
 
-local SetCVar = SetCVar -- from SharedXML/CvarUtil.lua
+local SetCVar = SetCVar; -- from SharedXML/CvarUtil.lua
 
-local module = addon:NewModule("CVars", "AceEvent-3.0")
+local module = addon:NewModule("CVars", "AceEvent-3.0");
 
 function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("ADDON_LOADED");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
 function module:PLAYER_ENTERING_WORLD()
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD");
 
 	-- see https://wow.gamepedia.com/Console_variables/Complete_list
 	-- cameraDistanceMaxZoomFactor calculation by https://www.wowinterface.com/downloads/info24927-MaxCamClassic.html
 
 	-- Camera
-	SetCVar("cameraPitchMoveSpeed", 45)
-	SetCVar("cameraSmoothStyle", 0)         -- Never adjust camera.
-	SetCVar("cameraSmoothTrackingStyle", 0) -- Never adjust camera. (for click to move)
-	SetCVar("cameraYawMoveSpeed", 90)
+	SetCVar("cameraPitchMoveSpeed", 45);
+	SetCVar("cameraSmoothStyle", 0);         -- Never adjust camera.
+	SetCVar("cameraSmoothTrackingStyle", 0); -- Never adjust camera. (for click to move)
+	SetCVar("cameraYawMoveSpeed", 90);
 
-	-- Interface
-	SetCVar("alwaysCompareItems", true)
-	SetCVar("autoLootDefault", true)
-	SetCVar("deselectOnClick", true)
-	SetCVar("enableFloatingCombatText", true)
-	SetCVar("interactOnLeftClick", false)
-	SetCVar("nameplateShowAll", true)
+	-- Interface;
+	SetCVar("alwaysCompareItems", true);
+	SetCVar("autoLootDefault", true);
+	SetCVar("deselectOnClick", true);
+	SetCVar("enableFloatingCombatText", true);
+	SetCVar("interactOnLeftClick", false);
+	SetCVar("nameplateShowAll", true);
 
 	-- Chat
-	SetCVar("chatBubblesParty", false)
-	SetCVar("profanityFilter", false)
-	SetCVar("whisperMode", "inline")
+	SetCVar("chatBubblesParty", false);
+	SetCVar("profanityFilter", false);
+	SetCVar("whisperMode", "inline");
 
 	-- Tutorials
-	SetCVar("addFriendInfoShown", true)
-	SetCVar("pendingInviteInfoShown", true)
-	SetCVar("showTokenFrame", true)
-	SetCVar("showTutorials", false)
-	SetCVar("talentFrameShown", true)
+	SetCVar("addFriendInfoShown", true);
+	SetCVar("pendingInviteInfoShown", true);
+	SetCVar("showTokenFrame", true);
+	SetCVar("showTutorials", false);
+	SetCVar("talentFrameShown", true);
 
 	-- Graphics
-	SetCVar("componentTextureLevel", 0) -- higher resolution for gear
-	SetCVar("projectedTextures", true)
+	SetCVar("componentTextureLevel", 0); -- higher resolution for gear
+	SetCVar("projectedTextures", true);
 	--[[
-	SetCVar("outlineEngineMode", 2)     -- TODO: 2? default is 0 - off. weird
-	SetCVar("RAIDoutlineEngineMode", 2) -- TODO: 2? default is 0 - off. weird
+	SetCVar("outlineEngineMode", 2);     -- TODO: 2? default is 0 - off. weird
+	SetCVar("RAIDoutlineEngineMode", 2); -- TODO: 2? default is 0 - off. weird
 	--]]
 
 	-- Sound
-	SetCVar("Sound_EnableErrorSpeech", false)
-	SetCVar("Sound_EnableMusic", false)
-	SetCVar("Sound_EnableSoundWhenGameIsInBG", true)
+	SetCVar("Sound_EnableErrorSpeech", false);
+	SetCVar("Sound_EnableMusic", false);
+	SetCVar("Sound_EnableSoundWhenGameIsInBG", true);
 
 	if (addon.IsMainline) then
 		-- Camera
-		SetCVar("cameraDistanceMaxZoomFactor", 39 / 15)
+		SetCVar("cameraDistanceMaxZoomFactor", 39 / 15);
 
 		-- Interface
-		SetCVar("autoDismountFlying", true)
-		SetCVar("nameplateShowSelf", false) -- class ressource bar
+		SetCVar("autoDismountFlying", true);
+		SetCVar("nameplateShowSelf", false); -- class ressource bar
 
 		-- Tutorials
-		SetCVar("showNPETutorials", false)
+		SetCVar("showNPETutorials", false);
 
 		-- Tutorials from AddOns\Blizzard_VoidStorageUI\Blizzard_VoidStorageUI.lua (#voidStorageTutorials)
-		SetCVar("lastVoidStorageTutorial", 3)
+		SetCVar("lastVoidStorageTutorial", 3);
 
 		-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_OrderHallMissionUI.lua (seenAllTutorials)
-		SetCVar("orderHallMissionTutorial", "0x000F0004")
+		SetCVar("orderHallMissionTutorial", "0x000F0004");
 
 		-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_GarrisonShipyardUI.lua
-		SetCVar("shipyardMissionTutorialFirst", true)
-		SetCVar("shipyardMissionTutorialBlockade", true)
-		SetCVar("shipyardMissionTutorialAreaBuff", true)
-		SetCVar("dangerousShipyardMissionWarningAlreadyShown", true)
+		SetCVar("shipyardMissionTutorialFirst", true);
+		SetCVar("shipyardMissionTutorialBlockade", true);
+		SetCVar("shipyardMissionTutorialAreaBuff", true);
+		SetCVar("dangerousShipyardMissionWarningAlreadyShown", true);
 
 		-- [8.2.0] Tutorials from FrameXML\AzeriteEssenceUtil.lua (ESSENCE_SWAP_TUTORIAL_STATE_ACKNOWLEDGED)
-		-- SetCVar("azeriteEssenceSwapTutorial", 2)
+		-- SetCVar("azeriteEssenceSwapTutorial", 2);
 
 		-- more Tutorials
-		local GetCVarBitfield = C_CVar.GetCVarBitfield
-		local SetCVarBitfield = C_CVar.SetCVarBitfield
+		local GetCVarBitfield = C_CVar.GetCVarBitfield;
+		local SetCVarBitfield = C_CVar.SetCVarBitfield;
 		for key, value in pairs(_G) do
 			if (string.sub(key, 0, 18) == "LE_FRAME_TUTORIAL_" and not GetCVarBitfield("closedInfoFrames", value)) then
-				SetCVarBitfield("closedInfoFrames", value, true)
+				SetCVarBitfield("closedInfoFrames", value, true);
 			end
 		end
 	else -- CLASSIC
 		-- Camera
-		SetCVar("cameraDistanceMaxZoomFactor", 50 / 15)
+		SetCVar("cameraDistanceMaxZoomFactor", 50 / 15);
 
 		-- Interface
-		SetCVar("instantQuestText", true)
+		SetCVar("instantQuestText", true);
 
 		-- Chat
-		SetCVar("chatClassColorOverride", 0)
+		SetCVar("chatClassColorOverride", 0);
 	end
 end
 
 function module:ADDON_LOADED(_, addonName)
 	if (addonName ~= "Blizzard_CombatText") then
-		return
+		return;
 	end
 
-	self:UnregisterEvent("ADDON_LOADED")
+	self:UnregisterEvent("ADDON_LOADED");
 
 	-- Combat Text (incoming)
-	CombatText:Hide()
+	CombatText:Hide();
 end

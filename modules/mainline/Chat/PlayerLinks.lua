@@ -1,4 +1,4 @@
-local _, addon = ...
+local _, addon = ...;
 
 local playerRealm = GetRealmName();
 
@@ -28,7 +28,7 @@ local function getPlayerLink(player)
 	if (player.realm ~= playerRealm) then
 		relativename = relativename .. "-" .. player.realm;
 	end
-	return GetPlayerLink(fullname, WrapTextInColorCode(relativename, player.color))
+	return GetPlayerLink(fullname, WrapTextInColorCode(relativename, player.color));
 end
 
 function module:OnInitialize()
@@ -73,5 +73,5 @@ local filter = function(_, event, ...)
 end
 
 for k in pairs(getmetatable(ChatTypeInfo).__index) do
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..k, filter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..k, filter);
 end
