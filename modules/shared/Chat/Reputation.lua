@@ -12,7 +12,7 @@ for i, color in ipairs(FACTION_BAR_COLORS) do
 end
 
 local factions = {};
-local function loadFactions();
+local function loadFactions()
 	local numFactions = GetNumFactions();
 	for i = 1, numFactions do
 		local name, _, _, _, _, _, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i);
