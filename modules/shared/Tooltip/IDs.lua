@@ -31,7 +31,12 @@ local setItemHook = function(self)
 	if (itemLink) then
 		local id = GetItemInfoInstant(itemLink);
 		if (id) then
-			AddLine(self, ("ItemID: %d"):format(id));
+			if (addon.IsMainline) then
+				AddLine(self, ("ItemID: %d"):format(id));
+			else
+				local iLvl = GetDetailedItemLevelInfo(id);
+				AddLine(self, ("ItemID: %d, ItemLevel: %d"):format(id, iLvl));
+			end
 		end
 	end
 end
