@@ -18,20 +18,11 @@ local function GetClassName(localizedClassName)
 		end
 	end
 
-	return localizedClassName;
+	return "PRIEST";
 end
 
 local function GetClassColor(className)
-	if (not className or className == "") then
-		return RAID_CLASS_COLORS["PRIEST"]:GenerateHexColor();
-	end
-
-	className = GetClassName(className);
-	if (not className) then
-		return RAID_CLASS_COLORS["PRIEST"]:GenerateHexColor();
-	end
-
-	return RAID_CLASS_COLORS[className]:GenerateHexColor();
+	return RAID_CLASS_COLORS[GetClassName(className)]:GenerateHexColor();
 end
 
 local function GetBNGetFriendInfo(id)
