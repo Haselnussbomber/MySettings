@@ -26,12 +26,14 @@ local ACTION_BAR_TYPES = {
 local function SetGlow(spellId, visible)
 	local fn = visible and ActionButton_ShowOverlayGlow or ActionButton_HideOverlayGlow;
 	local actionList = C_ActionBar.FindSpellActionButtons(spellId);
-	for _, actionID in ipairs(actionList) do
-		for _, barName in pairs(ACTION_BAR_TYPES) do
-			for i = 1, NUM_ACTIONBAR_BUTTONS do
-				local button = _G[barName .. "Button" .. i];
-				if (button and button.action == actionID) then
-					fn(button);
+	if (actionList and #actionList > 0) then
+		for _, actionID in ipairs(actionList) do
+			for _, barName in pairs(ACTION_BAR_TYPES) do
+				for i = 1, NUM_ACTIONBAR_BUTTONS do
+					local button = _G[barName .. "Button" .. i];
+					if (button and button.action == actionID) then
+						fn(button);
+					end
 				end
 			end
 		end
