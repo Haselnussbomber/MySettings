@@ -28,6 +28,7 @@ modules/shared/QuestReward.lua
 modules/classic/ActionButtonGlow.lua
 modules/classic/ChatSkillLevel.lua
 modules/classic/ChatXP.lua
+modules/classic/PaperDoll.lua
 
 modules/addons/+Wowhead_Looter.lua
 modules/addons/Details.lua
