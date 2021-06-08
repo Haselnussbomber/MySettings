@@ -62,14 +62,29 @@ local module = addon:NewModule("ActionButtonGlow", "AceEvent-3.0");
 
 function module:OnInitialize()
 	self:RegisterEvent("ACTIONBAR_UPDATE_STATE", "Update");
+	self:RegisterEvent("ACTIONBAR_SLOT_CHANGED", "ResetSlot");
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "Update");
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", "Update");
 	self:RegisterEvent("PLAYER_TARGET_CHANGED", "Update");
 	self:RegisterEvent("UNIT_HEALTH", "Update");
 end
 
-function module.Update()
+function module:Update()
 	for spellID, fn in pairs(spells) do
 		SetGlow(spellID, fn());
 	end
+end
+
+function module:ResetSlot(event, arg1)
+	for _, barName in pairs(ACTION_BAR_TYPES) do
+		for i = 1, NUM_ACTIONBAR_BUTTONS do
+			local button = _G[barName .. "Button" .. i];
+			if (button and (arg1 == 0 or arg1 == tonumber(button.action))) then
+				ClearNewActionHighlight(button.action, true);
+				ActionButton_StopFlash(button);
+			end
+		end
+	end
+
+	self:Update();
 end
