@@ -45,7 +45,7 @@ local spells = {};
 -- Paladin
 if (playerClass == "PALADIN") then
 	-- Hammer of Wrath
-	spells[24275] = function()
+	local hammerOfWrath = function()
 		return (
 			UnitExists("target")
 			and UnitCanAttack("player", "target")
@@ -53,6 +53,9 @@ if (playerClass == "PALADIN") then
 			and (UnitHealth("target") / UnitHealthMax("target")) < 0.2
 		);
 	end
+	spells[24275] = hammerOfWrath; -- Rank 1
+	spells[24274] = hammerOfWrath; -- Rank 2
+	spells[24239] = hammerOfWrath; -- Rank 3
 end
 
 local module = addon:NewModule("ActionButtonGlow", "AceEvent-3.0");
