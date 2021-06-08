@@ -17,7 +17,8 @@ local addonMessages = {
 	"FleecingTip",
 	"AAP Loaded",
 	"%[RareScanner%]: loaded",
-	"Capping is missing locale for"
+	"Capping is missing locale for",
+	"%[Attune%] v%."
 };
 
 local playerMessages = {
