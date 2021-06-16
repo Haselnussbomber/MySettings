@@ -18,7 +18,7 @@ local addonMessages = {
 	"AAP Loaded",
 	"%[RareScanner%]: loaded",
 	"Capping is missing locale for",
-	"%[Attune%] v%."
+	"%[Attune%] v%.?%d+"
 };
 
 local playerMessages = {
