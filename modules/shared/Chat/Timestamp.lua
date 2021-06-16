@@ -19,7 +19,6 @@ local module = addon:NewModule("ChatTimestamp", "AceEvent-3.0");
 
 function module:OnInitialize()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	self:RegisterEvent("UPDATE_CHAT_WINDOWS");
 end
 
 function module:PLAYER_ENTERING_WORLD()
@@ -33,29 +32,4 @@ function module:PLAYER_ENTERING_WORLD()
 			cf.AddMessage = AddMessage;
 		end
 	end
-end
-
-function module:UPDATE_CHAT_WINDOWS()
-	self:UnregisterEvent("UPDATE_CHAT_WINDOWS");
-
-	-- reset chat colors, channels, font-sizes
-	ResetChatWindows();
-	FCF_SetChatWindowFontSize(nil, ChatFrame1, 12);
-	FCF_SetChatWindowFontSize(nil, ChatFrame2, 12);
-
-	-- activate color name by class in all channels
-	for _, v in ipairs(CHAT_CONFIG_CHAT_LEFT) do
-		local info = ChatTypeGroup[v.type];
-		if (info) then
-			for _, value in pairs(info) do
-				SetChatColorNameByClass(value:gsub("^CHAT_MSG_", ""), true);
-			end
-		end
-	end
-
-	for i=1, MAX_WOW_CHAT_CHANNELS do
-		SetChatColorNameByClass("CHANNEL"..i, true);
-	end
-
-	ChatFrame1:SetMaxLines(1024);
 end
