@@ -88,7 +88,7 @@ end
 
 local function Reset(self)
 	guid = nil;
-	self:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
+	self.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
 	healthBar:Hide();
 	powerBar:Hide();
 	ResetAuras();
@@ -270,7 +270,7 @@ local function OnTooltipSetUnit(self)
 
 		local className, classFilename = UnitClass(unit);
 		local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
-		self:SetBackdropBorderColor(classColor:GetRGB());
+		self.NineSlice:SetBorderColor(classColor:GetRGB());
 
 		-- name line
 		do
@@ -380,8 +380,8 @@ local function OnTooltipSetUnit(self)
 		end
 
 		local reactionColor = addon.GetUnitReactionColor(unit);
-		--self:SetBackdropBorderColor(reactionColor:GetRGB());
-		self:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
+		--self.NineSlice:SetBorderColor(reactionColor:GetRGB());
+		self.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
 
 		-- name line
 		GameTooltipTextLeft1:SetText(reactionColor:WrapTextInColorCode(name));

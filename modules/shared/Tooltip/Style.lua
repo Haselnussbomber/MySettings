@@ -1,6 +1,7 @@
 local addonName, addon = ...;
 local combineTables = addon.combineTables;
 
+--[[ using ElvUI now for this
 TOOLTIP_BACKDROP_STYLE_DEFAULT = {
 	bgFile = "Interface\\Buttons\\WHITE8X8",
 	edgeFile = "Interface\\Addons\\SharedMedia_MyMedia\\border\\Caith2.tga",
@@ -35,7 +36,7 @@ GAME_TOOLTIP_BACKDROP_STYLE_RUNEFORGE_LEGENDARY = combineTables(TOOLTIP_BACKDROP
 	overlayAtlasTopScale = .75,
 	overlayAtlasTopYOffset = -2;
 });
-
+--]]
 
 -- border colors
 local handlers = {};
@@ -57,28 +58,28 @@ function handlers.item(self, id)
 		itemRarity = 4;
 	end
 	local r, g, b = GetItemQualityColor(itemRarity or 0);
-	self:SetBackdropBorderColor(r, g, b, 1);
+	self.NineSlice:SetBorderColor(r, g, b, 1);
 end
 
 function handlers.spell(self, id)
-	self:SetBackdropBorderColor(1, 1, 1, 1);
+	self.NineSlice:SetBorderColor(1, 1, 1, 1);
 end
 
 function handlers.macro(self)
-	self:SetBackdropBorderColor(1, 1, 1, 1);
+	self.NineSlice:SetBorderColor(1, 1, 1, 1);
 end
 
 function handlers.summonpet(self, id)
 	local _, _, _, _, rarity = C_PetJournal.GetPetStats(id);
 	if (rarity) then
 		local r, g, b = GetItemQualityColor(rarity - 1);
-		self:SetBackdropBorderColor(r, g, b, 1);
+		self.NineSlice:SetBorderColor(r, g, b, 1);
 		-- TODO: color name
 	end
 end
 
 function handlers.summonmount(self)
-	self:SetBackdropBorderColor(1, 1, 1, 1);
+	self.NineSlice:SetBorderColor(1, 1, 1, 1);
 end
 
 
@@ -129,7 +130,7 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	tooltip:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, 0);
 
 	-- reset border color here, because it's basically called every time
-	tooltip:SetBackdropBorderColor(0.25, 0.25, 0.25);
+	tooltip.NineSlice:SetBorderColor(0.25, 0.25, 0.25);
 end);
 
 
