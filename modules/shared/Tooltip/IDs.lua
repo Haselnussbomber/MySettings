@@ -26,8 +26,27 @@ local itemTooltips = {
 	ItemRefShoppingTooltip1,
 	ItemRefShoppingTooltip2,
 }
+
+local conduits = {};
+
+for i = 1, 284 do -- las id of https://wow.tools/dbc/?dbc=soulbindconduititem
+	local x = C_Soulbinds.GetConduitSpellID(i, 1);
+	if (x) then
+		local name = GetSpellInfo(x);
+		conduits[i] = { name = name, id = i, spellid = x };
+	end
+end
+
+local function getConduit(name)
+	for _,v in pairs(conduits) do
+		if (v and v.name == name) then
+			return v.id;
+		end
+	end
+end
+
 local setItemHook = function(self)
-	local _, itemLink = self:GetItem();
+	local itemName, itemLink = self:GetItem();
 	if (itemLink) then
 		local id = GetItemInfoInstant(itemLink);
 		if (id) then
@@ -36,6 +55,16 @@ local setItemHook = function(self)
 			else
 				local iLvl = GetDetailedItemLevelInfo(id);
 				AddLine(self, ("ItemID: %d, ItemLevel: %d"):format(id, iLvl));
+			end
+
+			if (addon.IsMainline and C_Soulbinds.IsItemConduitByItemInfo(id)) then
+				local conduitID = getConduit(itemName);
+				if (conduitID) then
+					local collectionData = C_Soulbinds.GetConduitCollectionData(conduitID);
+					if (collectionData) then
+						AddLine(self, ("Collected ItemLevel: %d"):format(collectionData.conduitItemLevel));
+					end
+				end
 			end
 		end
 	end
