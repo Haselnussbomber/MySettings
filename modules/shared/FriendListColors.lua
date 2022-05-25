@@ -26,7 +26,7 @@ local function GetClassColor(className)
 end
 
 local function GetBNGetFriendInfo(id)
-	local bnetIDAccount, accountName, battleTag, isBattleTag, characterName, bnetIDGameAccount, client = BNGetFriendInfo(id);
+	local _, accountName, battleTag, _, _, bnetIDGameAccount = BNGetFriendInfo(id);
 	local obj = {
 		accountName = accountName,
 		battleTag = battleTag,
@@ -51,7 +51,7 @@ end
 
 hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
 	local buttonType, id = self.buttonType, self.id;
-	
+
 	if (buttonType == FRIENDS_BUTTON_TYPE_BNET) then
 		local accountInfo = BNGetFriendInfo and GetBNGetFriendInfo(id) or C_BattleNet.GetFriendAccountInfo(id);
 

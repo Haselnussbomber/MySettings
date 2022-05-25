@@ -1,3 +1,5 @@
+local _, addon = ...;
+
 local C_ActionBar = C_ActionBar;
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS;
 local ActionButton_ShowOverlayGlow = ActionButton_ShowOverlayGlow;
@@ -9,7 +11,6 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost;
 local UnitHealth = UnitHealth;
 local UnitHealthMax = UnitHealthMax;
 
-local _, addon = ...;
 local playerClass = select(2, UnitClass("player"));
 
 -- original by: https://gist.github.com/Konctantin/66d729abdb9379e79e7eff3a5060475d

@@ -1,4 +1,4 @@
-local addonName, addon = ...;
+local _, addon = ...;
 
 local TT_LevelMatch = "^"..TOOLTIP_UNIT_LEVEL:gsub("%%[^s ]*s",".+");
 local TT_NPCGuild = "^|c[^<]+";
@@ -10,16 +10,6 @@ local classifications = {
 	minus = "-%s ",
 	rareelite = "Rare-Elite %s",
 	worldboss = "Boss %s",
-};
-
-local reactionTexts = {
-	"Tapped",					-- No localized string of this
-	FACTION_STANDING_LABEL2,	-- Hostile
-	FACTION_STANDING_LABEL3,	-- Unfriendly (Caution)
-	FACTION_STANDING_LABEL4,	-- Neutral
-	FACTION_STANDING_LABEL5,	-- Friendly
-	FACTION_STANDING_LABEL5,	-- Friendly (Exalted)
-	DEAD,						-- Dead
 };
 
 local BAR_MARGIN_X = 8;
@@ -306,7 +296,7 @@ local function OnTooltipSetUnit(self)
 				if (UnitIsUnit(unittarget, "player")) then
 					table.insert(tbl, WHITE_FONT_COLOR:WrapTextInColorCode("<<YOU>>"));
 				else
-					local name, realm = UnitName(unittarget);
+					local name = UnitName(unittarget);
 					local pvpName = UnitPVPName(unittarget);
 					local _, classFilename = UnitClass(unittarget);
 					local targetClassColor = RAID_CLASS_COLORS["PRIEST"];
@@ -424,8 +414,10 @@ local function OnTooltipSetUnit(self)
 				if (UnitIsUnit(groupUnit.."target", unit) and not UnitIsUnit(groupUnit, "player")) then
 					local _, _, classID = UnitClass(groupUnit);
 					local classInfo = C_CreatureInfo.GetClassInfo(classID);
-					local classColorInfo = RAID_CLASS_COLORS[classInfo.classFile];
-					table.insert(targetedByList, WrapTextInColorCode(UnitName(groupUnit), classColorInfo.colorStr));
+					if (classInfo) then
+						local classColorInfo = RAID_CLASS_COLORS[classInfo.classFile];
+						table.insert(targetedByList, WrapTextInColorCode(UnitName(groupUnit), classColorInfo.colorStr));
+					end
 				end
 			end
 

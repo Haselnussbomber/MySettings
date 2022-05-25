@@ -2,7 +2,6 @@
 local GetFactionInfo = GetFactionInfo;
 local GetFactionInfoByID = GetFactionInfoByID;
 local GetNumFactions = GetNumFactions;
-local FACTION_STANDING_LABEL8 = FACTION_STANDING_LABEL8;
 local format = string.format;
 
 local textColor = "|cFFABD6F4";

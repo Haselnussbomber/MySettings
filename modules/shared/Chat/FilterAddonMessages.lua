@@ -3,9 +3,7 @@ local _, addon = ...;
 local orig_DEFAULT_CHAT_FRAME_AddMessage = DEFAULT_CHAT_FRAME.AddMessage;
 
 local function clearString(str)
-	str = string.gsub(str, "|c%x%x%x%x%x%x%x%x", "");
-	str = string.gsub(str, "|r", "");
-	return str;
+	return str:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "");
 end
 
 local addonMessages = {

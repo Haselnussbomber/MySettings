@@ -14,7 +14,7 @@ function module:ADDON_LOADED(_, addonName)
 	self:UnregisterEvent("ADDON_LOADED");
 
 	SLASH_FARMHUD1 = "/farmhud";
-	SlashCmdList["FARMHUD"] = function(msg)
+	SlashCmdList["FARMHUD"] = function()
 		FarmHud:Toggle();
 	end
 end

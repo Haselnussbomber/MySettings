@@ -2,7 +2,6 @@ local _, addon = ...;
 local modf = math.modf;
 local InCombatLockdown = InCombatLockdown;
 local GetInventoryItemDurability = GetInventoryItemDurability;
-local GetInventoryItemLink = GetInventoryItemLink;
 local GetInventorySlotInfo = GetInventorySlotInfo;
 local GetAverageItemLevel = GetAverageItemLevel;
 local GetCurrentItemLevel = C_Item.GetCurrentItemLevel;

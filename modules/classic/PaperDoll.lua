@@ -2,7 +2,6 @@ local _, addon = ...;
 local modf = math.modf;
 local InCombatLockdown = InCombatLockdown;
 local GetInventoryItemDurability = GetInventoryItemDurability;
-local GetInventoryItemLink = GetInventoryItemLink;
 local GetInventorySlotInfo = GetInventorySlotInfo;
 
 local slots = {
@@ -48,7 +47,7 @@ end
 local function GetAverageItemLevel()
 	local totalItemLevel = 0;
 	local itemCount = 0;
-	
+
 	for k in pairs(slots) do
 		local frame = _G["Character" .. k];
 		local slot = GetInventorySlotInfo(k);

@@ -13,11 +13,11 @@ function module:ADDON_LOADED(_, addonName)
 
 	self:UnregisterEvent("ADDON_LOADED");
 
-	GameMenuButtonLogout:HookScript("OnClick", function(self)
+	GameMenuButtonLogout:HookScript("OnClick", function()
 		Details:ResetSegmentData();
 	end);
 
-	GameMenuButtonQuit:HookScript("OnClick", function(self)
+	GameMenuButtonQuit:HookScript("OnClick", function()
 		Details:ResetSegmentData();
 	end);
 end
