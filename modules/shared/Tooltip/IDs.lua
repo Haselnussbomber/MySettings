@@ -59,7 +59,7 @@ local setItemHook = function(self)
 	end
 
 	local id = GetItemInfoInstant(itemLink);
-	if (not id) then
+	if (not id or id == 0) then
 		return;
 	end
 
@@ -93,7 +93,7 @@ end
 -- aura/buff/debuff ids
 local setAuraTooltipFunction = function(self, unit, slotNumber, auraType)
 	local casterUnit, _, _, id = select(7, UnitAura(unit, slotNumber, auraType));
-	if (not id) then
+	if (not id or id == 0) then
 		return;
 	end
 
@@ -115,7 +115,7 @@ hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unit, slotNumber) se
 -- spell ids
 hooksecurefunc("SetItemRef", function(link)
 	local id = tonumber(link:match("spell:(%d+)"));
-	if (not id) then
+	if (not id or id == 0) then
 		return;
 	end
 
@@ -165,7 +165,7 @@ end
 if (GameTooltip.SetCurrencyToken) then
 	hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
 		local id = tonumber(string.match(C_CurrencyInfo.GetCurrencyListLink(index), "currency:(%d+)"));
-		if (not id) then
+		if (not id or id == 0) then
 			return;
 		end
 
@@ -182,7 +182,7 @@ end
 if (addon.IsMainline) then
 	hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
 		local id = tonumber(link:match("mawpower:(%d+)"));
-		if (id == 0) then
+		if (not id or id == 0) then
 			return;
 		end
 
