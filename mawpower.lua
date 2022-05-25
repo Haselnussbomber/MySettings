@@ -1119,5 +1119,5 @@ local mawpowers = {
 };
 
 function addon.GetMawPowerSpellID(id)
-	return mawpowers[tonumber(id)];
+	return mawpowers[id];
 end

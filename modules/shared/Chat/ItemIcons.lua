@@ -61,7 +61,7 @@ if (addon.IsMainline) then
 
 	-- |cff71d5ff|Hmawpower:1177|h[Strahlende Essenz]|h|r
 	handlers["(|c%x+|Hmawpower:(%d+)|h.-|h|r)"] = function(link, id)
-		local spellID = addon.GetMawPowerSpellID(id);
+		local spellID = addon.GetMawPowerSpellID(tonumber(id));
 		if (spellID) then
 			local texture = select(3, GetSpellInfo(spellID));
 			if (texture) then
