@@ -1,6 +1,6 @@
 local _, addon = ...;
 
-local module = addon:NewModule("ElvUIShamanClassColor", "AceEvent-3.0");
+local module = addon:NewModule("ElvUIShamanClassColor");
 
 function module:OnInitialize()
 	self:RegisterEvent("ADDON_LOADED");

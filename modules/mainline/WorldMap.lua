@@ -1,7 +1,7 @@
 local _, addon = ...;
 local GetCursorPosition = GetCursorPosition;
 
-local module = addon:NewModule("WorldMap", "AceEvent-3.0");
+local module = addon:NewModule("WorldMap");
 
 function module:OnInitialize()
 	if (not IsAddOnLoaded("Blizzard_WorldMap")) then

@@ -39,7 +39,7 @@ DEFAULT_CHAT_FRAME.AddMessage = function(self, message, r, g, b, ...)
 	end
 end
 
-local module = addon:NewModule("FilterAddonMessages", "AceEvent-3.0");
+local module = addon:NewModule("FilterAddonMessages");
 
 function module:OnInitialize()
 	self:RegisterEvent("LOADING_SCREEN_DISABLED");

@@ -178,7 +178,7 @@ local hookDetails = function()
 	end
 end
 
-local module = addon:NewModule("ElvUIRoleIcons", "AceEvent-3.0");
+local module = addon:NewModule("ElvUIRoleIcons");
 
 function module:OnInitialize()
 	self:RegisterEvent("ADDON_LOADED");

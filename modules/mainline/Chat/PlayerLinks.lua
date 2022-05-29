@@ -2,7 +2,7 @@ local _, addon = ...;
 
 local playerRealm = GetRealmName();
 
-local module = addon:NewModule("PlayerLinks", "AceEvent-3.0");
+local module = addon:NewModule("PlayerLinks");
 module.players = {};
 
 local function processGUID(guid)

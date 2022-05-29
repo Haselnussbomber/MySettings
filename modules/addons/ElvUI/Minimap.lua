@@ -1,6 +1,6 @@
 local addonName, addon = ...;
 
-local module = addon:NewModule("ElvUIMinimap", "AceEvent-3.0");
+local module = addon:NewModule("ElvUIMinimap");
 
 function module:OnInitialize()
 	self:RegisterEvent("ADDON_LOADED");

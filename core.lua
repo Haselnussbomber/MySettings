@@ -5,3 +5,5 @@ addon.IsBCC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC;
 addon.IsMainline = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE;
 
 MySettings = LibStub("AceAddon-3.0"):NewAddon(addon, addonName);
+
+MySettings:SetDefaultModuleLibraries("AceEvent-3.0");

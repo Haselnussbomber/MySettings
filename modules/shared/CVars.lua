@@ -2,7 +2,7 @@ local _, addon = ...;
 
 local SetCVar = SetCVar; -- from SharedXML/CvarUtil.lua
 
-local module = addon:NewModule("CVars", "AceEvent-3.0");
+local module = addon:NewModule("CVars");
 
 function module:OnInitialize()
 	self:RegisterEvent("ADDON_LOADED");

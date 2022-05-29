@@ -46,7 +46,7 @@ local function ColorGradient(perc, ...)
 	return r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc;
 end
 
-local module = addon:NewModule("PaperDoll", "AceEvent-3.0", "AceTimer-3.0");
+local module = addon:NewModule("PaperDoll", "AceTimer-3.0");
 
 function module:OnInitialize()
 	PaperDollFrame:HookScript("OnShow", function() module:OnEvent("PaperDollFrame_OnShow") end);

@@ -59,7 +59,7 @@ if (playerClass == "PALADIN") then
 	spells[24239] = hammerOfWrath; -- Rank 3
 end
 
-local module = addon:NewModule("ActionButtonGlow", "AceEvent-3.0");
+local module = addon:NewModule("ActionButtonGlow");
 
 function module:OnInitialize()
 	self:RegisterEvent("ACTIONBAR_UPDATE_STATE", "Update");

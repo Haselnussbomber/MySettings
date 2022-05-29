@@ -1,6 +1,6 @@
 local _, addon = ...;
 
-local module = addon:NewModule("QuestReward", "AceEvent-3.0");
+local module = addon:NewModule("QuestReward");
 
 function module:OnInitialize()
 	self:RegisterEvent("QUEST_COMPLETE");

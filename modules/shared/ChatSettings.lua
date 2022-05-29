@@ -1,6 +1,6 @@
 local _, addon = ...;
 
-local module = addon:NewModule("ChatSetup", "AceEvent-3.0");
+local module = addon:NewModule("ChatSetup");
 
 function module:OnInitialize()
 	self:RegisterEvent("UPDATE_CHAT_WINDOWS");

@@ -69,7 +69,7 @@ local function GetAverageItemLevel()
 	return totalItemLevel / itemCount;
 end
 
-local module = addon:NewModule("PaperDoll", "AceEvent-3.0", "AceTimer-3.0");
+local module = addon:NewModule("PaperDoll", "AceTimer-3.0");
 
 function module:OnInitialize()
 	PaperDollFrame:HookScript("OnShow", function() module:OnEvent("PaperDollFrame_OnShow") end);
