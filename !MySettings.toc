@@ -5,7 +5,9 @@
 ## Dependencies: LibStub, Ace3, SharedMedia
 
 core.lua
-mawpower.lua
+
+data/mawpower.lua
+data/runeforgelegendaryability.lua
 
 modules/shared/Setup.lua
 

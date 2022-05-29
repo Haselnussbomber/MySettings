@@ -3,6 +3,8 @@ local _, addon = ...;
 local GameTooltip = GameTooltip;
 local ItemRefTooltip = ItemRefTooltip;
 
+local DEFAULT_COLOR = CreateColor(0.2, 0.6, 1);
+
 local itemTooltips = {
 	GameTooltip,
 	ShoppingTooltip1,
@@ -22,7 +24,7 @@ for _, frame in pairs(itemTooltips) do
 end
 
 local conduits = {};
-for i = 1, 284 do -- las id of https://wow.tools/dbc/?dbc=soulbindconduititem
+for i = 1, 284 do -- last id of https://wow.tools/dbc/?dbc=soulbindconduititem
 	local x = C_Soulbinds.GetConduitSpellID(i, 1);
 	if (x) then
 		local name = GetSpellInfo(x);
@@ -38,7 +40,8 @@ local function getConduit(name)
 	end
 end
 
-local function AddLine(self, text)
+local function AddLine(self, text, color)
+	local r, g, b = (color or DEFAULT_COLOR):GetRGB();
 	local numLines = self:NumLines();
 
 	for i = 1, numLines do
@@ -49,10 +52,43 @@ local function AddLine(self, text)
 		end
 	end
 
-	self:AddLine(text, 0.2, 0.6, 1);
+	self:AddLine(text, r, g, b);
 end
 
-local setItemHook = function(self)
+local function AddConduitInfo(self, id, itemName)
+	if (C_Soulbinds.IsItemConduitByItemInfo(id)) then
+		local conduitID = getConduit(itemName);
+		if (conduitID) then
+			local collectionData = C_Soulbinds.GetConduitCollectionData(conduitID);
+			if (collectionData) then
+				AddLine(self, ("Collected ItemLevel: %d"):format(collectionData.conduitItemLevel));
+			end
+		end
+	end
+end
+
+local function AddRuneforgeLegendaryInfo(self, id)
+	local runeforgePowerID = addon.RuneforgeLegendaryGetPowerIDByUnlockItemID(id);
+	if (runeforgePowerID) then
+		local _, _, classID = UnitClass("player");
+		local specID = GetSpecializationInfo(GetSpecialization());
+		local powers = C_LegendaryCrafting.GetRuneforgePowersByClassSpecAndCovenant(classID, specID, nil, Enum.RuneforgePowerFilter.All);
+		local learned = false;
+		AddLine(self, " ");
+		for _, power in pairs(powers) do
+			if (power == runeforgePowerID) then
+				AddLine(self, ALREADY_LEARNED, GREEN_FONT_COLOR);
+				learned = true;
+				break;
+			end
+		end
+		if (not learned) then
+			AddLine(self, TRADE_SKILLS_UNLEARNED_TAB, RED_FONT_COLOR);
+		end
+	end
+end
+
+local function OnTooltipSetItemHook(self)
 	local itemName, itemLink = self:GetItem();
 	if (not itemLink) then
 		return;
@@ -66,14 +102,9 @@ local setItemHook = function(self)
 	if (addon.IsMainline) then
 		AddLine(self, ("ItemID: %d"):format(id));
 
-		if (self:GetName() == "GameTooltip" and C_Soulbinds.IsItemConduitByItemInfo(id)) then
-			local conduitID = getConduit(itemName);
-			if (conduitID) then
-				local collectionData = C_Soulbinds.GetConduitCollectionData(conduitID);
-				if (collectionData) then
-					AddLine(self, ("Collected ItemLevel: %d"):format(collectionData.conduitItemLevel));
-				end
-			end
+		if (self:GetName() == "GameTooltip") then
+			AddConduitInfo(self, id, itemName);
+			AddRuneforgeLegendaryInfo(self, id);
 		end
 	else
 		local iLvl = GetDetailedItemLevelInfo(id);
@@ -85,13 +116,14 @@ local setItemHook = function(self)
 		self:Show();
 	end
 end
+
 for _, frame in pairs(itemTooltips) do
-	frame:HookScript("OnTooltipSetItem", setItemHook);
+	frame:HookScript("OnTooltipSetItem", OnTooltipSetItemHook);
 end
 
 
 -- aura/buff/debuff ids
-local setAuraTooltipFunction = function(self, unit, slotNumber, auraType)
+local function setAuraTooltipFunction(self, unit, slotNumber, auraType)
 	local casterUnit, _, _, id = select(7, UnitAura(unit, slotNumber, auraType));
 	if (not id or id == 0) then
 		return;
@@ -113,7 +145,7 @@ hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self, unit, slotNumber) se
 
 
 -- spell ids
-hooksecurefunc("SetItemRef", function(link)
+local function SetItemRefHook(link)
 	local id = tonumber(link:match("spell:(%d+)"));
 	if (not id or id == 0) then
 		return;
@@ -124,9 +156,11 @@ hooksecurefunc("SetItemRef", function(link)
 	if (ItemRefTooltip:IsVisible()) then
 		ItemRefTooltip:Show();
 	end
-end);
+end
 
-GameTooltip:HookScript("OnTooltipSetSpell", function(self)
+hooksecurefunc("SetItemRef", SetItemRefHook);
+
+local function OnTooltipSetSpellHook(self)
 	local _, id = self:GetSpell();
 	if (not id) then
 		return;
@@ -137,12 +171,14 @@ GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 	if (self:IsVisible()) then
 		self:Show();
 	end
-end);
+end
+
+GameTooltip:HookScript("OnTooltipSetSpell", OnTooltipSetSpellHook);
 
 
 -- quest ids
 if (QuestMapLogTitleButton_OnEnter) then
-	hooksecurefunc("QuestMapLogTitleButton_OnEnter", function(self)
+	local function QuestMapLogTitleButtonOnEnterHook(self)
 		if (not self.questID or self.questLogIndex) then
 			return;
 		end
@@ -157,13 +193,15 @@ if (QuestMapLogTitleButton_OnEnter) then
 		if (GameTooltip:IsVisible()) then
 			GameTooltip:Show();
 		end
-	end);
+	end
+
+	hooksecurefunc("QuestMapLogTitleButton_OnEnter", QuestMapLogTitleButtonOnEnterHook);
 end
 
 
 -- currencies
 if (GameTooltip.SetCurrencyToken) then
-	hooksecurefunc(GameTooltip, "SetCurrencyToken", function(self, index)
+	local function SetCurrencyTokenHook(self, index)
 		local id = tonumber(string.match(C_CurrencyInfo.GetCurrencyListLink(index), "currency:(%d+)"));
 		if (not id or id == 0) then
 			return;
@@ -174,13 +212,15 @@ if (GameTooltip.SetCurrencyToken) then
 		if (self:IsVisible()) then
 			self:Show();
 		end
-	end);
+	end
+
+	hooksecurefunc(GameTooltip, "SetCurrencyToken", SetCurrencyTokenHook);
 end
 
 
 -- mawpower
 if (addon.IsMainline) then
-	hooksecurefunc(GameTooltip, "SetHyperlink", function(self, link)
+	local function SetHyperlinkHook(self, link)
 		local id = tonumber(link:match("mawpower:(%d+)"));
 		if (not id or id == 0) then
 			return;
@@ -196,5 +236,7 @@ if (addon.IsMainline) then
 		if (self:IsVisible()) then
 			self:Show();
 		end
-	end);
+	end
+
+	hooksecurefunc(GameTooltip, "SetHyperlink", SetHyperlinkHook);
 end
