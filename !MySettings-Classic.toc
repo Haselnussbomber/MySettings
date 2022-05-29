@@ -14,7 +14,6 @@ modules/shared/Chat/FilterAddonMessages.lua
 modules/shared/Chat/ItemIcons.lua
 modules/shared/Chat/ItemLevel.lua
 modules/shared/Chat/MapMarker.lua
-modules/shared/Chat/Reputation.lua
 modules/shared/Chat/Timestamp.lua
 modules/shared/Tooltip/IDs.lua
 modules/shared/Tooltip/Mana.lua
@@ -31,8 +30,6 @@ modules/classic/ChatXP.lua
 modules/classic/PaperDoll.lua
 modules/classic/ShamanColor.lua
 
-modules/addons/+Wowhead_Looter.lua
 modules/addons/Details.lua
 modules/addons/FarmHud.lua
-modules/addons/PersonalBlacklist.lua
 modules/addons/ElvUI/Minimap.lua

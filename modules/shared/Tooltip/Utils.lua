@@ -70,3 +70,20 @@ end
 function addon.GetUnitReactionText(unit)
 	return reactionTexts[addon.GetUnitReactionIndex(unit)];
 end
+
+local conduits = {};
+for i = 1, 284 do -- last id of https://wow.tools/dbc/?dbc=soulbindconduititem
+	local x = C_Soulbinds.GetConduitSpellID(i, 1);
+	if (x) then
+		local name = GetSpellInfo(x);
+		conduits[i] = { name = name, id = i, spellid = x };
+	end
+end
+
+function addon.getConduitIDByName(name)
+	for _,v in pairs(conduits) do
+		if (v and v.name == name) then
+			return v.id;
+		end
+	end
+end

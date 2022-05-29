@@ -26,7 +26,7 @@ local roleIconTextures = {
 	TANK = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\Tank",
 	HEALER = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\Healer",
 	DAMAGER = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\DPS"
-}
+};
 
 --From http://forums.wowace.com/showpost.php?p=325677&postcount=5
 local specNameToRole = {};
@@ -114,7 +114,7 @@ local function getUnitRole(unit, isForced)
 	return role;
 end
 
-local UpdateRoleIcon = function(self, event)
+local function UpdateRoleIcon(self, event)
 	local lfdrole = self.GroupRoleIndicator;
 	if (not self.db) then
 		return;
@@ -145,7 +145,7 @@ end
 
 local detailsHooked = false;
 
-local hookDetails = function()
+local function hookDetails()
 	if (not ElvUI or not Details or detailsHooked) then
 		return;
 	end

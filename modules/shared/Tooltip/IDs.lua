@@ -23,23 +23,6 @@ for _, frame in pairs(itemTooltips) do
 	end
 end
 
-local conduits = {};
-for i = 1, 284 do -- last id of https://wow.tools/dbc/?dbc=soulbindconduititem
-	local x = C_Soulbinds.GetConduitSpellID(i, 1);
-	if (x) then
-		local name = GetSpellInfo(x);
-		conduits[i] = { name = name, id = i, spellid = x };
-	end
-end
-
-local function getConduit(name)
-	for _,v in pairs(conduits) do
-		if (v and v.name == name) then
-			return v.id;
-		end
-	end
-end
-
 local function AddLine(self, text, color)
 	local r, g, b = (color or DEFAULT_COLOR):GetRGB();
 	local numLines = self:NumLines();
@@ -57,7 +40,7 @@ end
 
 local function AddConduitInfo(self, id, itemName)
 	if (C_Soulbinds.IsItemConduitByItemInfo(id)) then
-		local conduitID = getConduit(itemName);
+		local conduitID = addon.getConduitIDByName(itemName);
 		if (conduitID) then
 			local collectionData = C_Soulbinds.GetConduitCollectionData(conduitID);
 			if (collectionData) then

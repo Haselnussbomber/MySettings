@@ -1,4 +1,6 @@
-local playerRealmName = GetRealmName();
+local _, addon = ...;
+
+local module = addon:NewModule("FriendListColors");
 
 local function GetLevelColor(level)
 	local color = GetQuestDifficultyColor(level);
@@ -49,11 +51,16 @@ local function GetBNGetFriendInfo(id)
 	return obj;
 end
 
-hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
+local function FriendsFrameUpdateFriendButtonHook(self)
+	if (not module:IsEnabled() or InCombatLockdown()) then
+		return;
+	end
+
+	local playerRealmName = GetRealmName();
 	local buttonType, id = self.buttonType, self.id;
 
 	if (buttonType == FRIENDS_BUTTON_TYPE_BNET) then
-		local accountInfo = BNGetFriendInfo and GetBNGetFriendInfo(id) or C_BattleNet.GetFriendAccountInfo(id);
+		local accountInfo = (not addon.IsMainline and GetBNGetFriendInfo(id)) or C_BattleNet.GetFriendAccountInfo(id);
 
 		if (not accountInfo or not accountInfo.gameAccountInfo or not accountInfo.gameAccountInfo.isOnline) then
 			return;
@@ -61,7 +68,7 @@ hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
 
 		local client = accountInfo.gameAccountInfo.clientProgram or accountInfo.clientProgram or "";
 
-		if (client == BNET_CLIENT_WOW )then
+		if (client == BNET_CLIENT_WOW)then
 			local realmName = accountInfo.gameAccountInfo.realmName or "";
 			local level = accountInfo.gameAccountInfo.characterLevel or 0;
 			local class = accountInfo.gameAccountInfo.className or "";
@@ -91,11 +98,7 @@ hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
 				self.info:SetText(("Burning Crusade Classic: %s"):format(accountInfo.gameAccountInfo.areaName or UNKNOWN));
 			end
 		end
-
-		return
-	end
-
-	if (buttonType == FRIENDS_BUTTON_TYPE_WOW) then
+	elseif (buttonType == FRIENDS_BUTTON_TYPE_WOW) then
 		local data = C_FriendList.GetFriendInfoByIndex(id);
 
 		if (not data.connected) then
@@ -107,4 +110,8 @@ hooksecurefunc("FriendsFrame_UpdateFriendButton", function(self)
 			GetClassColor(data.className), data.name
 		));
 	end
-end);
+end
+
+function module:OnInitialize()
+	hooksecurefunc("FriendsFrame_UpdateFriendButton", FriendsFrameUpdateFriendButtonHook);	
+end
