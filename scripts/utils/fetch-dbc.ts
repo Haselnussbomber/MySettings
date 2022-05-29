@@ -3,6 +3,11 @@ export async function fetchDBCVersions(dbcName: string) {
 	return await res.json();
 }
 
+function toNumberIfPossible(value: string): string | number {
+	const numvalue = +value;
+	return numvalue.toString() === value ? numvalue : value;
+}
+
 export default async function fetchDBC<T>(dbcName: string, build?: string) {
 	if (!build) {
 		const versions = await fetchDBCVersions(dbcName);
@@ -22,9 +27,8 @@ export default async function fetchDBC<T>(dbcName: string, build?: string) {
 		const obj = {} as T;
 		for (let i = 0; i < entry.length; i++) {
 			const value = entry[i];
-			const valueNum = parseInt(value, 10);
 			// @ts-ignore - i don't know how to tell TS headers is a keyof T array
-			obj[headers[i]] = valueNum.toString() === value ? valueNum : value;
+			obj[headers[i]] = toNumberIfPossible(value);
 		}
 		data.push(obj);
 	}
