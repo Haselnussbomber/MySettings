@@ -54,18 +54,16 @@ local function AddRuneforgeLegendaryInfo(self, id)
 	local runeforgePowerID = addon.RuneforgeLegendaryGetPowerIDByUnlockItemID(id);
 	if (runeforgePowerID) then
 		local _, _, classID = UnitClass("player");
-		local specID = GetSpecializationInfo(GetSpecialization());
-		local powers = C_LegendaryCrafting.GetRuneforgePowersByClassSpecAndCovenant(classID, specID, nil, Enum.RuneforgePowerFilter.All);
-		local learned = false;
-		AddLine(self, " ");
-		for _, power in pairs(powers) do
-			if (power == runeforgePowerID) then
-				AddLine(self, ALREADY_LEARNED, GREEN_FONT_COLOR);
-				learned = true;
-				break;
-			end
+		local allPowers = C_LegendaryCrafting.GetRuneforgePowersByClassSpecAndCovenant(classID, nil, nil, Enum.RuneforgePowerFilter.All);
+		local isSameClass = tContains(allPowers, runeforgePowerID);
+		if (not isSameClass) then
+			return;
 		end
-		if (not learned) then
+		local learnedPowers = C_LegendaryCrafting.GetRuneforgePowersByClassSpecAndCovenant(classID, nil, nil, Enum.RuneforgePowerFilter.Available);
+		local isLearned = tContains(learnedPowers, runeforgePowerID);
+		if (isLearned) then
+			AddLine(self, ALREADY_LEARNED, GREEN_FONT_COLOR);
+		else
 			AddLine(self, TRADE_SKILLS_UNLEARNED_TAB, RED_FONT_COLOR);
 		end
 	end
