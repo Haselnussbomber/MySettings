@@ -1,0 +1,41 @@
+diff --git a/ElvUI/Core/Modules/Chat/Chat.lua b/ElvUI/Core/Modules/Chat/Chat.lua
+index a4e5067d1..5f1e7dd4a 100644
+--- a/ElvUI/Core/Modules/Chat/Chat.lua
++++ b/ElvUI/Core/Modules/Chat/Chat.lua
+@@ -122,6 +122,7 @@ local hyperlinkTypes = {
+ 	instancelock = true,
+ 	item = true,
+ 	keystone = true,
++	mawpower = true,
+ 	quest = true,
+ 	spell = true,
+ 	talent = true,
+@@ -1422,11 +1423,11 @@ local function HyperLinkedCPL(data)
+ 			local visibleLine = chat.visibleLines and chat.visibleLines[lineIndex]
+ 			local message = visibleLine and visibleLine.messageInfo and visibleLine.messageInfo.message
+ 			if message and not CH:MessageIsProtected(message) then
+-				message = gsub(message,'|c(%x-)|H(.-)|h(.-)|h|r','\10c%1\10H%2\10h%3\10h\10r') -- strip colors and trim but not hyperlinks
+-				message = gsub(message,'||','\11') -- for printing item lines from /dump, etc
++				message = gsub(message,'|c(%x-)|H(.-)|h(.-)|h|r','\17c%1\17H%2\17h%3\17h\17r') -- strip colors and trim but not hyperlinks
++				message = gsub(message,'||','\18') -- for printing item lines from /dump, etc
+ 				message = E:StripString(removeIconFromLine(message))
+-				message = gsub(message,'\11','||')
+-				message = gsub(message,'\10c(%x-)\10H(.-)\10h(.-)\10h\10r','|c%1|H%2|h%3|h|r')
++				message = gsub(message,'\18','||')
++				message = gsub(message,'\17c(%x-)\17H(.-)\17h(.-)\17h\17r','|c%1|H%2|h%3|h|r')
+ 
+ 				if message ~= '' then
+ 					CH:SetChatEditBoxMessage(message)
+diff --git a/ElvUI/Libraries/Core/oUF/elements/tags.lua b/ElvUI/Libraries/Core/oUF/elements/tags.lua
+index 4a0e4008b..e5fdf4dc3 100644
+--- a/ElvUI/Libraries/Core/oUF/elements/tags.lua
++++ b/ElvUI/Libraries/Core/oUF/elements/tags.lua
+@@ -804,7 +804,7 @@ local function Tag(self, fs, tagstr, ...)
+ 		fs.__HookedAlphaFix = true
+ 	end
+ 
+-	tagstr = tagstr:gsub('||([TCRAtcra])', escapeSequence)
++	tagstr = tagstr:gsub('||([TCRAtcran])', escapeSequence)
+ 
+ 	local customArgs = tagstr:match('{(.-)}%]')
+ 	if customArgs then
