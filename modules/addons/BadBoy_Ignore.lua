@@ -13,42 +13,43 @@ function module:ADDON_LOADED(_, addonName)
 
 	self:UnregisterEvent("ADDON_LOADED");
 
-	-- Unit Popup Button
-	UnitPopupButtons["BBI"] = {
-		text = function(dropdownMenu)
-			local key = dropdownMenu.name .. "-" .. (dropdownMenu.server or CURRENT_SERVER);
-			return "BadBoy: " .. (BADBOY_IGNORE[key] and IGNORE_REMOVE or IGNORE);
-		end
-	};
-	table.insert(UnitPopupMenus["FRIEND"], #(UnitPopupMenus["FRIEND"])-1, "BBI");
+	UnitPopupBadBoyIgnoreButtonMixin = CreateFromMixins(UnitPopupButtonBaseMixin);
 
-	local CURRENT_NAME, CURRENT_SERVER;
+	function UnitPopupBadBoyIgnoreButtonMixin:GetButtonName()
+		return "BBI";
+	end
 
-	hooksecurefunc("UnitPopup_ShowMenu", function(self, which)
-		if (which == "FRIEND" and UIDROPDOWNMENU_MENU_LEVEL == 1) then
-			CURRENT_NAME, CURRENT_SERVER = self.name, self.server;
-		end
-	end);
+	function UnitPopupBadBoyIgnoreButtonMixin:GetText()
+		local fullName = UnitPopupSharedUtil.GetFullPlayerName();
+		return "BadBoy: " .. (BADBOY_IGNORE[fullName] and IGNORE_REMOVE or IGNORE);
+	end
 
-	hooksecurefunc("UnitPopup_OnClick", function(self)
-		local name, server = UIDROPDOWNMENU_INIT_MENU.name, UIDROPDOWNMENU_INIT_MENU.server;
-		if (not server) then
-			return;
-		end
+	function UnitPopupBadBoyIgnoreButtonMixin:CanShow()
+		return true;
+	end
 
-		if (name == CURRENT_NAME and not server) then
-			server = CURRENT_SERVER;
+	function UnitPopupBadBoyIgnoreButtonMixin:OnClick()
+		local fullName = UnitPopupSharedUtil.GetFullPlayerName();
+		if (BADBOY_IGNORE[fullName]) then
+			BADBOY_IGNORE[fullName] = nil;
+			print("|cFF33FF99BadBoy_Ignore:|r Removed " .. GetPlayerLink(fullName, fullName) .. " from ignore list");
+		else
+			BADBOY_IGNORE[fullName] = true;
+			print("|cFF33FF99BadBoy_Ignore:|r Added " .. GetPlayerLink(fullName, fullName) .. " to ignore list");
 		end
+	end
 
-		if (self.value == "BBI") then
-			local key = name .. "-" .. server;
-			if (BADBOY_IGNORE[key]) then
-				BADBOY_IGNORE[key] = nil;
-				print("|cFF33FF99BadBoy_Ignore:|r Removed " .. GetPlayerLink(key, name) .. " from ignore list");
-			else
-				BADBOY_IGNORE[key] = true;
-				print("|cFF33FF99BadBoy_Ignore:|r Added " .. GetPlayerLink(key, name) .. " to ignore list");
-			end
+	function UnitPopupBadBoyIgnoreButtonMixin:IsEnabled()
+		if UnitPopupSharedUtil.IsInGroupWithPlayer() then
+			return false;
 		end
-	end);
+		return true;
+	end
+
+	local orig_UnitPopupMenuFriend_GetMenuButtons = UnitPopupMenuFriend.GetMenuButtons;
+	UnitPopupMenuFriend.GetMenuButtons = function()
+		local tbl = orig_UnitPopupMenuFriend_GetMenuButtons();
+		table.insert(tbl, tIndexOf(tbl, UnitPopupIgnoreButtonMixin) + 1, UnitPopupBadBoyIgnoreButtonMixin);
+		return tbl;
+	end
 end

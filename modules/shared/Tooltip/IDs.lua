@@ -62,9 +62,9 @@ local function AddRuneforgeLegendaryInfo(self, id)
 		local learnedPowers = C_LegendaryCrafting.GetRuneforgePowersByClassSpecAndCovenant(classID, nil, nil, Enum.RuneforgePowerFilter.Available);
 		local isLearned = tContains(learnedPowers, runeforgePowerID);
 		if (isLearned) then
-			AddLine(self, ALREADY_LEARNED, GREEN_FONT_COLOR);
+			AddLine(self, COLLECTED, GREEN_FONT_COLOR);
 		else
-			AddLine(self, TRADE_SKILLS_UNLEARNED_TAB, RED_FONT_COLOR);
+			AddLine(self, RUNEFORGE_LEGENDARY_POWER_TOOLTIP_NOT_COLLECTED, RED_FONT_COLOR);
 		end
 	end
 end
