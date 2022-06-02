@@ -19,24 +19,18 @@ local addonMessages = {
 	"%[Attune%] v%.?%d+"
 };
 
-local playerMessages = {
-	"^Ich könnte .* gebrauchen, wenn du es nicht willst%.$",
-	"^May I please have .* if you don't need it%?$"
-};
-
-local function isFiltered(tbl, message)
-	for _, v in ipairs(tbl) do
-		if (string.find(clearString(message), v)) then
-			return true;
-		end
-	end
-	return false;
-end
+local enabled = true;
 
 DEFAULT_CHAT_FRAME.AddMessage = function(self, message, r, g, b, ...)
-	if (not isFiltered(addonMessages, message) and not isFiltered(playerMessages, message)) then
-		orig_DEFAULT_CHAT_FRAME_AddMessage(self, message, r, g, b, ...);
+	if (enabled) then
+		for _, v in ipairs(addonMessages) do
+			if (clearString(message):find(v)) then
+				return; -- filter
+			end
+		end
 	end
+
+	orig_DEFAULT_CHAT_FRAME_AddMessage(self, message, r, g, b, ...);
 end
 
 local module = addon:NewModule("FilterAddonMessages");
@@ -49,6 +43,7 @@ function module:LOADING_SCREEN_DISABLED()
 	self:UnregisterEvent("LOADING_SCREEN_DISABLED");
 
 	C_Timer.After(30, function()
-		addonMessages = {};
+		-- if AddMessage is replaced with the original function, the timestamp hook will be removed
+		enabled = false;
 	end);
 end
