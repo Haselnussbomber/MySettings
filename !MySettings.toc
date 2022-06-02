@@ -17,6 +17,7 @@ modules/shared/Chat/FilterAddonMessages.lua
 modules/shared/Chat/ItemIcons.lua
 modules/shared/Chat/ItemLevel.lua
 modules/shared/Chat/MapMarker.lua
+modules/shared/Chat/NoOtherPlayersPoorLoot.lua
 modules/shared/Chat/Timestamp.lua
 modules/shared/Tooltip/IDs.lua
 modules/shared/Tooltip/Mana.lua
