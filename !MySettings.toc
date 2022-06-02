@@ -28,6 +28,7 @@ modules/shared/FriendListColors.lua
 modules/shared/QuestReward.lua
 
 #modules/mainline/Chat/PlayerLinks.lua
+modules/mainline/ClassAddons.lua
 modules/mainline/PaperDoll.lua
 modules/mainline/WorldMap.lua
 
