@@ -4,7 +4,7 @@ end
 
 -- hide tutorial button
 WorldMapFrame.BorderFrame.Tutorial:Hide();
-WorldMapFrame.BorderFrame.Tutorial:SetScript("OnShow", WorldMapFrame.BorderFrame.Tutorial.Hide);
+WorldMapFrame.BorderFrame.Tutorial:HookScript("OnShow", WorldMapFrame.BorderFrame.Tutorial.Hide);
 
 -- scale world map
 local scale = 1.25;
