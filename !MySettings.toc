@@ -2,7 +2,7 @@
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Version: 1.6.0
-## Dependencies: LibStub, Ace3, SharedMedia
+## Dependencies: !BlizzBugsSuck, LibStub, Ace3, SharedMedia
 
 core.lua
 
