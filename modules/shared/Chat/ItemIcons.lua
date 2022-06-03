@@ -6,7 +6,7 @@ local gsub = string.gsub;
 local textureFormat = "|T%s:12|t";
 
 local handlers = {
-	["(|c%x+|Hitem:(.-)|h.-|h|?r)"] = function(link, linkData)
+	["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
 		local itemId = match(linkData, "^%d+");
 		local texture = GetItemIcon(itemId);
 		if (texture) then
@@ -15,7 +15,7 @@ local handlers = {
 		return link;
 	end,
 
-	["(|c%x+|Hspell:(.-)|h.-|h|?r)"] = function(link, linkData)
+	["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
 		local spellId = match(linkData, "^%d+");
 		local texture = select(3, GetSpellInfo(spellId));
 		if (texture) then
@@ -26,7 +26,7 @@ local handlers = {
 }
 
 if (addon.IsMainline) then
-	handlers["(|c%x+|Hachievement:(.-)|h.-|h|?r)"] = function(link, linkData)
+	handlers["(|c%x+|Hachievement:(.-)|h.-|h|r)"] = function(link, linkData)
 		local achievementId = match(linkData, "^%d+");
 		local texture = select(10, GetAchievementInfo(achievementId));
 		if (texture) then
@@ -35,7 +35,7 @@ if (addon.IsMainline) then
 		return link;
 	end
 
-	handlers["(|c%x+|Hbattlepet:(.-)|h.-|h|?r)"] = function(link)
+	handlers["(|c%x+|Hbattlepet:(.-)|h.-|h|r)"] = function(link)
 		-- copied from Interface/FrameXML/DressUpFrames.lua (8.0.1)
 		local _, _, _, _, speciesIDString, _, _, _, _, _, battlePetID = strsplit(":|H", link);
 		local speciesID, _, _, _, _, _, _, _, texture = C_PetJournal.GetPetInfoByPetID(battlePetID);
@@ -50,7 +50,7 @@ if (addon.IsMainline) then
 		return link;
 	end
 
-	handlers["(|c%x+|Hcurrency:(.-)|h.-|h|?r)"] = function(link, linkData)
+	handlers["(|c%x+|Hcurrency:(.-)|h.-|h|r)"] = function(link, linkData)
 		local currencyId = match(linkData, "^%d+");
 		local texture = C_CurrencyInfo.GetCurrencyInfo(currencyId).iconFileID;
 		if (texture) then
