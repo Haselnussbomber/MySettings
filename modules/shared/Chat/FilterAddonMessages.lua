@@ -10,6 +10,7 @@ local addonMessages = {
 	"Wowhead Looter loaded",
 	"Wowhead Looter geladen",
 	"ALL THE THINGS.* loaded successfully",
+	"ALL THE THINGS Profile: .*",
 	"TRP3",
 	"Details!",
 	"FleecingTip",
