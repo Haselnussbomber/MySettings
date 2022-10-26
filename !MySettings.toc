@@ -34,6 +34,7 @@ modules/mainline/Chat/Money.lua
 #modules/mainline/Chat/PlayerLinks.lua
 modules/mainline/ClassAddons.lua
 modules/mainline/PaperDoll.lua
+modules/mainline/SubscriptionInterstitial.lua
 modules/mainline/WorldMap.lua
 
 modules/addons/BadBoy_Ignore.lua
