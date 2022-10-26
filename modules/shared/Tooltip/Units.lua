@@ -35,7 +35,7 @@ local bars = {
 	powerBar,
 };
 for _, bar in pairs(bars) do
-	bar:SetSize(0, 15);
+	bar:SetSize(150, 15);
 	bar:SetStatusBarTexture("Interface\\Addons\\SharedMedia_MyMedia\\statusbar\\Smoothv2.tga");
 
 	bar.bg = bar:CreateTexture(nil, "BACKGROUND");
@@ -43,7 +43,7 @@ for _, bar in pairs(bars) do
 	bar.bg:SetAllPoints();
 
 	bar.text = bar:CreateFontString(nil, "ARTWORK");
-	bar.text:SetPoint("CENTER");
+	bar.text:SetPoint("CENTER", 0, 1);
 	bar.text:SetTextColor(1, 1, 1);
 	bar.text:SetFont("Interface\\Addons\\SharedMedia_MyMedia\\font\\Roboto-Medium.ttf", 11, "OUTLINE");
 	bar.text:SetShadowColor(0, 0, 0, 0.5);
@@ -446,22 +446,21 @@ local function OnTooltipSetUnit(self)
 		GameTooltip_AddBlankLinesToTooltip(self, hasPower and 3 or 2);
 		local lastLine = getTextLeft(self, self:NumLines() - (hasPower and 2 or 1));
 		self:Show();
-		local point, relativeTo, relativePoint, xOfs, yOfs = lastLine:GetPoint("TOP");
-		if (point) then
-			UpdateStatusBars(unit, hasPower);
 
-			healthBar:ClearAllPoints();
-			healthBar:SetPoint("LEFT", self, "LEFT", BAR_MARGIN_X, 0);
-			healthBar:SetPoint("RIGHT", self, "RIGHT", -BAR_MARGIN_X, 0);
-			healthBar:SetPoint(point, relativeTo, relativePoint, xOfs, yOfs - (hasPower and 5 or 8));
-			healthBar:Show();
+		UpdateStatusBars(unit, hasPower);
 
-			if (hasPower) then
-				powerBar:ClearAllPoints();
-				powerBar:SetPoint("TOPLEFT", healthBar, "BOTTOMLEFT", 0, -BAR_SPACING);
-				powerBar:SetPoint("TOPRIGHT", healthBar, "BOTTOMRIGHT", 0, -BAR_SPACING);
-				powerBar:Show();
-			end
+		local barWidth = self:GetWidth() - 20; -- see GameTooltip_CalculatePadding
+
+		healthBar:ClearAllPoints();
+		healthBar:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, hasPower and 8 or 5);
+		healthBar:SetWidth(barWidth);
+		healthBar:Show();
+
+		if (hasPower) then
+			powerBar:ClearAllPoints();
+			powerBar:SetPoint("TOPLEFT", healthBar, "BOTTOMLEFT", 0, -BAR_SPACING);
+			powerBar:SetWidth(barWidth);
+			powerBar:Show();
 		end
 	end
 

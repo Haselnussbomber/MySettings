@@ -13,7 +13,7 @@ function handlers.item(self, id)
 	end
 	local _, _, itemRarity = GetItemInfo(itemLink);
 	local _, _, hyperLinkString = ExtractHyperlinkString(itemLink);
-	local linkType = ExtractLinkData(hyperLinkString);
+	local linkType = LinkUtil.ExtractLink(hyperLinkString);
 	if (linkType == "keystone") then
 		itemRarity = 4;
 	end

@@ -1,8 +1,8 @@
-## Interface: 90205
+## Interface: 100000
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Version: 1.6.0
-## Dependencies: !BlizzBugsSuck, LibStub, Ace3, SharedMedia
+## Dependencies: LibStub, Ace3, SharedMedia
 
 core.lua
 
@@ -41,4 +41,4 @@ modules/addons/Details.lua
 modules/addons/FarmHud.lua
 modules/addons/MinimalArchaeology.lua
 modules/addons/ElvUI/Minimap.lua
-modules/addons/ElvUI/UnitFrames_RoleIcons.lua
+#modules/addons/ElvUI/UnitFrames_RoleIcons.lua
