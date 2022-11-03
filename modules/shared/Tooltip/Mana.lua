@@ -10,12 +10,14 @@ local function hook(self)
 	for i = 1, numLines do
 		local line = _G[self:GetName().."TextLeft"..i];
 		local text = line:GetText();
-		local power = tonumber(text:match("(%d+) Mana") or 0);
-		if (power > 0) then
-			local percent = tonumber(power) / powerMax * 100;
-			line:SetText(string.format("%s (%.2f%%)", text, percent));
-			self:Show();
-			return;
+		if (text) then
+			local power = tonumber(text:match("(%d+) Mana") or 0);
+			if (power > 0) then
+				local percent = tonumber(power) / powerMax * 100;
+				line:SetText(string.format("%s (%.2f%%)", text, percent));
+				self:Show();
+				return;
+			end
 		end
 	end
 end
