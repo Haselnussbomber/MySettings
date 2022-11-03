@@ -7,7 +7,7 @@ function module:OnInitialize()
 end
 
 function module:SHOW_SUBSCRIPTION_INTERSTITIAL()
-  HideUIPanel(SubscriptionInterstitialFrame);
+	HideUIPanel(SubscriptionInterstitialFrame);
 
 	SubscriptionInterstitialFrame:UnregisterEvent("SHOW_SUBSCRIPTION_INTERSTITIAL");
 	self:UnregisterEvent("SHOW_SUBSCRIPTION_INTERSTITIAL");
