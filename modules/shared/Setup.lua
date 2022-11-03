@@ -15,11 +15,11 @@ SlashCmdList["SETUP"] = function()
 		1598183, -- Transmogrifizierer
 		524051, -- Fokusziel
 	};
-	local count = GetNumTrackingTypes();
+	local count = C_Minimap.GetNumTrackingTypes();
 	for id=1, count do
-		local _, texture, active = GetTrackingInfo(id);
+		local _, texture, active = C_Minimap.GetTrackingInfo(id);
 		if (tContains(trackingTextures, texture) and not active) then
-			SetTracking(id, true);
+			C_Minimap.SetTracking(id, true);
 		end
 	end
 
@@ -78,7 +78,9 @@ SlashCmdList["SETUP"] = function()
 	end
 
 	-- Kui Nameplates
-	KuiNameplatesCoreCharacterSaved["profile"] = "MyProfile";
+	if (KuiNameplatesCoreCharacterSaved) then
+		KuiNameplatesCoreCharacterSaved["profile"] = "MyProfile";
+	end
 
 	-- /reflux switch MyProfile
 	SlashCmdList["REFLUX"]("switch MyProfile"); -- reloads ui!
