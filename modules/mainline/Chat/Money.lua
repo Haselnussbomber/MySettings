@@ -20,9 +20,9 @@ local REGEX_SILVER_AMOUNT = SILVER_AMOUNT:gsub("%%d", "([%%d,]+)");
 local REGEX_COPPER_AMOUNT = COPPER_AMOUNT:gsub("%%d", "([%%d,]+)");
 
 local replacers = {
-	[REGEX_GOLD_AMOUNT] = GOLD_AMOUNT_TEXTURE,
-	[REGEX_SILVER_AMOUNT] = SILVER_AMOUNT_TEXTURE,
-	[REGEX_COPPER_AMOUNT] = COPPER_AMOUNT_TEXTURE,
+	{ REGEX_GOLD_AMOUNT, GOLD_AMOUNT_TEXTURE },
+	{ REGEX_SILVER_AMOUNT, SILVER_AMOUNT_TEXTURE },
+	{ REGEX_COPPER_AMOUNT, COPPER_AMOUNT_TEXTURE },
 };
 
 local function filter(self, event, message, ...)
@@ -46,10 +46,10 @@ local function filter(self, event, message, ...)
 
 	local parts = {};
 	local text = match;
-	for regex, textureTemplate in next, replacers do
-		match = text:match(regex);
+	for _, v in ipairs(replacers) do
+		match = text:match(v[1]);
 		if (match) then
-			table.insert(parts, textureTemplate:format(match, 0, 0));
+			table.insert(parts, v[2]:format(match, 0, 0));
 		end
 	end
 
