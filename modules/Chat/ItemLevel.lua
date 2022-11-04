@@ -4,18 +4,13 @@ local IsEquippableItem = IsEquippableItem;
 local GetItemInfo = GetItemInfo;
 local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo;
 
-if (addon.IsBCC) then
-	Enum.ItemQuality.Uncommon = Enum.ItemQuality.Standard;
-	Enum.ItemQuality.Common = Enum.ItemQuality.Good;
-end
-
 local function shouldShow(link)
 	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link);
 
 	return (
 		IsEquippableItem(link)
 		and itemRarity > Enum.ItemQuality.Common
-		and not ( addon.IsMainline and itemRarity == Enum.ItemQuality.Heirloom and iLevel == 1 )
+		and not ( itemRarity == Enum.ItemQuality.Heirloom and iLevel == 1 )
 		and equipSlot ~= "INVTYPE_TABARD"
 		and equipSlot ~= "INVTYPE_BAG"
 		and equipSlot ~= "INVTYPE_BODY"

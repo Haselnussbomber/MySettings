@@ -1,7 +1,7 @@
 ## Interface: 100000
 ## Title: !MySettings
 ## Author: Haselnussbomber
-## Version: 1.6.0
+## Version: 1.7.0
 ## Dependencies: LibStub, Ace3, SharedMedia
 
 core.lua
@@ -9,32 +9,33 @@ core.lua
 data/mawpower.lua
 data/runeforgelegendaryability.lua
 
-modules/shared/Setup.lua
+modules/Setup.lua
 
-modules/shared/Tooltip/Utils.lua
+modules/Tooltip/Utils.lua
 
-modules/shared/Chat/FilterAddonMessages.lua
-modules/shared/Chat/FilterSpamMessages.lua
-modules/shared/Chat/ItemIcons.lua
-modules/shared/Chat/ItemLevel.lua
-modules/shared/Chat/MapMarker.lua
-modules/shared/Chat/NoOtherPlayersPoorLoot.lua
-modules/shared/Chat/Timestamp.lua
-modules/shared/Tooltip/Mana.lua
-modules/shared/Tooltip/Style.lua
-modules/shared/Tooltip/Units.lua
-modules/shared/CVars.lua
-modules/shared/Fonts.lua
-modules/shared/FriendListColors.lua
-modules/shared/QuestReward.lua
+modules/Tooltip/Mana.lua
+modules/Tooltip/Style.lua
+modules/Tooltip/Units.lua
 
-modules/mainline/Chat/Anima.lua
-modules/mainline/Chat/Money.lua
-#modules/mainline/Chat/PlayerLinks.lua
-modules/mainline/ClassAddons.lua
-modules/mainline/PaperDoll.lua
-modules/mainline/SubscriptionInterstitial.lua
-modules/mainline/WorldMap.lua
+modules/Chat/FilterAddonMessages.lua
+modules/Chat/FilterSpamMessages.lua
+modules/Chat/ItemIcons.lua
+modules/Chat/ItemLevel.lua
+modules/Chat/MapMarker.lua
+modules/Chat/NoOtherPlayersPoorLoot.lua
+modules/Chat/Timestamp.lua
+modules/CVars.lua
+modules/Fonts.lua
+modules/FriendListColors.lua
+modules/QuestReward.lua
+
+modules/Chat/Anima.lua
+modules/Chat/Money.lua
+#modules/Chat/PlayerLinks.lua
+modules/ClassAddons.lua
+modules/PaperDoll.lua
+modules/SubscriptionInterstitial.lua
+modules/WorldMap.lua
 
 modules/addons/BadBoy_Ignore.lua
 modules/addons/Details.lua

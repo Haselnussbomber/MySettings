@@ -54,49 +54,38 @@ function module:PLAYER_ENTERING_WORLD()
 	SetCVar("Sound_EnableMusic", false);
 	SetCVar("Sound_EnableSoundWhenGameIsInBG", true);
 
-	if (addon.IsMainline) then
-		-- Camera
-		SetCVar("cameraDistanceMaxZoomFactor", 39 / 15);
+	-- Camera
+	SetCVar("cameraDistanceMaxZoomFactor", 39 / 15);
 
-		-- Interface
-		SetCVar("autoDismountFlying", true);
-		SetCVar("nameplateShowSelf", false); -- class ressource bar
+	-- Interface
+	SetCVar("autoDismountFlying", true);
+	SetCVar("nameplateShowSelf", false); -- class ressource bar
 
-		-- Tutorials
-		SetCVar("showNPETutorials", false);
+	-- Tutorials
+	SetCVar("showNPETutorials", false);
 
-		-- Tutorials from AddOns\Blizzard_VoidStorageUI\Blizzard_VoidStorageUI.lua (#voidStorageTutorials)
-		SetCVar("lastVoidStorageTutorial", 3);
+	-- Tutorials from AddOns\Blizzard_VoidStorageUI\Blizzard_VoidStorageUI.lua (#voidStorageTutorials)
+	SetCVar("lastVoidStorageTutorial", 3);
 
-		-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_OrderHallMissionUI.lua (seenAllTutorials)
-		SetCVar("orderHallMissionTutorial", "0x000F0004");
+	-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_OrderHallMissionUI.lua (seenAllTutorials)
+	SetCVar("orderHallMissionTutorial", "0x000F0004");
 
-		-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_GarrisonShipyardUI.lua
-		SetCVar("shipyardMissionTutorialFirst", true);
-		SetCVar("shipyardMissionTutorialBlockade", true);
-		SetCVar("shipyardMissionTutorialAreaBuff", true);
-		SetCVar("dangerousShipyardMissionWarningAlreadyShown", true);
+	-- Tutorials from AddOns\Blizzard_GarrisonUI\Blizzard_GarrisonShipyardUI.lua
+	SetCVar("shipyardMissionTutorialFirst", true);
+	SetCVar("shipyardMissionTutorialBlockade", true);
+	SetCVar("shipyardMissionTutorialAreaBuff", true);
+	SetCVar("dangerousShipyardMissionWarningAlreadyShown", true);
 
-		-- [8.2.0] Tutorials from FrameXML\AzeriteEssenceUtil.lua (ESSENCE_SWAP_TUTORIAL_STATE_ACKNOWLEDGED)
-		-- SetCVar("azeriteEssenceSwapTutorial", 2);
+	-- [8.2.0] Tutorials from FrameXML\AzeriteEssenceUtil.lua (ESSENCE_SWAP_TUTORIAL_STATE_ACKNOWLEDGED)
+	-- SetCVar("azeriteEssenceSwapTutorial", 2);
 
-		-- more Tutorials
-		local GetCVarBitfield = C_CVar.GetCVarBitfield;
-		local SetCVarBitfield = C_CVar.SetCVarBitfield;
-		for key, value in pairs(_G) do
-			if (string.sub(key, 0, 18) == "LE_FRAME_TUTORIAL_" and not GetCVarBitfield("closedInfoFrames", value)) then
-				SetCVarBitfield("closedInfoFrames", value, true);
-			end
+	-- more Tutorials
+	local GetCVarBitfield = C_CVar.GetCVarBitfield;
+	local SetCVarBitfield = C_CVar.SetCVarBitfield;
+	for key, value in pairs(_G) do
+		if (string.sub(key, 0, 18) == "LE_FRAME_TUTORIAL_" and not GetCVarBitfield("closedInfoFrames", value)) then
+			SetCVarBitfield("closedInfoFrames", value, true);
 		end
-	else -- CLASSIC
-		-- Camera
-		SetCVar("cameraDistanceMaxZoomFactor", 50 / 15);
-
-		-- Interface
-		SetCVar("instantQuestText", true);
-
-		-- Chat
-		SetCVar("chatClassColorOverride", 0);
 	end
 end
 

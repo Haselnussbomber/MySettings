@@ -60,7 +60,7 @@ local function FriendsFrameUpdateFriendButtonHook(self)
 	local buttonType, id = self.buttonType, self.id;
 
 	if (buttonType == FRIENDS_BUTTON_TYPE_BNET) then
-		local accountInfo = (not addon.IsMainline and GetBNGetFriendInfo(id)) or C_BattleNet.GetFriendAccountInfo(id);
+		local accountInfo = C_BattleNet.GetFriendAccountInfo(id);
 
 		if (not accountInfo or not accountInfo.gameAccountInfo or not accountInfo.gameAccountInfo.isOnline) then
 			return;
