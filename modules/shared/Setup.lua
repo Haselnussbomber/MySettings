@@ -82,6 +82,11 @@ SlashCmdList["SETUP"] = function()
 		KuiNameplatesCoreCharacterSaved["profile"] = "MyProfile";
 	end
 
+	if (ACP) then
+		ACP:DisableAll_OnClick();
+		ACP:LoadSet(1);
+	end
+
 	-- /reflux switch MyProfile
 	SlashCmdList["REFLUX"]("switch MyProfile"); -- reloads ui!
 end;
