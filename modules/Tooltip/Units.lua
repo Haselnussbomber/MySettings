@@ -57,15 +57,9 @@ end
 local function getDifficultyColor(unit)
 	local canAttack = UnitCanAttack(unit, "player") or UnitCanAttack("player", unit);
 	if (canAttack) then
-		if (addon.IsMainline) then
-			local difficulty = C_PlayerInfo.GetContentDifficultyCreatureForPlayer(unit);
-			local color = GetDifficultyColor(difficulty);
-			return CreateColor(color.r, color.g, color.b);
-		else
-			local level = UnitLevel(unit);
-			local color = GetQuestDifficultyColor(level);
-			return CreateColor(color.r, color.g, color.b);
-		end
+		local difficulty = C_PlayerInfo.GetContentDifficultyCreatureForPlayer(unit);
+		local color = GetDifficultyColor(difficulty);
+		return CreateColor(color.r, color.g, color.b);
 	end
 	return colorDefaultText;
 end
@@ -228,12 +222,12 @@ local function UpdateAuras(unit)
 	auraCount = auraCount + DisplayAuras(unit, "HARMFUL", auraCount);
 end
 
-local function OnTooltipSetUnit(self)
+local function OnUnit(tooltip)
 	if (C_PetBattles and C_PetBattles.IsInBattle()) then
 		return;
 	end
 
-	local _, unit = self:GetUnit();
+	local _, unit = tooltip:GetUnit();
 	if (not unit) then
 		local mouseFocus = GetMouseFocus();
 		unit = mouseFocus and mouseFocus.GetAttribute and mouseFocus:GetAttribute("unit");
@@ -242,7 +236,7 @@ local function OnTooltipSetUnit(self)
 		unit = "mouseover";
 	end
 	if (not UnitExists(unit) or guid) then
-		Reset(self);
+		Reset(tooltip);
 		return;
 	end
 
@@ -260,7 +254,7 @@ local function OnTooltipSetUnit(self)
 
 		local className, classFilename = UnitClass(unit);
 		local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
-		self.NineSlice:SetBorderColor(classColor:GetRGB());
+		tooltip.NineSlice:SetBorderColor(classColor:GetRGB());
 
 		-- name line
 		do
@@ -268,13 +262,11 @@ local function OnTooltipSetUnit(self)
 
 			-- name
 			local playerFlag = "";
-			if (addon.IsMainline) then
-				local mentorshipStatus = C_PlayerMentorship.GetMentorshipStatus(PlayerLocation:CreateFromUnit(unit));
-				if (mentorshipStatus == Enum.PlayerMentorshipStatus.Mentor) then
-					playerFlag = "|A:newplayerchat-chaticon-guide:0:0:0:0|a "; -- NPEV2_CHAT_USER_TAG_GUIDE
-				elseif (mentorshipStatus == Enum.PlayerMentorshipStatus.Newcomer) then
-					playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
-				end
+			local mentorshipStatus = C_PlayerMentorship.GetMentorshipStatus(PlayerLocation:CreateFromUnit(unit));
+			if (mentorshipStatus == Enum.PlayerMentorshipStatus.Mentor) then
+				playerFlag = "|A:newplayerchat-chaticon-guide:0:0:0:0|a "; -- NPEV2_CHAT_USER_TAG_GUIDE
+			elseif (mentorshipStatus == Enum.PlayerMentorshipStatus.Newcomer) then
+				playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
 			end
 			local fullName = pvpName or name;
 			if (realm and realm ~= "" and realm ~= " ") then
@@ -348,16 +340,16 @@ local function OnTooltipSetUnit(self)
 				table.insert(tbl, reactionColor:WrapTextInColorCode(reactionText));
 			end
 
-			getTextLeft(self, guild and 3 or 2):SetText(table.concat(tbl, " "));
+			getTextLeft(tooltip, guild and 3 or 2):SetText(table.concat(tbl, " "));
 		end
 	else -- NPCs
-		local npcNumLines = self:NumLines();
+		local npcNumLines = tooltip:NumLines();
 		local npcOriginalLines = {};
 		local npcGuildLineIndex = 0;
 		local npcLevelLineIndex = 0;
 
 		for i = 1, npcNumLines do
-			local text = getTextLeft(self, i):GetText();
+			local text = getTextLeft(tooltip, i):GetText();
 			npcOriginalLines[i] = text;
 
 			if (npcGuildLineIndex == 0 and npcLevelLineIndex == 0 and i > 1 and not text:find(TT_NPCGuild) and not text:find(TT_LevelMatch)) then
@@ -370,8 +362,8 @@ local function OnTooltipSetUnit(self)
 		end
 
 		local reactionColor = addon.GetUnitReactionColor(unit);
-		--self.NineSlice:SetBorderColor(reactionColor:GetRGB());
-		self.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
+		--tooltip.NineSlice:SetBorderColor(reactionColor:GetRGB());
+		tooltip.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
 
 		-- name line
 		GameTooltipTextLeft1:SetText(reactionColor:WrapTextInColorCode(name));
@@ -386,7 +378,7 @@ local function OnTooltipSetUnit(self)
 			-- race
 			table.insert(tbl, UnitCreatureFamily(unit) or UnitCreatureType(unit) or UNKNOWN);
 
-			local line = getTextLeft(self, npcLevelLineIndex);
+			local line = getTextLeft(tooltip, npcLevelLineIndex);
 			line:SetTextColor(1, 1, 1, 1);
 			line:SetText(table.concat(tbl, " "));
 		end
@@ -395,7 +387,7 @@ local function OnTooltipSetUnit(self)
 		if (npcGuildLineIndex > 0) then
 			local text = npcOriginalLines[npcGuildLineIndex];
 			if (text) then
-				local line = getTextLeft(self, npcGuildLineIndex);
+				local line = getTextLeft(tooltip, npcGuildLineIndex);
 				line:SetTextColor(reactionColor:GetRGB());
 				line:SetFormattedText("<%s>", text);
 			end
@@ -427,13 +419,13 @@ local function OnTooltipSetUnit(self)
 				for i = 1, #targetedByList do
 					table.insert(players, targetedByList[i]);
 					if (#players == 5) then
-						self:AddLine(firstLine .. table.concat(players, ", "));
+						tooltip:AddLine(firstLine .. table.concat(players, ", "));
 						firstLine = "";
 						players = {};
 					end
 				end
 				if (#players > 0) then
-					self:AddLine(firstLine .. table.concat(players, ", "));
+					tooltip:AddLine(firstLine .. table.concat(players, ", "));
 				end
 			end
 		end
@@ -443,13 +435,13 @@ local function OnTooltipSetUnit(self)
 	if (not healthBar:IsShown()) then
 		local hasPower = UnitPowerMax(unit) > 0;
 
-		GameTooltip_AddBlankLinesToTooltip(self, hasPower and 3 or 2);
-		local lastLine = getTextLeft(self, self:NumLines() - (hasPower and 2 or 1));
-		self:Show();
+		GameTooltip_AddBlankLinesToTooltip(tooltip, hasPower and 3 or 2);
+		local lastLine = getTextLeft(tooltip, tooltip:NumLines() - (hasPower and 2 or 1));
+		tooltip:Show();
 
 		UpdateStatusBars(unit, hasPower);
 
-		local barWidth = self:GetWidth() - 20; -- see GameTooltip_CalculatePadding
+		local barWidth = tooltip:GetWidth() - 20; -- see GameTooltip_CalculatePadding
 
 		healthBar:ClearAllPoints();
 		healthBar:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, hasPower and 8 or 5);
@@ -466,13 +458,11 @@ local function OnTooltipSetUnit(self)
 
 	guid = _guid;
 
-	self:Show(); -- to trigger size update
+	tooltip:Show(); -- to trigger size update
 	UpdateAuras(unit);
 end
 
-C_Timer.After(1, function()
-	GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit);
-end);
+TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, OnUnit);
 GameTooltip:HookScript("OnTooltipCleared", Reset);
 
 -- handle unit updates

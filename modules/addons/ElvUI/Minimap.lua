@@ -43,13 +43,7 @@ function module:ADDON_LOADED(_, _addonName)
 			Minimap.backdrop:Hide();
 		end);
 
-		if (addon.IsClassic) then
-			MinimapToggleButton:Hide();
-		end
-
-		if (addon.IsMainline) then
-			MinimapCluster.Tracking.Button:Hide();
-		end
+		MinimapCluster.Tracking.Button:Hide();
 	end
 
 	fn();

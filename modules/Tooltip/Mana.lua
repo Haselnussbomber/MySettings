@@ -1,6 +1,6 @@
 local _, addon = ...;
 
-local function hook(self)
+local function OnSpell(self)
 	local powerMax = UnitPowerMax("player", Enum.PowerType.Mana);
 	if (powerMax <= 0) then
 		return;
@@ -22,15 +22,4 @@ local function hook(self)
 	end
 end
 
-hooksecurefunc(GameTooltip, "SetAction", hook);
-hooksecurefunc(GameTooltip, "SetSpellBookItem", hook);
-hooksecurefunc(GameTooltip, "SetSpellByID", hook);
-hooksecurefunc(GameTooltip, "SetTalent", hook);
-
-if (addon.IsClassic) then
-	C_Timer.After(3, function()
-		if (WhatsTrainingTooltip) then
-			hooksecurefunc(WhatsTrainingTooltip, "SetSpellByID", hook);
-		end
-	end);
-end
+TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnSpell);

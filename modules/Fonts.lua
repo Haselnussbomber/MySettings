@@ -18,7 +18,5 @@ C_Timer.After(3, function()
 	SetFont(FramerateText, RobotoRegular);
 	FramerateLabel:SetText("FPS:");
 
-	if (addon.IsMainline) then
-		SetFont(QuestFont, SegoeUISemibold);
-	end
+	SetFont(QuestFont, SegoeUISemibold);
 end);
