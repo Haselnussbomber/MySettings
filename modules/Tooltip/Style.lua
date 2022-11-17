@@ -40,7 +40,7 @@ local function OnToy(tooltip)
 end
 
 local function OnPet(tooltip)
-	local _, _, _, _, rarity = C_PetJournal.GetPetStats(id);
+	local _, _, _, _, rarity = C_PetJournal.GetPetStats(id); -- not sure yet
 	if (rarity) then
 		local r, g, b = GetItemQualityColor(rarity - 1);
 		tooltip.NineSlice:SetBorderColor(r, g, b, 1);
@@ -53,7 +53,7 @@ TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, OnGeneric);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Mount, OnGeneric);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnItem);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Toy, OnToy);
-TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.BattlePet, OnPet);
+--TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.BattlePet, OnPet);
 
 -- always hide default status bars
 GameTooltipStatusBar:HookScript("OnShow", GameTooltipStatusBar.Hide);

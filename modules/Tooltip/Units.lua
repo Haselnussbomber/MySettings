@@ -43,7 +43,7 @@ for _, bar in pairs(bars) do
 	bar.bg:SetAllPoints();
 
 	bar.text = bar:CreateFontString(nil, "ARTWORK");
-	bar.text:SetPoint("CENTER", 0, 1);
+	bar.text:SetPoint("CENTER", 0, 0);
 	bar.text:SetTextColor(1, 1, 1);
 	bar.text:SetFont("Interface\\Addons\\SharedMedia_MyMedia\\font\\Roboto-Medium.ttf", 11, "OUTLINE");
 	bar.text:SetShadowColor(0, 0, 0, 0.5);
@@ -441,17 +441,15 @@ local function OnUnit(tooltip)
 
 		UpdateStatusBars(unit, hasPower);
 
-		local barWidth = tooltip:GetWidth() - 20; -- see GameTooltip_CalculatePadding
-
 		healthBar:ClearAllPoints();
 		healthBar:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, hasPower and 8 or 5);
-		healthBar:SetWidth(barWidth);
+		healthBar:SetPoint("TOPRIGHT", tooltip, "RIGHT", -10, hasPower and 8 or 5);
 		healthBar:Show();
 
 		if (hasPower) then
 			powerBar:ClearAllPoints();
 			powerBar:SetPoint("TOPLEFT", healthBar, "BOTTOMLEFT", 0, -BAR_SPACING);
-			powerBar:SetWidth(barWidth);
+			powerBar:SetPoint("TOPRIGHT", healthBar, "BOTTOMRIGHT", 0, -BAR_SPACING);
 			powerBar:Show();
 		end
 	end

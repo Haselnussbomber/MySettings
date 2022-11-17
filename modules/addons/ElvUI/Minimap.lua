@@ -27,7 +27,7 @@ function module:ADDON_LOADED(_, _addonName)
 			return;
 		end
 
-		E.db.general.minimap.locationText = 'MOUSEOVER';
+		E.db.general.minimap.locationText = "MOUSEOVER";
 		Minimap.location:Hide();
 
 		Minimap:SetMaskTexture(maskHover);
