@@ -33,6 +33,7 @@ modules/Chat/Money.lua
 #modules/Chat/PlayerLinks.lua
 modules/ClassAddons.lua
 modules/PaperDoll.lua
+modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/WorldMap.lua
 
