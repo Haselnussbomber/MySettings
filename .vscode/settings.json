@@ -1,11 +1,5 @@
 {
-  "Lua.diagnostics.severity": {
-    "unused-local": "Hint"
-  },
   "deno.enable": true,
   "deno.lint": true,
-  "deno.unstable": false,
-  "Lua.diagnostics.globals": [
-    "CHAT_MSG_WHISPER"
-  ]
+  "deno.unstable": false
 }

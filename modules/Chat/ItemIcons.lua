@@ -1,13 +1,10 @@
 local _, addon = ...;
 
-local match = string.match;
-local gsub = string.gsub;
-
 local textureFormat = "|T%s:12|t";
 
 local handlers = {
 	["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
-		local itemId = match(linkData, "^%d+");
+		local itemId = linkData:match("^%d+");
 		local texture = GetItemIcon(itemId);
 		if (texture) then
 			return textureFormat:format(texture) .. link;
@@ -16,7 +13,7 @@ local handlers = {
 	end,
 
 	["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
-		local spellId = match(linkData, "^%d+");
+		local spellId = linkData:match("^%d+");
 		local texture = select(3, GetSpellInfo(spellId));
 		if (texture) then
 			return textureFormat:format(texture) .. link;
@@ -26,7 +23,7 @@ local handlers = {
 }
 
 handlers["(|c%x+|Hachievement:(.-)|h.-|h|r)"] = function(link, linkData)
-	local achievementId = match(linkData, "^%d+");
+	local achievementId = linkData:match("^%d+");
 	local texture = select(10, GetAchievementInfo(achievementId));
 	if (texture) then
 		return textureFormat:format(texture) .. link;
@@ -50,7 +47,7 @@ handlers["(|c%x+|Hbattlepet:(.-)|h.-|h|r)"] = function(link)
 end
 
 handlers["(|c%x+|Hcurrency:(.-)|h.-|h|r)"] = function(link, linkData)
-	local currencyId = match(linkData, "^%d+");
+	local currencyId = linkData:match("^%d+");
 	local texture = C_CurrencyInfo.GetCurrencyInfo(currencyId).iconFileID;
 	if (texture) then
 		return textureFormat:format(texture) .. link;
@@ -72,7 +69,7 @@ end
 
 local function filter(_, _, msg, ...)
 	for pattern, replacer in pairs(handlers) do
-		msg = gsub(msg, pattern, replacer);
+		msg = msg:gsub(pattern, replacer);
 	end
 
 	return false, msg, ...;

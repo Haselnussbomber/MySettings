@@ -1,10 +1,4 @@
 local _, addon = ...;
-local modf = math.modf;
-local InCombatLockdown = InCombatLockdown;
-local GetInventoryItemDurability = GetInventoryItemDurability;
-local GetInventorySlotInfo = GetInventorySlotInfo;
-local GetAverageItemLevel = GetAverageItemLevel;
-local GetCurrentItemLevel = C_Item.GetCurrentItemLevel;
 
 local slots = {
 	["HeadSlot"] = true,
@@ -40,7 +34,7 @@ local function ColorGradient(perc, ...)
 	end
 
 	local num = select('#', ...) / 3;
-	local segment, relperc = modf(perc*(num-1));
+	local segment, relperc = math.modf(perc*(num-1));
 	local r1, g1, b1, r2, g2, b2 = select((segment*3)+1, ...);
 
 	return r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc;
@@ -84,7 +78,7 @@ function module:Update()
 
 		local itemLoc = ItemLocation:CreateFromEquipmentSlot(slot);
 		if (itemLoc:IsValid()) then
-			local itemLevel = GetCurrentItemLevel(itemLoc);
+			local itemLevel = C_Item.GetCurrentItemLevel(itemLoc);
 			if (itemLevel) then
 				if (avgEquipItemLevel) then
 					local color = 2;

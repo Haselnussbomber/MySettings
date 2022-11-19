@@ -1,7 +1,5 @@
 local _, addon = ...;
 
-local SetCVar = SetCVar; -- from SharedXML/CvarUtil.lua
-
 local module = addon:NewModule("CVars");
 
 function module:OnInitialize()

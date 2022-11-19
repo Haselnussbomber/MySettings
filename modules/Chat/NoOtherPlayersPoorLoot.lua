@@ -1,5 +1,3 @@
-local Enum = Enum;
-local GetItemInfo = GetItemInfo;
 local playerGUID = UnitGUID("player");
 
 ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, ...)

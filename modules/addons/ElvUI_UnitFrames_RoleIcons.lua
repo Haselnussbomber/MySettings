@@ -1,27 +1,5 @@
 local _, addon = ...;
 
---Cache global variables
---Lua functions
-local select = select;
-local tonumber = tonumber;
---WoW API / Variables
-local GetBattlefieldScore = GetBattlefieldScore;
-local GetClassInfo = GetClassInfo;
-local GetNumBattlefieldScores = GetNumBattlefieldScores;
-local GetNumClasses = GetNumClasses;
-local GetNumSpecializationsForClassID = GetNumSpecializationsForClassID;
-local GetRaidRosterInfo = GetRaidRosterInfo;
-local GetSpecializationInfoByID = GetSpecializationInfoByID;
-local GetSpecializationInfoForClassID = GetSpecializationInfoForClassID;
-local GetUnitName = GetUnitName;
-local IsInInstance = IsInInstance;
-local IsInRaid = IsInRaid;
-local UnitGroupRolesAssigned = UnitGroupRolesAssigned;
-local UnitGUID = UnitGUID;
-local UnitIsConnected = UnitIsConnected;
-local UnitIsPlayer = UnitIsPlayer;
-local UnitIsUnit = UnitIsUnit;
-
 local roleIconTextures = {
 	TANK = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\Tank",
 	HEALER = "Interface\\AddOns\\ElvUI\\Core\\Media\\Textures\\Healer",

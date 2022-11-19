@@ -1,8 +1,4 @@
 local _, addon = ...;
-local Enum = Enum;
-local IsEquippableItem = IsEquippableItem;
-local GetItemInfo = GetItemInfo;
-local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo;
 
 local function shouldShow(link)
 	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link);

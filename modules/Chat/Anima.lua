@@ -1,6 +1,3 @@
-local C_Item = C_Item;
-local GetItemSpell = GetItemSpell;
-
 local spell2anima = {
 	[347555] = 3,
 	[345706] = 5,

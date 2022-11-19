@@ -1,7 +1,6 @@
-## Interface: 100000
+## Interface: 100002
 ## Title: !MySettings
 ## Author: Haselnussbomber
-## Version: 1.7.0
 ## Dependencies: LibStub, Ace3, SharedMedia
 
 core.lua
@@ -30,16 +29,16 @@ modules/QuestReward.lua
 
 modules/Chat/Anima.lua
 modules/Chat/Money.lua
-#modules/Chat/PlayerLinks.lua
+#modules/Chat/PlayerLinks.lua # not working yet
 modules/ClassAddons.lua
 modules/PaperDoll.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/WorldMap.lua
 
-modules/addons/BadBoy_Ignore.lua
-modules/addons/Details.lua
-modules/addons/FarmHud.lua
-modules/addons/MinimalArchaeology.lua
-modules/addons/ElvUI/Minimap.lua
-#modules/addons/ElvUI/UnitFrames_RoleIcons.lua
+modules/Addons/BadBoy_Ignore.lua
+modules/Addons/Details.lua
+modules/Addons/FarmHud.lua
+modules/Addons/MinimalArchaeology.lua
+modules/Addons/ElvUI_Minimap.lua
+#modules/Addons/ElvUI_UnitFrames_RoleIcons.lua

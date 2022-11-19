@@ -1,5 +1,3 @@
-local date = date;
-
 local timestampColor = CreateColor(245 / 255, 245 / 255, 245 / 255);
 
 local function TimestampedAddMessageWrapper(frame)
