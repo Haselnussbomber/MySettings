@@ -1,5 +1,3 @@
-local _, addon = ...;
-
 local TT_LevelMatch = "^"..TOOLTIP_UNIT_LEVEL:gsub("%%[^s ]*s",".+");
 local TT_NPCGuild = "^|c[^<]+";
 local classifications = {
@@ -11,6 +9,63 @@ local classifications = {
 	rareelite = "Rare-Elite %s",
 	worldboss = "Boss %s",
 };
+
+local reactionColors = {
+	[1] = CreateColorFromHexString("ffc0c0c0"), -- Tapped
+	[2] = CreateColorFromHexString("ffff0000"), -- Hostile
+	[3] = CreateColorFromHexString("ffff7f00"), -- Caution
+	[4] = CreateColorFromHexString("ffffff00"), -- Neutral
+	[5] = CreateColorFromHexString("ff00ff00"), -- Friendly NPC or PvP Player
+	[6] = CreateColorFromHexString("ff25c1eb"), -- Friendly Player
+	[7] = CreateColorFromHexString("ff808080"), -- Dead
+};
+
+local reactionTexts = {
+	"Tapped",					-- No localized string of this
+	FACTION_STANDING_LABEL2,	-- Hostile
+	FACTION_STANDING_LABEL3,	-- Unfriendly (Caution)
+	FACTION_STANDING_LABEL4,	-- Neutral
+	FACTION_STANDING_LABEL5,	-- Friendly
+	FACTION_STANDING_LABEL5,	-- Friendly (Exalted)
+	DEAD,						-- Dead
+};
+
+local function getUnitReactionIndex(unit)
+	-- Deadies
+	if (UnitIsDead(unit)) then
+		return 7;
+	end
+
+	-- Players
+	if (UnitIsPlayer(unit) or UnitPlayerControlled(unit)) then
+		if (UnitCanAttack(unit, "player")) then
+			return UnitCanAttack("player", unit) and 2 or 3;
+		elseif (UnitCanAttack("player", unit)) then
+			return 4;
+		elseif (UnitIsPVP(unit) and not UnitIsPVPSanctuary(unit) and not UnitIsPVPSanctuary("player")) then
+			return 5;
+		else
+			return 6;
+		end
+	end
+
+	-- Tapped
+	if (UnitIsTapDenied(unit) and not UnitPlayerControlled(unit)) then
+		return 1;
+	end
+
+	-- Others
+	local reaction = UnitReaction(unit, "player") or 3;
+	return (reaction > 5 and 5) or (reaction < 2 and 2) or reaction;
+end
+
+local function getUnitReactionColor(unit)
+	return reactionColors[getUnitReactionIndex(unit)];
+end
+
+local function getUnitReactionText(unit)
+	return reactionTexts[getUnitReactionIndex(unit)];
+end
 
 local BAR_MARGIN_X = 8;
 local BAR_SPACING = 5;
@@ -249,8 +304,8 @@ local function OnUnit(tooltip)
 
 	if (UnitIsPlayer(unit)) then
 		local race = UnitRace(unit);
-		local reactionColor = addon.GetUnitReactionColor(unit);
-		local reactionText = addon.GetUnitReactionText(unit);
+		local reactionColor = getUnitReactionColor(unit);
+		local reactionText = getUnitReactionText(unit);
 
 		local className, classFilename = UnitClass(unit);
 		local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
@@ -298,7 +353,7 @@ local function OnUnit(tooltip)
 					elseif (UnitIsPlayer(unittarget)) then
 						targetClassColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
 					else
-						targetClassColor = addon.GetUnitReactionColor(unittarget);
+						targetClassColor = getUnitReactionColor(unittarget);
 					end
 
 					table.insert(tbl, classColor:WrapTextInColorCode("[") ..
@@ -307,7 +362,7 @@ local function OnUnit(tooltip)
 				end
 			end
 
-			GameTooltipTextLeft1:SetText(table.concat(tbl, " "));
+			tooltip.TextLeft1:SetText(table.concat(tbl, " "));
 		end
 
 		-- guild line
@@ -315,7 +370,7 @@ local function OnUnit(tooltip)
 		if (guild) then
 			local playerGuild = GetGuildInfo("player");
 			local guildColor = (guild == playerGuild and colorSameGuild) or colorGuild;
-			GameTooltipTextLeft2:SetFormattedText("%s<%s>%s %s", guildColor:GenerateHexColorMarkup(), guild, FONT_COLOR_CODE_CLOSE, colorDefaultText:WrapTextInColorCode(guildRank));
+			tooltip.TextLeft2:SetFormattedText("%s<%s>%s %s", guildColor:GenerateHexColorMarkup(), guild, FONT_COLOR_CODE_CLOSE, colorDefaultText:WrapTextInColorCode(guildRank));
 		end
 
 		-- info line
@@ -361,12 +416,12 @@ local function OnUnit(tooltip)
 			end
 		end
 
-		local reactionColor = addon.GetUnitReactionColor(unit);
+		local reactionColor = getUnitReactionColor(unit);
 		--tooltip.NineSlice:SetBorderColor(reactionColor:GetRGB());
 		tooltip.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
 
 		-- name line
-		GameTooltipTextLeft1:SetText(reactionColor:WrapTextInColorCode(name));
+		tooltip.TextLeft1:SetText(reactionColor:WrapTextInColorCode(name));
 
 		-- level line
 		if (npcLevelLineIndex > 0) then
@@ -485,6 +540,6 @@ f:SetScript("OnEvent", function(self, event, unit, ...)
 		UpdateAuras(unit);
 	end
 	if (event == "UNIT_NAME_UPDATE") then
-		OnTooltipSetUnit(GameTooltip);
+		OnUnit(GameTooltip);
 	end
 end);

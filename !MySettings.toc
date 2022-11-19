@@ -11,8 +11,6 @@ data/runeforgelegendaryability.lua
 
 modules/Setup.lua
 
-modules/Tooltip/Utils.lua
-
 modules/Tooltip/Icons.lua
 modules/Tooltip/Mana.lua
 modules/Tooltip/Style.lua

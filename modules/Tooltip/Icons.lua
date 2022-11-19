@@ -1,3 +1,7 @@
+local function ResetHeight(tooltip)
+	tooltip.TextLeft1:SetHeight(0);
+end
+
 local function ShowIcon(tooltip, iconID)
 	if (not iconID) then
 		return;
@@ -43,12 +47,10 @@ end
 local function OnCurrency(tooltip)
 	local tooltipData = tooltip:GetTooltipData();
 	local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(tooltipData.id);
-	if (not currencyInfo) then
-		return;
-	end
-	ShowIcon(tooltip, currencyInfo.iconFileID);
+	ShowIcon(tooltip, currencyInfo and currencyInfo.iconFileID);
 end
 
+TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, ResetHeight);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnSpell);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Mount, OnMount);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnItem);

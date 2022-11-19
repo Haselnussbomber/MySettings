@@ -7,7 +7,7 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	tooltip.NineSlice:SetBorderColor(0.25, 0.25, 0.25);
 end);
 
-local function OnGeneric(tooltip)
+local function OnTooltip(tooltip)
 	tooltip.NineSlice:SetBorderColor(1, 1, 1, 1);
 end
 
@@ -34,23 +34,23 @@ end
 
 local function OnToy(tooltip)
 	local tooltipData = tooltip:GetTooltipData();
-	local itemID = tooltipData.args[2].intVal;
-	local itemLink = C_ToyBox.GetToyLink(itemID);
+	local itemLink = C_ToyBox.GetToyLink(tooltipData.id);
 	handleItemLink(tooltip, itemLink);
 end
 
+--[[ doesn't do anything (yet?)
 local function OnPet(tooltip)
-	local _, _, _, _, rarity = C_PetJournal.GetPetStats(id); -- not sure yet
+	local tooltipData = tooltip:GetTooltipData();
+	local _, _, _, _, rarity = C_PetJournal.GetPetStats(tooltipData.id);
 	if (rarity) then
 		local r, g, b = GetItemQualityColor(rarity - 1);
 		tooltip.NineSlice:SetBorderColor(r, g, b, 1);
-		-- TODO: color name
+		tooltip.TextRight1:SetText(CreateColor(r, g, b):WrapTextInColorCode(tooltip.TextRight1:GetText()));
 	end
 end
+]]--
 
-TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnGeneric);
-TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, OnGeneric);
-TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Mount, OnGeneric);
+TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, OnTooltip);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnItem);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Toy, OnToy);
 --TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.BattlePet, OnPet);
