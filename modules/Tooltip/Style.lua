@@ -22,13 +22,28 @@ local function handleItemLink(tooltip, itemLink)
 end
 
 local function OnItem(tooltip)
-	if (not (tooltip == GameTooltip or tooltip == ItemRefTooltip)) then
-		return;
-	end
+	if (tooltip == GameTooltip or tooltip == ItemRefTooltip) then
+		local _, itemLink = tooltip:GetItem();
+		if (itemLink) then
+			handleItemLink(tooltip, itemLink);
+		end
+	elseif (tooltip == ShoppingTooltip1 or tooltip == ShoppingTooltip2) then
+		local isPrimaryTooltip = tooltip == ShoppingTooltip1;
+		local displayedItem = isPrimaryTooltip and TooltipComparisonManager.compareInfo.item or TooltipComparisonManager:GetSecondaryItem();
+		local itemData = TooltipComparisonManager:GetComparisonItemData(displayedItem);
+		if not itemData then
+			return;
+		end
 
-	local _, itemLink = tooltip:GetItem();
-	if (itemLink) then
-		handleItemLink(tooltip, itemLink);
+		TooltipUtil.SurfaceArgs(itemData);
+
+		if (itemData.hyperlink) then
+			handleItemLink(tooltip, itemData.hyperlink);
+		elseif (itemData.guid) then
+			handleItemLink(tooltip, C_Item.GetItemLinkByGUID(itemData.guid));
+		elseif (itemData.id) then
+			handleItemLink(tooltip, Item:CreateFromItemID(itemData.id):GetItemLink());
+		end
 	end
 end
 
