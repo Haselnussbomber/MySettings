@@ -7,11 +7,21 @@ hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	tooltip.NineSlice:SetBorderColor(0.25, 0.25, 0.25);
 end);
 
+local itemDataLoadedCancelFunc;
+
 local function OnTooltip(tooltip)
 	tooltip.NineSlice:SetBorderColor(1, 1, 1, 1);
+
+	if (itemDataLoadedCancelFunc) then
+		itemDataLoadedCancelFunc();
+		itemDataLoadedCancelFunc = nil;
+	end
 end
 
 local function handleItemLink(tooltip, itemLink)
+	if (not itemLink) then
+		return;
+	end
 	local _, _, itemRarity = GetItemInfo(itemLink);
 	local linkType = LinkUtil.ExtractLink(itemLink);
 	if (linkType == "keystone") then
@@ -30,19 +40,22 @@ local function OnItem(tooltip)
 	elseif (tooltip == ShoppingTooltip1 or tooltip == ShoppingTooltip2) then
 		local isPrimaryTooltip = tooltip == ShoppingTooltip1;
 		local displayedItem = isPrimaryTooltip and TooltipComparisonManager.compareInfo.item or TooltipComparisonManager:GetSecondaryItem();
-		local itemData = TooltipComparisonManager:GetComparisonItemData(displayedItem);
-		if not itemData then
+		local tooltipData = TooltipComparisonManager:GetComparisonItemData(displayedItem);
+		if (not tooltipData) then
 			return;
 		end
 
-		TooltipUtil.SurfaceArgs(itemData);
+		TooltipUtil.SurfaceArgs(tooltipData);
 
-		if (itemData.hyperlink) then
-			handleItemLink(tooltip, itemData.hyperlink);
-		elseif (itemData.guid) then
-			handleItemLink(tooltip, C_Item.GetItemLinkByGUID(itemData.guid));
-		elseif (itemData.id) then
-			handleItemLink(tooltip, Item:CreateFromItemID(itemData.id):GetItemLink());
+		if (tooltipData.hyperlink) then
+			handleItemLink(tooltip, tooltipData.hyperlink);
+		elseif (tooltipData.guid) then
+			handleItemLink(tooltip, C_Item.GetItemLinkByGUID(tooltipData.guid));
+		elseif (tooltipData.id) then
+			local item = Item:CreateFromItemID(tooltipData.id);
+			itemDataLoadedCancelFunc = item:ContinueWithCancelOnItemLoad(function()
+				handleItemLink(tooltip, item:GetItemLink());
+			end);
 		end
 	end
 end
