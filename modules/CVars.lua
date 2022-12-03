@@ -19,7 +19,7 @@ function module:PLAYER_ENTERING_WORLD()
 	SetCVar("cameraSmoothTrackingStyle", 0); -- Never adjust camera. (for click to move)
 	SetCVar("cameraYawMoveSpeed", 90);
 
-	-- Interface;
+	-- Interface
 	SetCVar("alwaysCompareItems", true);
 	SetCVar("autoLootDefault", true);
 	SetCVar("deselectOnClick", true);
@@ -42,6 +42,8 @@ function module:PLAYER_ENTERING_WORLD()
 	-- Graphics
 	SetCVar("componentTextureLevel", 0); -- higher resolution for gear
 	SetCVar("projectedTextures", true);
+	SetCVar("ResampleAlwaysSharpen", 1);
+	SetCVar("ResampleSharpness", 0.1);
 	--[[
 	SetCVar("outlineEngineMode", 2);     -- TODO: 2? default is 0 - off. weird
 	SetCVar("RAIDoutlineEngineMode", 2); -- TODO: 2? default is 0 - off. weird
