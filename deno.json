@@ -1,6 +1,6 @@
 {
   "license": "WTFPL",
   "tasks": {
-    "update": "deno run --allow-write=data/ --allow-net=wow.tools,api.wow.tools scripts/update.ts"
+    "update": "deno run --allow-read=scripts/data/ --allow-write=data/ --allow-net=wow.tools,api.wow.tools scripts/update.ts"
   }
 }
