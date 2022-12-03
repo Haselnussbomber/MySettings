@@ -74,7 +74,7 @@ local AURA_SIZE = 20;
 local AURA_MAX_ROWS = 2;
 
 local colorDefaultText = CreateColorFromHexString("ffc0c0c0");
-local colorDefaultBorder = CreateColor(0.25, 0.25, 0.25, 1);
+local colorDefaultBorder = CreateColorFromHexString("ff404040");
 local colorGuild = CreateColorFromHexString("ff0080cc");
 local colorSameGuild = CreateColorFromHexString("ffff32ff");
 

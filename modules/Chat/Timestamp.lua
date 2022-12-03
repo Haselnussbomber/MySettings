@@ -1,4 +1,4 @@
-local timestampColor = CreateColor(245 / 255, 245 / 255, 245 / 255);
+local timestampColor = CreateColorFromHexString("fff5f5f5");
 
 local function TimestampedAddMessageWrapper(frame)
 	local orig_AddMessage = frame.AddMessage;
