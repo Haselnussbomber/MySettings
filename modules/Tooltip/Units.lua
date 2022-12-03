@@ -78,7 +78,7 @@ local colorDefaultBorder = CreateColorFromHexString("ff404040");
 local colorGuild = CreateColorFromHexString("ff0080cc");
 local colorSameGuild = CreateColorFromHexString("ffff32ff");
 
-local guid = nil;
+local currentGuid;
 
 local auras = {};
 
@@ -119,18 +119,14 @@ local function getDifficultyColor(unit)
 	return colorDefaultText;
 end
 
-local function ResetAuras()
-	for _, aura in pairs(auras) do
-		aura:Hide();
-	end
-end
-
 local function Reset(self)
-	guid = nil;
+	currentGuid = nil;
 	self.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
 	healthBar:Hide();
 	powerBar:Hide();
-	ResetAuras();
+	for _, aura in pairs(auras) do
+		aura:Hide();
+	end
 end
 
 local function FormatValue(val)
@@ -282,20 +278,14 @@ local function OnUnit(tooltip)
 		return;
 	end
 
-	local _, unit = tooltip:GetUnit();
+	local _, unit, guid = TooltipUtil.GetDisplayedUnit(tooltip);
 	if (not unit) then
-		local mouseFocus = GetMouseFocus();
-		unit = mouseFocus and mouseFocus.GetAttribute and mouseFocus:GetAttribute("unit");
-	end
-	if (not unit or (UnitExists("mouseover") and UnitIsUnit(unit, "mouseover"))) then
-		unit = "mouseover";
-	end
-	if (not UnitExists(unit) or guid) then
 		Reset(tooltip);
 		return;
 	end
 
-	local _guid = UnitGUID(unit);
+	currentGuid = guid;
+
 	local name, realm = UnitName(unit);
 	local pvpName = UnitPVPName(unit);
 	local level = UnitLevel(unit) or -1;
@@ -509,8 +499,6 @@ local function OnUnit(tooltip)
 		end
 	end
 
-	guid = _guid;
-
 	tooltip:Show(); -- to trigger size update
 	UpdateAuras(unit);
 end
@@ -528,17 +516,14 @@ f:RegisterEvent("UNIT_MAXPOWER");
 f:RegisterEvent("UNIT_NAME_UPDATE");
 f:RegisterEvent("UNIT_AURA");
 f:SetScript("OnEvent", function(self, event, unit, ...)
-	if ((event == "UNIT_HEALTH" or
-		event == "UNIT_MAXHEALTH" or
-		event == "UNIT_DISPLAYPOWER" or
-		event == "UNIT_POWER_UPDATE" or
-		event == "UNIT_MAXPOWER") and guid and guid == UnitGUID(unit)) then
+	if ((event == "UNIT_HEALTH" or event == "UNIT_MAXHEALTH" or event == "UNIT_DISPLAYPOWER" or event == "UNIT_POWER_UPDATE" or event == "UNIT_MAXPOWER") and currentGuid == UnitGUID(unit)) then
 		UpdateStatusBars(unit, UnitPowerMax(unit) > 0);
-		return;
 	end
-	if (event == "UNIT_AURA" and guid and guid == UnitGUID(unit)) then
+
+	if (event == "UNIT_AURA" and currentGuid == UnitGUID(unit)) then
 		UpdateAuras(unit);
 	end
+
 	if (event == "UNIT_NAME_UPDATE") then
 		OnUnit(GameTooltip);
 	end
