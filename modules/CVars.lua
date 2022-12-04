@@ -43,7 +43,7 @@ function module:PLAYER_ENTERING_WORLD()
 	SetCVar("componentTextureLevel", 0); -- higher resolution for gear
 	SetCVar("projectedTextures", true);
 	SetCVar("ResampleAlwaysSharpen", 1);
-	SetCVar("ResampleSharpness", 0.1);
+	SetCVar("ResampleSharpness", 0.2);
 	--[[
 	SetCVar("outlineEngineMode", 2);     -- TODO: 2? default is 0 - off. weird
 	SetCVar("RAIDoutlineEngineMode", 2); -- TODO: 2? default is 0 - off. weird
