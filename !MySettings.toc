@@ -28,6 +28,7 @@ modules/CVars.lua
 modules/Fonts.lua
 modules/FriendListColors.lua
 modules/QuestReward.lua
+modules/FadeRep.lua
 
 modules/Chat/Anima.lua
 modules/Chat/Money.lua
