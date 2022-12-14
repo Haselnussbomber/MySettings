@@ -25,3 +25,11 @@ end);
 hooksecurefunc(WorldMapFrame, "Minimize", function()
 	WorldMapFrame:SetScale(scale);
 end);
+
+-- hide WorldMapActivityTracker
+for _, frame in next, WorldMapFrame.overlayFrames do
+	if (frame.SetSelectedBounty) then
+		frame.Refresh = frame.Clear;
+		break;
+	end
+end
