@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 100105
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Dependencies: LibStub, Ace3, SharedMedia
@@ -23,7 +23,7 @@ modules/Chat/ItemIcons.lua
 modules/Chat/ItemLevel.lua
 modules/Chat/MapMarker.lua
 modules/Chat/NoOtherPlayersPoorLoot.lua
-modules/Chat/Timestamp.lua
+#modules/Chat/Timestamp.lua
 modules/CVars.lua
 modules/Fonts.lua
 modules/FriendListColors.lua
