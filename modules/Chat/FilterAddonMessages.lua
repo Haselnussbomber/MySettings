@@ -17,7 +17,8 @@ local addonMessages = {
 	"AAP Loaded",
 	"%[RareScanner%]: loaded",
 	"Capping is missing locale for",
-	"%[Attune%] v%.?%d+"
+	"%[Attune%] v%.?%d+",
+	"BagSync: %[v%d+%.%d+%] /bgs, /bagsync",
 };
 
 local enabled = true;
