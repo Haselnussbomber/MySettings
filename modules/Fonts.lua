@@ -14,9 +14,8 @@ C_Timer.After(3, function()
 	SetFont(PVPInfoTextString, SegoeUISemibold);
 	SetFont(PVPArenaTextString, SegoeUISemibold);
 
-	SetFont(FramerateLabel, RobotoRegular);
-	SetFont(FramerateText, RobotoRegular);
-	FramerateLabel:SetText("FPS:");
+	SetFont(FramerateFrame.Label, RobotoRegular);
+	SetFont(FramerateFrame.FramerateText, RobotoRegular);
 
 	SetFont(QuestFont, SegoeUISemibold);
 end);
