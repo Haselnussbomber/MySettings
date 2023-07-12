@@ -195,17 +195,18 @@ local function OnUnit(tooltip)
 				table.insert(tbl, race);
 			end
 
-			-- class
-			if (className) then
-				table.insert(tbl, classColor:WrapTextInColorCode(className));
-			end
-
 			-- reaction
 			if (reaction) then
 				table.insert(tbl, reactionColor:WrapTextInColorCode(reactionText));
 			end
 
 			getTextLeft(tooltip, guild and 3 or 2):SetText(table.concat(tbl, " "));
+		end
+
+		do
+			local specClassLine = getTextLeft(tooltip, guild and 4 or 3);
+			local specClassText = specClassLine:GetText():gsub(className, classColor:WrapTextInColorCode(className));
+			specClassLine:SetText(specClassText);
 		end
 	else -- NPCs
 		local npcNumLines = tooltip:NumLines();
