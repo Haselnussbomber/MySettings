@@ -1,4 +1,4 @@
-import { readCSVObjects } from "https://deno.land/x/csv@v0.8.0/mod.ts";
+import { readCSVObjects } from "csv/mod.ts";
 
 const f = await Deno.open("scripts/data/runeforgelegendaryability.csv");
 

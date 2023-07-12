@@ -1,6 +1,10 @@
 {
   "license": "WTFPL",
+  "lock": false,
   "tasks": {
     "update": "deno run --allow-read=scripts/data/ --allow-write=data/ --allow-net=wow.tools,api.wow.tools scripts/update.ts"
+  },
+  "imports": {
+    "csv/": "https://deno.land/x/csv@v0.8.0/"
   }
 }
