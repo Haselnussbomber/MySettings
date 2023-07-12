@@ -7,7 +7,7 @@ WorldMapFrame.BorderFrame.Tutorial:Hide();
 WorldMapFrame.BorderFrame.Tutorial:HookScript("OnShow", WorldMapFrame.BorderFrame.Tutorial.Hide);
 
 -- scale world map
-local scale = 1.25;
+local scale = 1.15;
 WorldMapFrame:SetScale(scale);
 
 -- fix cursor position
