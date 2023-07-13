@@ -33,12 +33,13 @@ modules/FadeRep.lua
 modules/Chat/Anima.lua
 modules/Chat/Money.lua
 #modules/Chat/PlayerLinks.lua # not working yet
+modules/BagsBar.lua
 modules/ClassAddons.lua
+modules/Minimap.lua
 modules/PaperDoll.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/WorldMap.lua
-modules/Minimap.lua
 
 modules/Addons/AppearanceTooltip.lua
 modules/Addons/BadBoy_Ignore.lua
