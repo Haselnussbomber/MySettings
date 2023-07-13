@@ -39,6 +39,7 @@ modules/Minimap.lua
 modules/PaperDoll.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
+modules/TalkingHeadFrame.lua
 modules/WorldMap.lua
 
 modules/Addons/AppearanceTooltip.lua
