@@ -1,20 +1,61 @@
+GAME_TOOLTIP_BACKDROP_STYLE_AZERITE_ITEM.padding = nil;
+
+local physicalWidth, physicalHeight = GetPhysicalScreenSize()
+local resolution = format('%dx%d', physicalWidth, physicalHeight)
+local perfect = 768 / physicalHeight
+local scale = perfect / UIParent:GetScale()
+
+-- setup backdrop
+for _, tooltip in next, {
+	_G.ItemRefTooltip,
+	_G.ItemRefShoppingTooltip1,
+	_G.ItemRefShoppingTooltip2,
+	_G.AutoCompleteBox,
+	_G.FriendsTooltip,
+	_G.EmbeddedItemTooltip,
+	_G.ReputationParagonTooltip,
+	_G.GameTooltip,
+	_G.WorldMapTooltip,
+	_G.ShoppingTooltip1,
+	_G.ShoppingTooltip2,
+	_G.QuickKeybindTooltip,
+} do
+	if (not tooltip.SetBackdrop) then
+		_G.Mixin(tooltip, _G.BackdropTemplateMixin);
+		tooltip:HookScript('OnSizeChanged', tooltip.OnBackdropSizeChanged);
+	end
+	
+	tooltip:SetBackdrop({
+		edgeFile = [[Interface\Buttons\WHITE8X8]],
+		bgFile = [[Interface\Buttons\WHITE8X8]],
+		edgeSize = scale
+	});
+
+	tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
+end
+
+hooksecurefunc("SharedTooltip_SetBackdropStyle", function(tooltip, parent)
+	if (tooltip.NineSlice) then
+		tooltip.NineSlice:Hide();
+	end
+end);
+
 -- reposition anchor
 hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	tooltip:ClearAllPoints();
 	tooltip:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 15, 0);
-
-	-- reset border color here, because it's basically called every time
-	tooltip.NineSlice:SetBorderColor(0.25, 0.25, 0.25);
 end);
 
 local itemDataLoadedCancelFunc;
 
 local function OnTooltip(tooltip)
-	tooltip.NineSlice:SetBorderColor(1, 1, 1, 1);
-
 	if (itemDataLoadedCancelFunc) then
 		itemDataLoadedCancelFunc();
 		itemDataLoadedCancelFunc = nil;
+	end
+
+	if (tooltip.SetBackdropBorderColor) then
+		tooltip:SetBackdropBorderColor(1, 1, 1, 1);
 	end
 end
 
@@ -28,7 +69,7 @@ local function handleItemLink(tooltip, itemLink)
 		itemRarity = 4;
 	end
 	local r, g, b = GetItemQualityColor(itemRarity or 0);
-	tooltip.NineSlice:SetBorderColor(r, g, b, 1);
+	tooltip:SetBackdropBorderColor(r, g, b, 1);
 end
 
 local function OnItem(tooltip)
@@ -72,7 +113,7 @@ local function OnPet(tooltip)
 	local _, _, _, _, rarity = C_PetJournal.GetPetStats(tooltipData.id);
 	if (rarity) then
 		local r, g, b = GetItemQualityColor(rarity - 1);
-		tooltip.NineSlice:SetBorderColor(r, g, b, 1);
+		tooltip:SetBackdropBorderColor(r, g, b, 1);
 		tooltip.TextRight1:SetText(CreateColor(r, g, b):WrapTextInColorCode(tooltip.TextRight1:GetText()));
 	end
 end

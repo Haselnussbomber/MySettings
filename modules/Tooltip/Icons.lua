@@ -50,8 +50,7 @@ local function OnCurrency(tooltip)
 	ShowIcon(tooltip, currencyInfo and currencyInfo.iconFileID);
 end
 
-hooksecurefunc(GameTooltip, "Show", ResetHeight);
-
+TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, ResetHeight);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnSpell);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Mount, OnMount);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnItem);

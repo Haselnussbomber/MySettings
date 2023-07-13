@@ -90,7 +90,9 @@ end
 
 local function Reset(self)
 	currentGuid = nil;
-	self.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
+	if (self.SetBackdropBorderColor) then
+		self:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
+	end
 end
 
 local function OnUnit(tooltip)
@@ -119,7 +121,9 @@ local function OnUnit(tooltip)
 
 		local className, classFilename = UnitClass(unit);
 		local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
-		tooltip.NineSlice:SetBorderColor(classColor:GetRGB());
+		if (tooltip.SetBackdropBorderColor) then
+			tooltip:SetBackdropBorderColor(classColor:GetRGB());
+		end
 
 		-- name line
 		do
@@ -229,7 +233,9 @@ local function OnUnit(tooltip)
 
 		local reactionColor = getUnitReactionColor(unit);
 		--tooltip.NineSlice:SetBorderColor(reactionColor:GetRGB());
-		tooltip.NineSlice:SetBorderColor(colorDefaultBorder:GetRGB());
+		if (tooltip.SetBackdropBorderColor) then
+			tooltip:SetBackdropBorderColor(colorDefaultBorder:GetRGB());
+		end
 
 		-- name line
 		tooltip.TextLeft1:SetText(reactionColor:WrapTextInColorCode(name));
