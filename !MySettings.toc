@@ -45,5 +45,4 @@ modules/Addons/Details.lua
 modules/Addons/Dominos.lua
 modules/Addons/FarmHud.lua
 modules/Addons/MinimalArchaeology.lua
-#modules/Addons/ElvUI_Minimap.lua
 #modules/Addons/ElvUI_UnitFrames_RoleIcons.lua
