@@ -1,3 +1,5 @@
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
 GAME_TOOLTIP_BACKDROP_STYLE_AZERITE_ITEM.padding = nil;
 
 local physicalWidth, physicalHeight = GetPhysicalScreenSize()
@@ -6,18 +8,29 @@ local perfect = 768 / physicalHeight
 local scale = perfect / UIParent:GetScale()
 
 local function SetupTooltip(tooltip)
+	if (tooltip.__HaselTooltipSkinned) then
+		return;
+	end
+
 	if (not tooltip.SetBackdrop) then
 		_G.Mixin(tooltip, _G.BackdropTemplateMixin);
 		tooltip:HookScript('OnSizeChanged', tooltip.OnBackdropSizeChanged);
-
-		tooltip:SetBackdrop({
-			edgeFile = [[Interface\Buttons\WHITE8X8]],
-			bgFile = [[Interface\Buttons\WHITE8X8]],
-			edgeSize = scale
-		});
-
-		tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
 	end
+
+	if (tooltip.NineSlice and tooltip.NineSlice:IsShown()) then
+		tooltip.NineSlice:Hide();
+	end
+
+	tooltip:SetBackdrop({
+		edgeFile = [[Interface\Buttons\WHITE8X8]],
+		bgFile = [[Interface\Buttons\WHITE8X8]],
+		edgeSize = scale
+	});
+
+	tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
+	tooltip:SetBackdropBorderColor(0.8, 0.8, 0.8, 1);
+
+	tooltip.__HaselTooltipSkinned = true;
 end
 
 -- setup backdrop for existing tooltips
@@ -25,26 +38,35 @@ for _, tooltip in next, {
 	_G.ItemRefTooltip,
 	_G.ItemRefShoppingTooltip1,
 	_G.ItemRefShoppingTooltip2,
-	_G.AutoCompleteBox,
+	--_G.AutoCompleteBox,
 	_G.FriendsTooltip,
+	_G.WarCampaignTooltip,
 	_G.EmbeddedItemTooltip,
 	_G.ReputationParagonTooltip,
 	_G.GameTooltip,
-	_G.WorldMapTooltip,
+	--_G.WorldMapTooltip,
 	_G.ShoppingTooltip1,
 	_G.ShoppingTooltip2,
-	_G.QuickKeybindTooltip
+	_G.QuickKeybindTooltip,
+	_G.GameSmallHeaderTooltip,
+	_G.QuestScrollFrame.StoryTooltip,
+	_G.QuestScrollFrame.CampaignTooltip,
+	-- libs
+	AceConfigDialog.tooltip,
+	_G.LibDBIconTooltip,
 } do
 	SetupTooltip(tooltip);
 end
 
 -- setup backdrop for new tooltips
 hooksecurefunc("SharedTooltip_OnLoad", SetupTooltip);
+hooksecurefunc(TooltipBackdropTemplateMixin, "TooltipBackdropOnLoad", SetupTooltip);
 
--- hide NineSlice
+-- hide NineSlice and setup
 hooksecurefunc("SharedTooltip_SetBackdropStyle", function(tooltip, parent)
-	if (tooltip.NineSlice) then
+	if (tooltip.NineSlice and tooltip.NineSlice:IsShown()) then
 		tooltip.NineSlice:Hide();
+		SetupTooltip(tooltip); -- haxx, lol
 	end
 end);
 
@@ -63,7 +85,7 @@ local function OnTooltip(tooltip)
 	end
 
 	if (tooltip.SetBackdropBorderColor) then
-		tooltip:SetBackdropBorderColor(1, 1, 1, 1);
+		tooltip:SetBackdropBorderColor(0.8, 0.8, 0.8, 1);
 	end
 end
 
