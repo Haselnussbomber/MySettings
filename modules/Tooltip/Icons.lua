@@ -1,21 +1,17 @@
-local function ResetHeight(tooltip)
-	tooltip.TextLeft1:SetHeight(0);
-end
+local addonName = ...;
 
 local function ShowIcon(tooltip, iconID)
 	if (not iconID) then
 		return;
 	end
 
-	local icon = CreateTextureMarkup(iconID, 64, 64, 24, 24, 0, 1, 0, 1);
+	local fakeicon = CreateTextureMarkup("Interface\\Addons\\"..addonName.."\\media\\transparent-64x64", 64, 64, 1, 22, 0, 1, 0, 1);
+	tooltip.TextLeft1:SetFormattedText("%s%s", fakeicon, tooltip.TextLeft1:GetText() or "");
+	tooltip.TextLeft1:Show();
+
+	local icon = CreateTextureMarkup(iconID, 64, 64, 22, 22, 0, 1, 0, 1);
 	tooltip.TextRight1:SetFormattedText("%s  %s", tooltip.TextRight1:GetText() or "", icon);
 	tooltip.TextRight1:Show();
-
-	local leftHeight = tooltip.TextLeft1:GetHeight();
-	local rightHeight = tooltip.TextRight1:GetHeight() * 0.8;
-	if (leftHeight < rightHeight) then
-		tooltip.TextLeft1:SetHeight(rightHeight);
-	end
 end
 
 local function OnSpell(tooltip)
@@ -50,7 +46,6 @@ local function OnCurrency(tooltip)
 	ShowIcon(tooltip, currencyInfo and currencyInfo.iconFileID);
 end
 
-TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, ResetHeight);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, OnSpell);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Mount, OnMount);
 TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnItem);
