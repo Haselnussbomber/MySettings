@@ -35,6 +35,7 @@ modules/Chat/Money.lua
 #modules/Chat/PlayerLinks.lua # not working yet
 modules/BagsBar.lua
 modules/ClassAddons.lua
+modules/MicroMenu.lua
 modules/Minimap.lua
 modules/PaperDoll.lua
 modules/StatusTrackingBarManager.lua
