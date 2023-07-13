@@ -5,7 +5,22 @@ local resolution = format('%dx%d', physicalWidth, physicalHeight)
 local perfect = 768 / physicalHeight
 local scale = perfect / UIParent:GetScale()
 
--- setup backdrop
+local function SetupTooltip(tooltip)
+	if (not tooltip.SetBackdrop) then
+		_G.Mixin(tooltip, _G.BackdropTemplateMixin);
+		tooltip:HookScript('OnSizeChanged', tooltip.OnBackdropSizeChanged);
+
+		tooltip:SetBackdrop({
+			edgeFile = [[Interface\Buttons\WHITE8X8]],
+			bgFile = [[Interface\Buttons\WHITE8X8]],
+			edgeSize = scale
+		});
+
+		tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
+	end
+end
+
+-- setup backdrop for existing tooltips
 for _, tooltip in next, {
 	_G.ItemRefTooltip,
 	_G.ItemRefShoppingTooltip1,
@@ -18,22 +33,15 @@ for _, tooltip in next, {
 	_G.WorldMapTooltip,
 	_G.ShoppingTooltip1,
 	_G.ShoppingTooltip2,
-	_G.QuickKeybindTooltip,
+	_G.QuickKeybindTooltip
 } do
-	if (not tooltip.SetBackdrop) then
-		_G.Mixin(tooltip, _G.BackdropTemplateMixin);
-		tooltip:HookScript('OnSizeChanged', tooltip.OnBackdropSizeChanged);
-	end
-	
-	tooltip:SetBackdrop({
-		edgeFile = [[Interface\Buttons\WHITE8X8]],
-		bgFile = [[Interface\Buttons\WHITE8X8]],
-		edgeSize = scale
-	});
-
-	tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
+	SetupTooltip(tooltip);
 end
 
+-- setup backdrop for new tooltips
+hooksecurefunc("SharedTooltip_OnLoad", SetupTooltip);
+
+-- hide NineSlice
 hooksecurefunc("SharedTooltip_SetBackdropStyle", function(tooltip, parent)
 	if (tooltip.NineSlice) then
 		tooltip.NineSlice:Hide();
