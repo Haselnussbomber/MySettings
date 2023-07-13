@@ -38,6 +38,7 @@ modules/PaperDoll.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/WorldMap.lua
+modules/Minimap.lua
 
 modules/Addons/AppearanceTooltip.lua
 modules/Addons/BadBoy_Ignore.lua
