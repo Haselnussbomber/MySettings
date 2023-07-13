@@ -39,10 +39,11 @@ modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/WorldMap.lua
 
+modules/Addons/AppearanceTooltip.lua
 modules/Addons/BadBoy_Ignore.lua
 modules/Addons/Details.lua
 modules/Addons/Dominos.lua
 modules/Addons/FarmHud.lua
 modules/Addons/MinimalArchaeology.lua
-modules/Addons/ElvUI_Minimap.lua
+#modules/Addons/ElvUI_Minimap.lua
 #modules/Addons/ElvUI_UnitFrames_RoleIcons.lua
