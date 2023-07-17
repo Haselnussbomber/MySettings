@@ -1,5 +1,3 @@
-local _, addon = ...;
-
 local function OnSpell(self)
 	local powerMax = UnitPowerMax("player", Enum.PowerType.Mana);
 	if (powerMax <= 0) then
