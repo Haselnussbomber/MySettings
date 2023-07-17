@@ -8,7 +8,7 @@ local perfect = 768 / physicalHeight
 local scale = perfect / UIParent:GetScale()
 
 local function SetupTooltip(tooltip)
-	if (tooltip.__HaselTooltipSkinned) then
+	if (tooltip.__HaselTooltipSkinned or tooltip:GetObjectType() ~= "GameTooltip") then
 		return;
 	end
 
@@ -90,7 +90,7 @@ local function OnTooltip(tooltip)
 end
 
 local function handleItemLink(tooltip, itemLink)
-	if (not itemLink) then
+	if (not itemLink or not tooltip.SetBackdropBorderColor) then
 		return;
 	end
 	local _, _, itemRarity = GetItemInfo(itemLink);
