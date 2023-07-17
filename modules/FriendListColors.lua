@@ -108,4 +108,4 @@ local function FriendsFrameUpdateFriendButtonHook(self)
 	end
 end
 
-hooksecurefunc("FriendsFrame_UpdateFriendButton", FriendsFrameUpdateFriendButtonHook);	
+hooksecurefunc("FriendsFrame_UpdateFriendButton", FriendsFrameUpdateFriendButtonHook);

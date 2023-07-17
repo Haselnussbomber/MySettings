@@ -3,10 +3,7 @@
 ## Author: Haselnussbomber
 ## Dependencies: LibStub, Ace3, SharedMedia, LibDBIcon-1.0
 
-core.lua
-
 data/mawpower.lua
-data/runeforgelegendaryability.lua
 
 modules/Setup.lua
 
