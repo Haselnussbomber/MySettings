@@ -116,8 +116,6 @@ local function OnItem(tooltip)
 			return;
 		end
 
-		TooltipUtil.SurfaceArgs(tooltipData);
-
 		if (tooltipData.hyperlink) then
 			handleItemLink(tooltip, tooltipData.hyperlink);
 		elseif (tooltipData.guid) then

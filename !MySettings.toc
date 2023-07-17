@@ -10,6 +10,13 @@ data/runeforgelegendaryability.lua
 
 modules/Setup.lua
 
+modules/Addons/AppearanceTooltip.lua
+modules/Addons/BadBoy_Ignore.lua
+modules/Addons/Details.lua
+modules/Addons/Dominos.lua
+modules/Addons/FarmHud.lua
+modules/Addons/MinimalArchaeology.lua
+
 modules/Tooltip/Icons.lua
 modules/Tooltip/Mana.lua
 modules/Tooltip/Style.lua
@@ -23,30 +30,21 @@ modules/Chat/ItemIcons.lua
 modules/Chat/ItemLevel.lua
 modules/Chat/MapMarker.lua
 modules/Chat/NoOtherPlayersPoorLoot.lua
-#modules/Chat/Timestamp.lua
-modules/CVars.lua
-modules/Fonts.lua
-modules/FriendListColors.lua
-modules/QuestReward.lua
-modules/FadeRep.lua
-
 modules/Chat/Anima.lua
 modules/Chat/Money.lua
+
 #modules/Chat/PlayerLinks.lua # not working yet
 modules/BagsBar.lua
+modules/CVars.lua
 modules/ClassAddons.lua
+modules/FadeRep.lua
+modules/Fonts.lua
+modules/FriendListColors.lua
 modules/MicroMenu.lua
 modules/Minimap.lua
 modules/PaperDoll.lua
+modules/QuestReward.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/TalkingHeadFrame.lua
 modules/WorldMap.lua
-
-modules/Addons/AppearanceTooltip.lua
-modules/Addons/BadBoy_Ignore.lua
-modules/Addons/Details.lua
-modules/Addons/Dominos.lua
-modules/Addons/FarmHud.lua
-modules/Addons/MinimalArchaeology.lua
-#modules/Addons/ElvUI_UnitFrames_RoleIcons.lua
