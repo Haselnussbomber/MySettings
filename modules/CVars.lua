@@ -26,6 +26,10 @@ function module:PLAYER_ENTERING_WORLD()
 	SetCVar("enableFloatingCombatText", true);
 	SetCVar("interactOnLeftClick", false);
 	SetCVar("nameplateShowAll", true);
+	SetCVar("raidOptionDisplayMainTankAndAssist", false);
+	SetCVar("raidFramesDisplayPowerBars", true);
+	SetCVar("raidFramesDisplayOnlyHealerPowerBars", true);
+	SetCVar("countdownForCooldowns", true);
 
 	-- Chat
 	SetCVar("chatBubblesParty", false);
