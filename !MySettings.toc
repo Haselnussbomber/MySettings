@@ -33,7 +33,7 @@ modules/Chat/NoOtherPlayersPoorLoot.lua
 modules/Chat/Anima.lua
 modules/Chat/Money.lua
 
-#modules/Chat/PlayerLinks.lua # not working yet
+modules/AutoSellAndRepair.lua
 modules/BagsBar.lua
 modules/CVars.lua
 modules/ClassAddons.lua
