@@ -1,5 +1,3 @@
-local _, addon = ...;
-
 local slots = {
 	["HeadSlot"] = true,
 	["NeckSlot"] = false,
@@ -40,34 +38,27 @@ local function ColorGradient(perc, ...)
 	return r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc;
 end
 
-local module = addon:NewModule("PaperDoll", "AceTimer-3.0");
+local fontFileName = GameFontNormal:GetFont();
 
-function module:OnInitialize()
-	PaperDollFrame:HookScript("OnShow", function() module:OnEvent("PaperDollFrame_OnShow") end);
-	local fontFileName = GameFontNormal:GetFont();
+for k, showDurability in pairs(slots) do
+	local frame = _G["Character" .. k];
 
-	for k, showDurability in pairs(slots) do
-		local frame = _G["Character" .. k];
+	frame.ItemLevel = frame:CreateFontString(nil, "OVERLAY");
+	frame.ItemLevel:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 1, 1);
+	frame.ItemLevel:SetFont(fontFileName, 12, "THINOUTLINE");
 
-		frame.ItemLevel = frame:CreateFontString(nil, "OVERLAY");
-		frame.ItemLevel:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 1, 1);
-		frame.ItemLevel:SetFont(fontFileName, 12, "THINOUTLINE");
-
-		if (showDurability) then
-			frame.DurabilityInfo = frame:CreateFontString(nil, "OVERLAY");
-			frame.DurabilityInfo:SetPoint("TOP", frame, "TOP", 0, -4);
-			frame.DurabilityInfo:SetFont(fontFileName, 12, "THINOUTLINE");
-		end
+	if (showDurability) then
+		frame.DurabilityInfo = frame:CreateFontString(nil, "OVERLAY");
+		frame.DurabilityInfo:SetPoint("TOP", frame, "TOP", 0, -4);
+		frame.DurabilityInfo:SetFont(fontFileName, 12, "THINOUTLINE");
 	end
-
-	module:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", "OnEvent");
-	module:RegisterEvent("UPDATE_INVENTORY_DURABILITY", "OnEvent");
-
-	self.locked = false;
-	self.initialized = true;
 end
 
-function module:Update()
+local function update()
+	if (InCombatLockdown()) then
+		return;
+	end
+
 	local avgEquipItemLevel = select(2, GetAverageItemLevel());
 
 	for k, showDurability in pairs(slots) do
@@ -114,15 +105,19 @@ function module:Update()
 			end
 		end
 	end
-
-	self.locked = false;
 end
 
-function module:OnEvent()
-	if (not self.initialized or self.locked or InCombatLockdown()) then
-		return;
+local timer;
+
+local function onEvent()
+	if (timer) then
+		timer:Cancel();
+		timer = nil;
 	end
 
-	self.locked = true;
-	self:ScheduleTimer("Update", 0.1);
+	timer = C_Timer.After(0.1, update);
 end
+
+PaperDollFrame:HookScript("OnShow", onEvent);
+EventRegistry:RegisterFrameEventAndCallback("PLAYER_EQUIPMENT_CHANGED", onEvent);
+EventRegistry:RegisterFrameEventAndCallback("UPDATE_INVENTORY_DURABILITY", onEvent);

@@ -1,15 +1,4 @@
-local _, addon = ...;
-
-local module = addon:NewModule("CVars");
-
-function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED");
-	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-end
-
-function module:PLAYER_ENTERING_WORLD()
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD");
-
+EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 	-- see https://wow.gamepedia.com/Console_variables/Complete_list
 	-- cameraDistanceMaxZoomFactor calculation by https://www.wowinterface.com/downloads/info24927-MaxCamClassic.html
 
@@ -91,15 +80,9 @@ function module:PLAYER_ENTERING_WORLD()
 			SetCVarBitfield("closedInfoFrames", value, true);
 		end
 	end
-end
+end);
 
-function module:ADDON_LOADED(_, addonName)
-	if (addonName ~= "Blizzard_CombatText") then
-		return;
-	end
-
-	self:UnregisterEvent("ADDON_LOADED");
-
+EventUtil.ContinueOnAddOnLoaded("Blizzard_CombatText", function()
 	-- Combat Text (incoming)
 	CombatText:Hide();
-end
+end);

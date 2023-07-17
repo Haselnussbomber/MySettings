@@ -1,18 +1,4 @@
-local _, addon = ...;
-
-local module = addon:NewModule("MinimalArchaeology");
-
-function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED");
-end
-
-function module:ADDON_LOADED(_, addonName)
-	if (addonName ~= "MinimalArchaeology") then
-		return;
-	end
-
-	self:UnregisterEvent("ADDON_LOADED")
-
+EventUtil.ContinueOnAddOnLoaded("MinimalArchaeology", function()
 	C_Timer.After(1, function()
 		local cooldown = CreateFrame("Cooldown", "$parentCooldown", MinArchCompanion.surveyButton, "CooldownFrameTemplate");
 		cooldown:SetAllPoints(MinArchCompanion.surveyButton);
@@ -25,4 +11,4 @@ function module:ADDON_LOADED(_, addonName)
 
 		MinArchCompanion:RegisterEvent("SPELL_UPDATE_COOLDOWN");
 	end);
-end
+end);

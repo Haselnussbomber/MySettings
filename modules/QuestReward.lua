@@ -1,12 +1,4 @@
-local _, addon = ...;
-
-local module = addon:NewModule("QuestReward");
-
-function module:OnInitialize()
-	self:RegisterEvent("QUEST_COMPLETE");
-end
-
-function module:QUEST_COMPLETE()
+EventRegistry:RegisterFrameEventAndCallback("QUEST_COMPLETE", function()
 	-- default first button when no item has a sell value.
 	local choice, price = 1, 0;
 	local num = GetNumQuestChoices();
@@ -27,4 +19,4 @@ function module:QUEST_COMPLETE()
 	end
 
 	QuestInfoItem_OnClick(QuestInfo_GetRewardButton(QuestInfoFrame.rewardsFrame, choice));
-end
+end);

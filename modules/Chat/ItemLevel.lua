@@ -1,5 +1,3 @@
-local _, addon = ...;
-
 local function shouldShow(link)
 	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link);
 

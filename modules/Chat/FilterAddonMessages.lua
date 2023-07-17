@@ -1,5 +1,3 @@
-local _, addon = ...;
-
 local orig_DEFAULT_CHAT_FRAME_AddMessage = DEFAULT_CHAT_FRAME.AddMessage;
 
 local function clearString(str)
@@ -35,17 +33,10 @@ DEFAULT_CHAT_FRAME.AddMessage = function(self, message, r, g, b, ...)
 	orig_DEFAULT_CHAT_FRAME_AddMessage(self, message, r, g, b, ...);
 end
 
-local module = addon:NewModule("FilterAddonMessages");
 
-function module:OnInitialize()
-	self:RegisterEvent("LOADING_SCREEN_DISABLED");
-end
-
-function module:LOADING_SCREEN_DISABLED()
-	self:UnregisterEvent("LOADING_SCREEN_DISABLED");
-
+EventUtil.RegisterOnceFrameEventAndCallback("LOADING_SCREEN_DISABLED", function()
 	C_Timer.After(30, function()
 		-- if AddMessage is replaced with the original function, the timestamp hook will be removed
 		enabled = false;
 	end);
-end
+end);

@@ -1,7 +1,3 @@
-local _, addon = ...;
-
-local module = addon:NewModule("FriendListColors");
-
 local function GetLevelColor(level)
 	local color = GetQuestDifficultyColor(level);
 	return CreateColor(color.r, color.g, color.b):GenerateHexColor();
@@ -52,7 +48,7 @@ local function GetBNGetFriendInfo(id)
 end
 
 local function FriendsFrameUpdateFriendButtonHook(self)
-	if (not module:IsEnabled() or InCombatLockdown()) then
+	if (InCombatLockdown()) then
 		return;
 	end
 
@@ -112,6 +108,4 @@ local function FriendsFrameUpdateFriendButtonHook(self)
 	end
 end
 
-function module:OnInitialize()
-	hooksecurefunc("FriendsFrame_UpdateFriendButton", FriendsFrameUpdateFriendButtonHook);	
-end
+hooksecurefunc("FriendsFrame_UpdateFriendButton", FriendsFrameUpdateFriendButtonHook);	

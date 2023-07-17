@@ -1,18 +1,4 @@
-local _, addon = ...;
-
-local module = addon:NewModule("BadBoy_Ignore");
-
-function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED");
-end
-
-function module:ADDON_LOADED(_, addonName)
-	if (addonName ~= "BadBoy_Ignore") then
-		return;
-	end
-
-	self:UnregisterEvent("ADDON_LOADED");
-
+EventUtil.ContinueOnAddOnLoaded("BadBoy_Ignore", function()
 	UnitPopupBadBoyIgnoreButtonMixin = CreateFromMixins(UnitPopupButtonBaseMixin);
 
 	function UnitPopupBadBoyIgnoreButtonMixin:GetButtonName()
@@ -52,4 +38,4 @@ function module:ADDON_LOADED(_, addonName)
 		table.insert(tbl, tIndexOf(tbl, UnitPopupIgnoreButtonMixin) + 1, UnitPopupBadBoyIgnoreButtonMixin);
 		return tbl;
 	end
-end
+end);

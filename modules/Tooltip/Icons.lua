@@ -55,29 +55,13 @@ TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Currency, OnCurrenc
 -- TODO: macro
 
 -- LinkWrangler support
-do
-	local _, addon = ...;
-
-	local module = addon:NewModule("LinkWrangler");
-
-	function module:OnInitialize()
-		self:RegisterEvent("ADDON_LOADED");
+EventUtil.ContinueOnAddOnLoaded("LinkWrangler", function()
+	local function callback(tooltip, link)
+		local linkType, linkData = LinkUtil.SplitLinkData(link);
+		if (linkType == "item") then
+			ShowIcon(tooltip, Item:CreateFromItemLink(link):GetItemIcon());
+		end
 	end
 
-	function module:ADDON_LOADED(_, addonName)
-		if (addonName ~= "LinkWrangler") then
-			return;
-		end
-
-		self:UnregisterEvent("ADDON_LOADED");
-
-		local function callback(tooltip, link)
-			local linkType, linkData = LinkUtil.SplitLinkData(link);
-			if (linkType == "item") then
-				ShowIcon(tooltip, Item:CreateFromItemLink(link):GetItemIcon());
-			end
-		end
-
-		LinkWrangler.RegisterCallback("MySettings", callback, "show");
-	end
-end
+	LinkWrangler.RegisterCallback("MySettings", callback, "show");
+end);

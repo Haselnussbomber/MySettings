@@ -1,18 +1,4 @@
-local _, addon = ...;
-
-local module = addon:NewModule("AppearanceTooltip");
-
-function module:OnInitialize()
-	self:RegisterEvent("ADDON_LOADED");
-end
-
-function module:ADDON_LOADED(_, addonName)
-	if (addonName ~= "AppearanceTooltip") then
-		return;
-	end
-
-	self:UnregisterEvent("ADDON_LOADED");
-
+EventUtil.ContinueOnAddOnLoaded("AppearanceTooltip", function()
 	-- same as in ../Tooltip/Style.lua
 	local tooltip = AppearanceTooltipTooltip;
 
@@ -43,4 +29,4 @@ function module:ADDON_LOADED(_, addonName)
 		tooltip[key]:SetPoint("TOPLEFT", tooltip, "TOPLEFT", edgeSize, -edgeSize)
 		tooltip[key]:SetPoint("BOTTOMRIGHT", tooltip, "BOTTOMRIGHT", -edgeSize, edgeSize * 2)
 	end
-end
+end);
