@@ -13,7 +13,6 @@ modules/Setup.lua
 modules/Addons/AppearanceTooltip.lua
 modules/Addons/BadBoy_Ignore.lua
 modules/Addons/Details.lua
-modules/Addons/Dominos.lua
 modules/Addons/FarmHud.lua
 modules/Addons/MinimalArchaeology.lua
 
