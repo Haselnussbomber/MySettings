@@ -81,8 +81,3 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 		end
 	end
 end);
-
-EventUtil.ContinueOnAddOnLoaded("Blizzard_CombatText", function()
-	-- Combat Text (incoming)
-	CombatText:Hide();
-end);

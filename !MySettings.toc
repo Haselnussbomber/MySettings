@@ -33,6 +33,7 @@ modules/AutoSellAndRepair.lua
 modules/BagsBar.lua
 modules/CVars.lua
 modules/ClassAddons.lua
+modules/CombatText.lua
 modules/FadeRep.lua
 modules/Fonts.lua
 modules/FriendListColors.lua
