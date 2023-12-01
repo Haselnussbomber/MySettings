@@ -1,16 +1,16 @@
 local _, classFilename = UnitClass("player");
 
 local function LoadAddOnSafe(name)
-	if (IsAddOnLoaded(name)) then
+	if (C_AddOns.IsAddOnLoaded(name)) then
 		return;
 	end
 
-	local loadable = select(4, GetAddOnInfo(name));
+	local loadable = select(4, C_AddOns.GetAddOnInfo(name));
 	if (not loadable) then
 		return;
 	end
 
-	LoadAddOn(name);
+	C_AddOns.LoadAddOn(name);
 end
 
 -- addon already auto-disables when not monk
@@ -22,5 +22,5 @@ end
 if (classFilename == "DRUID") then
 	LoadAddOnSafe("SoulshapeJournal");
 else
-	DisableAddOn("SoulshapeJournal");
+	C_AddOns.DisableAddOn("SoulshapeJournal");
 end

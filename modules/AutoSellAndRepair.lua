@@ -3,7 +3,7 @@ MerchantFrame:HookScript("OnShow", function(self)
 	local repairAllCost, canRepair = GetRepairAllCost();
 	if (canRepair and repairAllCost > 0 and CanMerchantRepair()) then
 		RepairAllItems();
-		print("Repaired for " .. GetMoneyString(repairAllCost));
+		print("Repariert für " .. GetMoneyString(repairAllCost));
 		PlaySound(SOUNDKIT.ITEM_REPAIR);
 	end
 

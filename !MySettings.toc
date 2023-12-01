@@ -1,4 +1,4 @@
-## Interface: 100105
+## Interface: 100200
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Dependencies: LibStub, Ace3, SharedMedia, LibDBIcon-1.0
