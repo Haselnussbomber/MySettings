@@ -44,4 +44,5 @@ modules/QuestReward.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/TalkingHeadFrame.lua
+modules/UntrackTravelersLog.lua
 modules/WorldMap.lua
