@@ -1,4 +1,4 @@
-SLASH_SETUP1 = "/setup";
+_G["SLASH_SETUP1"] = "/setup";
 SlashCmdList["SETUP"] = function()
 	-- Minimap Tracking
 	local trackingTextures = {
@@ -26,6 +26,10 @@ SlashCmdList["SETUP"] = function()
 	-- UI Layout
 	C_EditMode.SetActiveLayout(3);
 	C_EditMode.OnEditModeExit();
+
+	-- Sort bags from top to bottom
+	C_Container.SetInsertItemsLeftToRight(true);
+	C_Container.SetSortBagsRightToLeft(true);
 
 	-- Kui Nameplates
 	if (KuiNameplatesCoreCharacterSaved) then

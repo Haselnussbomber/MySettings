@@ -51,8 +51,8 @@ local function DisplayAuras(unit, auraType, auraOffset)
 
 	-- query auras
 	while (true) do
-		local name, iconTexture, count, debuffType, duration, endTime, casterUnit = UnitAura(unit, queryIndex, auraType);
-		if (not name or not iconTexture or auraFrameIndex / aurasPerRow > AURA_MAX_ROWS) then
+		local auraData = C_UnitAuras.GetAuraDataByIndex(unit, queryIndex, auraType);
+		if (auraData == nil) then
 			break;
 		end
 
@@ -71,19 +71,19 @@ local function DisplayAuras(unit, auraType, auraOffset)
 		end
 
 		-- cooldown
-		if (duration and duration > 0 and endTime and endTime > 0) then
-			aura.cooldown:SetCooldown(endTime - duration, duration);
+		if (auraData.duration and auraData.duration > 0 and auraData.expirationTime and auraData.expirationTime > 0) then
+			aura.cooldown:SetCooldown(auraData.expirationTime - auraData.duration, auraData.duration);
 		else
 			aura.cooldown:Hide();
 		end
 
 		-- texture + count
-		aura.icon:SetTexture(iconTexture);
-		aura.count:SetText(count and count > 1 and count or "");
+		aura.icon:SetTexture(auraData.icon);
+		aura.count:SetText(auraData.applications and auraData.applications > 1 and auraData.applications or "");
 
 		-- border for debuffs
 		if (auraType == "HARMFUL") then
-			local color = DebuffTypeColor[debuffType] or DebuffTypeColor["none"];
+			local color = DebuffTypeColor[auraData.dispelName] or DebuffTypeColor["none"];
 			aura.border:SetVertexColor(color.r, color.g, color.b);
 			aura.border:Show();
 		else

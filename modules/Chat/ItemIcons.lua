@@ -2,25 +2,25 @@ local _, addon = ...;
 
 local textureFormat = "|T%s:12|t";
 
-local handlers = {
-	["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
-		local itemId = linkData:match("^%d+");
-		local texture = GetItemIcon(itemId);
-		if (texture) then
-			return textureFormat:format(texture) .. link;
-		end
-		return link;
-	end,
+local handlers = {};
 
-	["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
-		local spellId = linkData:match("^%d+");
-		local texture = select(3, GetSpellInfo(spellId));
-		if (texture) then
-			return textureFormat:format(texture) .. link;
-		end
-		return link;
-	end,
-}
+handlers["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
+	local itemId = linkData:match("^%d+");
+	local texture = GetItemIcon(itemId);
+	if (texture) then
+		return textureFormat:format(texture) .. link;
+	end
+	return link;
+end
+
+handlers["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
+	local spellId = linkData:match("^%d+");
+	local spellInfo = C_Spell.GetSpellInfo(spellId);
+	if (spellInfo) then
+		return textureFormat:format(spellInfo.iconID) .. link;
+	end
+	return link;
+end
 
 handlers["(|c%x+|Hachievement:(.-)|h.-|h|r)"] = function(link, linkData)
 	local achievementId = linkData:match("^%d+");
@@ -59,9 +59,9 @@ end
 handlers["(|c%x+|Hmawpower:(%d+)|h.-|h|r)"] = function(link, id)
 	local spellID = addon.GetMawPowerSpellID(tonumber(id));
 	if (spellID) then
-		local texture = select(3, GetSpellInfo(spellID));
-		if (texture) then
-			return textureFormat:format(texture) .. link;
+		local spellInfo = C_Spell.GetSpellInfo(spellID);
+		if (spellInfo) then
+			return textureFormat:format(spellInfo.iconID) .. link;
 		end
 	end
 	return link;

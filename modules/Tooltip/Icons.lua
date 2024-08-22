@@ -16,8 +16,8 @@ end
 
 local function OnSpell(tooltip)
 	local _, spellID = tooltip:GetSpell();
-	local _, _, spellIcon = GetSpellInfo(spellID);
-	ShowIcon(tooltip, spellIcon);
+	local spellInfo = C_Spell.GetSpellInfo(spellID);
+	ShowIcon(tooltip, spellInfo.iconID);
 end
 
 local function OnMount(tooltip)

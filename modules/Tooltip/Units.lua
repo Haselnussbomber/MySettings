@@ -137,7 +137,7 @@ local function OnUnit(tooltip)
 			elseif (mentorshipStatus == Enum.PlayerMentorshipStatus.Newcomer) then
 				playerFlag = NPEV2_CHAT_USER_TAG_NEWCOMER .. " ";
 			end
-			local fullName = pvpName or name;
+			local fullName = pvpName ~= "" and pvpName or name;
 			if (realm and realm ~= "" and realm ~= " ") then
 				fullName = fullName .. " - " .. realm;
 			end
@@ -171,7 +171,7 @@ local function OnUnit(tooltip)
 					end
 
 					table.insert(tbl, classColor:WrapTextInColorCode("[") ..
-						targetClassColor:WrapTextInColorCode(pvpName or name) ..
+						targetClassColor:WrapTextInColorCode(pvpName ~= "" and pvpName or name) ..
 						classColor:WrapTextInColorCode("]"));
 				end
 			end

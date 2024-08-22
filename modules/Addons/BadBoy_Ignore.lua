@@ -1,5 +1,5 @@
 EventUtil.ContinueOnAddOnLoaded("BadBoy_Ignore", function()
-	UnitPopupBadBoyIgnoreButtonMixin = CreateFromMixins(UnitPopupButtonBaseMixin);
+	local UnitPopupBadBoyIgnoreButtonMixin = CreateFromMixins(UnitPopupButtonBaseMixin);
 
 	function UnitPopupBadBoyIgnoreButtonMixin:GetButtonName()
 		return "BBI";

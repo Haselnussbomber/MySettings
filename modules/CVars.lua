@@ -17,6 +17,7 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 	SetCVar("nameplateShowAll", true);
 	SetCVar("raidOptionDisplayMainTankAndAssist", false);
 	SetCVar("raidFramesDisplayPowerBars", true);
+	SetCVar("raidFramesDisplayClassColors", true);
 	SetCVar("raidFramesDisplayOnlyHealerPowerBars", true);
 	SetCVar("countdownForCooldowns", true);
 

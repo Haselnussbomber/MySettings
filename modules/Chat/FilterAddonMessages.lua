@@ -17,6 +17,8 @@ local addonMessages = {
 	"Capping is missing locale for",
 	"%[Attune%] v%.?%d+",
 	"BagSync: %[v%d+%.%d+%] /bgs, /bagsync",
+	"BetterBags integration enabled",
+	"BetterBags: Masque integration enabled",
 };
 
 local enabled = true;

@@ -19,6 +19,6 @@ MinimapCluster.MinimapContainer.Minimap:ClearAllPoints();
 MinimapCluster.MinimapContainer.Minimap:SetPoint("CENTER", MinimapCluster.MinimapContainer, -6, 22);
 
 -- make this smaller
-ExpansionLandingPageMinimapButton:SetScale(0.8);
-ExpansionLandingPageMinimapButton:ClearAllPoints();
-ExpansionLandingPageMinimapButton:SetPoint("BOTTOMLEFT", MinimapBackdrop, 20, 30);
+-- ExpansionLandingPageMinimapButton:SetScale(0.8);
+-- ExpansionLandingPageMinimapButton:ClearAllPoints();
+-- ExpansionLandingPageMinimapButton:SetPoint("BOTTOMLEFT", MinimapBackdrop, 20, 30);

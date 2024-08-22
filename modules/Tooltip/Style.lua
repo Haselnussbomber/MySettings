@@ -2,17 +2,12 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 GAME_TOOLTIP_BACKDROP_STYLE_AZERITE_ITEM.padding = nil;
 
-local physicalWidth, physicalHeight = GetPhysicalScreenSize()
-local resolution = format('%dx%d', physicalWidth, physicalHeight)
-local perfect = 768 / physicalHeight
-local scale = perfect / UIParent:GetScale()
-
-local function SetupTooltip(tooltip)
-	if (tooltip.__HaselTooltipSkinned or tooltip:GetObjectType() ~= "GameTooltip") then
+local function SetSkin(tooltip)
+	if (tooltip:IsForbidden() or tooltip:GetObjectType() ~= "GameTooltip") then
 		return;
 	end
 
-	if (not tooltip.SetBackdrop) then
+	if (not tooltip.__HaselTooltipSkinned and not tooltip.SetBackdrop) then
 		_G.Mixin(tooltip, _G.BackdropTemplateMixin);
 		tooltip:HookScript('OnSizeChanged', tooltip.OnBackdropSizeChanged);
 	end
@@ -22,9 +17,9 @@ local function SetupTooltip(tooltip)
 	end
 
 	tooltip:SetBackdrop({
-		edgeFile = [[Interface\Buttons\WHITE8X8]],
 		bgFile = [[Interface\Buttons\WHITE8X8]],
-		edgeSize = scale
+		edgeFile = [[Interface\Buttons\WHITE8X8]],
+		edgeSize = PixelUtil.GetNearestPixelSize(PixelUtil.GetPixelToUIUnitFactor(), UIParent:GetEffectiveScale())
 	});
 
 	tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
@@ -55,19 +50,16 @@ for _, tooltip in next, {
 	AceConfigDialog.tooltip,
 	_G.LibDBIconTooltip,
 } do
-	SetupTooltip(tooltip);
+	SetSkin(tooltip);
 end
 
 -- setup backdrop for new tooltips
-hooksecurefunc("SharedTooltip_OnLoad", SetupTooltip);
-hooksecurefunc(TooltipBackdropTemplateMixin, "TooltipBackdropOnLoad", SetupTooltip);
+hooksecurefunc("SharedTooltip_OnLoad", SetSkin);
+hooksecurefunc(TooltipBackdropTemplateMixin, "TooltipBackdropOnLoad", SetSkin);
 
--- hide NineSlice and setup
+-- update skin
 hooksecurefunc("SharedTooltip_SetBackdropStyle", function(tooltip, parent)
-	if (tooltip.NineSlice and tooltip.NineSlice:IsShown()) then
-		tooltip.NineSlice:Hide();
-		SetupTooltip(tooltip); -- haxx, lol
-	end
+	SetSkin(tooltip);
 end);
 
 -- reposition anchor
@@ -83,6 +75,8 @@ local function OnTooltip(tooltip)
 		itemDataLoadedCancelFunc();
 		itemDataLoadedCancelFunc = nil;
 	end
+
+	SetSkin(tooltip);
 
 	if (tooltip.SetBackdropBorderColor) then
 		tooltip:SetBackdropBorderColor(0.8, 0.8, 0.8, 1);
