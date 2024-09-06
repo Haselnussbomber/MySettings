@@ -3,7 +3,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 GAME_TOOLTIP_BACKDROP_STYLE_AZERITE_ITEM.padding = nil;
 
 local function SetSkin(tooltip)
-	if (tooltip:IsForbidden() or tooltip:GetObjectType() ~= "GameTooltip") then
+	if (tooltip:IsForbidden() or tooltip:GetObjectType() ~= "GameTooltip" or tooltip.IsEmbedded) then
 		return;
 	end
 
@@ -23,7 +23,7 @@ local function SetSkin(tooltip)
 	});
 
 	tooltip:SetBackdropColor(0.1, 0.1, 0.1, 0.8);
-	tooltip:SetBackdropBorderColor(0.8, 0.8, 0.8, 1);
+	tooltip:SetBackdropBorderColor(0.8, 0.8, 0.8, 0);
 
 	tooltip.__HaselTooltipSkinned = true;
 end
