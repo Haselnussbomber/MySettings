@@ -36,6 +36,7 @@ modules/CombatText.lua
 modules/FadeRep.lua
 modules/Fonts.lua
 modules/FriendListColors.lua
+modules/GameMenuFrame.lua
 modules/MicroMenu.lua
 modules/Minimap.lua
 modules/PaperDoll.lua
