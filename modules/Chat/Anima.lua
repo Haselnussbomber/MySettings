@@ -24,5 +24,9 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, message, 
 		return a .. " (" .. tonumber(b ~= "" and b or 1) * spell2anima[spellID] .. " Anima)";
 	end)
 
+	message = message:gsub("(|cnIQ%d+:.-|Hitem:.-|h.-|h|rx?(%d*))", function(a, b)
+		return a .. " (" .. tonumber(b ~= "" and b or 1) * spell2anima[spellID] .. " Anima)";
+	end)
+
 	return false, message, ...;
 end);

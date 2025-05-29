@@ -13,6 +13,15 @@ handlers["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
 	return link;
 end
 
+handlers["(|cnIQ%d+:.-|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
+	local itemId = linkData:match("^%d+");
+	local texture = GetItemIcon(itemId);
+	if (texture) then
+		return textureFormat:format(texture) .. link;
+	end
+	return link;
+end
+
 handlers["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
 	local spellId = linkData:match("^%d+");
 	local spellInfo = C_Spell.GetSpellInfo(spellId);
