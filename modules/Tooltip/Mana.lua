@@ -1,4 +1,8 @@
 local function OnSpell(self)
+	if (self:IsForbidden()) then
+		return;
+	end
+
 	local powerMax = UnitPowerMax("player", Enum.PowerType.Mana);
 	if (powerMax <= 0) then
 		return;
