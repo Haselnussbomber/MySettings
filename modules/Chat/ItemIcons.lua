@@ -4,7 +4,7 @@ local textureFormat = "|T%s:12|t";
 
 local handlers = {};
 
-handlers["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
+handlers["(|Hitem:(.-)|h.-|h)"] = function(link, linkData)
 	local itemId = linkData:match("^%d+");
 	local texture = GetItemIcon(itemId);
 	if (texture) then
@@ -13,16 +13,7 @@ handlers["(|c%x+|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
 	return link;
 end
 
-handlers["(|cnIQ%d+:.-|Hitem:(.-)|h.-|h|r)"] = function(link, linkData)
-	local itemId = linkData:match("^%d+");
-	local texture = GetItemIcon(itemId);
-	if (texture) then
-		return textureFormat:format(texture) .. link;
-	end
-	return link;
-end
-
-handlers["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
+handlers["(|Hspell:(.-)|h.-|h)"] = function(link, linkData)
 	local spellId = linkData:match("^%d+");
 	local spellInfo = C_Spell.GetSpellInfo(spellId);
 	if (spellInfo) then
@@ -31,7 +22,7 @@ handlers["(|c%x+|Hspell:(.-)|h.-|h|r)"] = function(link, linkData)
 	return link;
 end
 
-handlers["(|c%x+|Hachievement:(.-)|h.-|h|r)"] = function(link, linkData)
+handlers["(|Hachievement:(.-)|h.-|h)"] = function(link, linkData)
 	local achievementId = linkData:match("^%d+");
 	local texture = select(10, GetAchievementInfo(achievementId));
 	if (texture) then
@@ -40,7 +31,7 @@ handlers["(|c%x+|Hachievement:(.-)|h.-|h|r)"] = function(link, linkData)
 	return link;
 end
 
-handlers["(|c%x+|Hbattlepet:(.-)|h.-|h|r)"] = function(link)
+handlers["(|Hbattlepet:(.-)|h.-|h)"] = function(link)
 	-- copied from Interface/FrameXML/DressUpFrames.lua (8.0.1)
 	local _, _, _, _, speciesIDString, _, _, _, _, _, battlePetID = strsplit(":|H", link);
 	local speciesID, _, _, _, _, _, _, _, texture = C_PetJournal.GetPetInfoByPetID(battlePetID);
@@ -55,7 +46,7 @@ handlers["(|c%x+|Hbattlepet:(.-)|h.-|h|r)"] = function(link)
 	return link;
 end
 
-handlers["(|c%x+|Hcurrency:(.-)|h.-|h|r)"] = function(link, linkData)
+handlers["(|Hcurrency:(.-)|h.-|h)"] = function(link, linkData)
 	local currencyId = linkData:match("^%d+");
 	local texture = C_CurrencyInfo.GetCurrencyInfo(currencyId).iconFileID;
 	if (texture) then
@@ -65,7 +56,7 @@ handlers["(|c%x+|Hcurrency:(.-)|h.-|h|r)"] = function(link, linkData)
 end
 
 -- |cff71d5ff|Hmawpower:1177|h[Strahlende Essenz]|h|r
-handlers["(|c%x+|Hmawpower:(%d+)|h.-|h|r)"] = function(link, id)
+handlers["(|Hmawpower:(%d+)|h.-|h)"] = function(link, id)
 	local spellID = addon.GetMawPowerSpellID(tonumber(id));
 	if (spellID) then
 		local spellInfo = C_Spell.GetSpellInfo(spellID);
