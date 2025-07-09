@@ -1,7 +1,7 @@
 local addonName = ...;
 
 local function ShowIcon(tooltip, iconID)
-	if (not iconID) then
+	if (not iconID or not tooltip.TextLeft1 or not tooltip.TextRight1) then
 		return;
 	end
 
