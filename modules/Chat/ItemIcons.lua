@@ -4,73 +4,55 @@ local textureFormat = "|T%s:12|t";
 
 local handlers = {};
 
-handlers["(|Hitem:(.-)|h.-|h)"] = function(link, linkData)
-	local itemId = linkData:match("^%d+");
-	local texture = GetItemIcon(itemId);
-	if (texture) then
-		return textureFormat:format(texture) .. link;
-	end
-	return link;
+handlers["item"] = function(linkOptions)
+	local itemId = tonumber(linkOptions:match("^%d+"));
+	local _, icon = C_PetJournal.GetPetInfoByItemID(itemId);
+	return icon or GetItemIcon(itemId);
 end
 
-handlers["(|Hspell:(.-)|h.-|h)"] = function(link, linkData)
-	local spellId = linkData:match("^%d+");
-	local spellInfo = C_Spell.GetSpellInfo(spellId);
-	if (spellInfo) then
-		return textureFormat:format(spellInfo.iconID) .. link;
-	end
-	return link;
+handlers["spell"] = function(linkOptions)
+	local spellId = tonumber(linkOptions:match("^%d+"));
+	return C_Spell.GetSpellTexture(spellId);
 end
 
-handlers["(|Hachievement:(.-)|h.-|h)"] = function(link, linkData)
-	local achievementId = linkData:match("^%d+");
-	local texture = select(10, GetAchievementInfo(achievementId));
-	if (texture) then
-		return textureFormat:format(texture) .. link;
-	end
-	return link;
+handlers["achievement"] = function(linkOptions)
+	local achievementId = tonumber(linkOptions:match("^%d+"));
+	return select(10, GetAchievementInfo(achievementId));
 end
 
-handlers["(|Hbattlepet:(.-)|h.-|h)"] = function(link)
-	-- copied from Interface/FrameXML/DressUpFrames.lua (8.0.1)
-	local _, _, _, _, speciesIDString, _, _, _, _, _, battlePetID = strsplit(":|H", link);
-	local speciesID, _, _, _, _, _, _, _, texture = C_PetJournal.GetPetInfoByPetID(battlePetID);
-	if (speciesID== tonumber(speciesIDString) and texture) then
-		return textureFormat:format(texture) .. link;
-	else
-		_, texture = C_PetJournal.GetPetInfoBySpeciesID(tonumber(speciesIDString));
-		if (texture) then
-			return textureFormat:format(texture) .. link;
-		end
-	end
-	return link;
+handlers["battlepet"] = function(linkOptions)
+	local speciesId = tonumber(linkOptions:match("^%d+"));
+	return select(2, C_PetJournal.GetPetInfoBySpeciesID(speciesId));
 end
 
-handlers["(|Hcurrency:(.-)|h.-|h)"] = function(link, linkData)
-	local currencyId = linkData:match("^%d+");
-	local texture = C_CurrencyInfo.GetCurrencyInfo(currencyId).iconFileID;
-	if (texture) then
-		return textureFormat:format(texture) .. link;
-	end
-	return link;
+handlers["currency"] = function(linkOptions)
+	local currencyId = tonumber(linkOptions:match("^%d+"));
+	local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyId);
+	return currencyInfo and currencyInfo.iconFileID;
 end
 
--- |cff71d5ff|Hmawpower:1177|h[Strahlende Essenz]|h|r
-handlers["(|Hmawpower:(%d+)|h.-|h)"] = function(link, id)
-	local spellID = addon.GetMawPowerSpellID(tonumber(id));
-	if (spellID) then
-		local spellInfo = C_Spell.GetSpellInfo(spellID);
-		if (spellInfo) then
-			return textureFormat:format(spellInfo.iconID) .. link;
-		end
-	end
-	return link;
+handlers["mawpower"] = function(linkOptions)
+	local id = tonumber(linkOptions:match("^%d+"));
+	local spellId = addon.GetMawPowerSpellID(id);
+	return spellId and C_Spell.GetSpellTexture(spellId);
+end
+
+handlers["mount"] = function(linkOptions)
+	local spellId = tonumber(linkOptions:match("^%d+"));
+	return C_Spell.GetSpellTexture(spellId);
 end
 
 local function filter(_, _, msg, ...)
-	for pattern, replacer in pairs(handlers) do
-		msg = msg:gsub(pattern, replacer);
-	end
+	-- pattern from LinkUtil.ExtractLink, but non-greedy and without displayText
+	msg = msg:gsub([[(|H([^:]-):([^|]-)|h.-|h)]], function (link, linkType, linkOptions)
+		if (handlers[linkType]) then
+			local icon = handlers[linkType](linkOptions);
+			if (icon) then
+				return textureFormat:format(icon) .. link;
+			end
+		end
+		return link;
+	end);
 
 	return false, msg, ...;
 end
