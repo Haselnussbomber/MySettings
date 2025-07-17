@@ -1,13 +1,14 @@
-import { readCSVObjects } from "csv/mod.ts";
+import { CsvParseStream } from "jsr:@std/csv/parse-stream";
 
-const f = await Deno.open("scripts/data/mawpower.csv");
+const res = await fetch("https://wago.tools/db2/mawpower/csv");
+const csvStream = res.body!
+	.pipeThrough(new TextDecoderStream())
+	.pipeThrough(new CsvParseStream({ skipFirstRow: true }));
 
 const lines = [];
-for await (const row of readCSVObjects(f)) {
+for await (const row of csvStream) {
   lines.push(`\t[${row.ID}] = ${row.SpellID}`);
 }
-
-f.close();
 
 const out = `local _, addon = ...;
 
