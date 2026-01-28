@@ -1,8 +1,8 @@
 local function shouldShow(link)
-	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo(link);
+	local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = C_Item.GetItemInfo(link);
 
 	return (
-		IsEquippableItem(link)
+		C_Item.IsEquippableItem(link)
 		and itemRarity > Enum.ItemQuality.Common
 		and not ( itemRarity == Enum.ItemQuality.Heirloom and iLevel == 1 )
 		and equipSlot ~= "INVTYPE_TABARD"
@@ -16,7 +16,7 @@ local function replacer(link)
 		return link;
 	end
 
-	local effectiveItemLevel = GetDetailedItemLevelInfo(link);
+	local effectiveItemLevel = C_Item.GetDetailedItemLevelInfo(link);
 	if (effectiveItemLevel) then
 		return link .. " (" .. effectiveItemLevel .. ")";
 	end
@@ -29,5 +29,5 @@ local function filter(_, _, msg, ...)
 end
 
 for k in pairs(getmetatable(ChatTypeInfo).__index) do
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..k, filter);
+	ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_"..k, filter);
 end

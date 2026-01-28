@@ -17,7 +17,7 @@ MerchantFrame:HookScript("OnShow", function(self)
 			if (info) then
 				local itemLink = info.hyperlink;
 				if (itemLink and not info.hasNoValue) then
-					local _, _, rarity, _, _, _, _, _, _, _, itemPrice, classID, _, bindType = GetItemInfo(itemLink);
+					local _, _, rarity, _, _, _, _, _, _, _, itemPrice, classID, _, bindType = C_Item.GetItemInfo(itemLink);
 
 					if (rarity and rarity == 0
 						and (classID ~= 12 or bindType ~= 4) -- Quest can be classID:12 or bindType:4

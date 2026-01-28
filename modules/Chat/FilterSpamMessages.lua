@@ -3,7 +3,7 @@ local playerMessages = {
 	"^May I please have .* if you don't need it%?$",
 };
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", function(self, event, ...)
+ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_WHISPER", function(self, event, ...)
 	local message = ...;
 	for _, v in ipairs(playerMessages) do
 		if (message:find(v)) then

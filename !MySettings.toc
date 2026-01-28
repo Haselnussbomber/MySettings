@@ -1,7 +1,7 @@
-## Interface: 100200
+## Interface: 120000
 ## Title: !MySettings
 ## Author: Haselnussbomber
-## Dependencies: LibStub, Ace3, SharedMedia, LibDBIcon-1.0
+## Dependencies: Ace3, SharedMedia, LibDBIcon-1.0
 
 data/mawpower.lua
 
@@ -13,7 +13,6 @@ modules/Addons/FarmHud.lua
 modules/Addons/MinimalArchaeology.lua
 
 modules/Tooltip/Icons.lua
-modules/Tooltip/Mana.lua
 modules/Tooltip/Style.lua
 modules/Tooltip/Units.lua
 modules/Tooltip/Auras.lua
@@ -45,5 +44,6 @@ modules/QuestReward.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
 modules/TalkingHeadFrame.lua
+modules/UntrackHiddenQuests.lua
 modules/UntrackTravelersLog.lua
 modules/WorldMap.lua

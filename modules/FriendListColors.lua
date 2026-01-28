@@ -23,30 +23,6 @@ local function GetClassColor(className)
 	return RAID_CLASS_COLORS[GetClassName(className)]:GenerateHexColor();
 end
 
-local function GetBNGetFriendInfo(id)
-	local _, accountName, battleTag, _, _, bnetIDGameAccount = BNGetFriendInfo(id);
-	local obj = {
-		accountName = accountName,
-		battleTag = battleTag,
-	};
-
-	if (bnetIDGameAccount) then
-		local _, characterName, client, realmName, _, _, _, class, _, zoneName, level, _, _, _, online, _, _, _, _, _, wowProjectID = BNGetGameAccountInfo(bnetIDGameAccount);
-		obj.gameAccountInfo = {
-			areaName = zoneName,
-			characterLevel = level,
-			characterName = characterName,
-			className = class,
-			clientProgram = client,
-			isOnline = online,
-			realmName = realmName,
-			wowProjectID = wowProjectID,
-		};
-	end
-
-	return obj;
-end
-
 local function FriendsFrameUpdateFriendButtonHook(self)
 	if (InCombatLockdown()) then
 		return;

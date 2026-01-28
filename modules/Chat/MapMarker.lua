@@ -12,5 +12,5 @@ local function filter(_, _, msg, ...)
 end
 
 for k in pairs(getmetatable(ChatTypeInfo).__index) do
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..k, filter);
+	ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_"..k, filter);
 end

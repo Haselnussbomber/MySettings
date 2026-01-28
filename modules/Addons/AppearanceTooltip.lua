@@ -24,7 +24,7 @@ EventUtil.ContinueOnAddOnLoaded("AppearanceTooltip", function()
 		end
 	end);
 
-	for _, key in ipairs({ "model", "modelZoomed", modelWeapon }) do
+	for _, key in ipairs({ "model", "modelZoomed", "modelWeapon" }) do
 		tooltip[key]:ClearAllPoints();
 		tooltip[key]:SetPoint("TOPLEFT", tooltip, "TOPLEFT", edgeSize, -edgeSize)
 		tooltip[key]:SetPoint("BOTTOMRIGHT", tooltip, "BOTTOMRIGHT", -edgeSize, edgeSize * 2)

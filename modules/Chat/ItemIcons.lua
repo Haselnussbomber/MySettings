@@ -5,28 +5,28 @@ local textureFormat = "|T%s:12|t";
 local handlers = {};
 
 handlers["item"] = function(linkOptions)
-	local itemId = tonumber(linkOptions:match("^%d+"));
+	local itemId = tonumber(linkOptions:match("^%d+")) or 0;
 	local _, icon = C_PetJournal.GetPetInfoByItemID(itemId);
-	return icon or GetItemIcon(itemId);
+	return icon or C_Item.GetItemIconByID(itemId);
 end
 
 handlers["spell"] = function(linkOptions)
-	local spellId = tonumber(linkOptions:match("^%d+"));
+	local spellId = tonumber(linkOptions:match("^%d+")) or 0;
 	return C_Spell.GetSpellTexture(spellId);
 end
 
 handlers["achievement"] = function(linkOptions)
-	local achievementId = tonumber(linkOptions:match("^%d+"));
+	local achievementId = tonumber(linkOptions:match("^%d+")) or 0;
 	return select(10, GetAchievementInfo(achievementId));
 end
 
 handlers["battlepet"] = function(linkOptions)
-	local speciesId = tonumber(linkOptions:match("^%d+"));
+	local speciesId = tonumber(linkOptions:match("^%d+")) or 0;
 	return select(2, C_PetJournal.GetPetInfoBySpeciesID(speciesId));
 end
 
 handlers["currency"] = function(linkOptions)
-	local currencyId = tonumber(linkOptions:match("^%d+"));
+	local currencyId = tonumber(linkOptions:match("^%d+")) or 0;
 	local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(currencyId);
 	return currencyInfo and currencyInfo.iconFileID;
 end
@@ -38,7 +38,7 @@ handlers["mawpower"] = function(linkOptions)
 end
 
 handlers["mount"] = function(linkOptions)
-	local spellId = tonumber(linkOptions:match("^%d+"));
+	local spellId = tonumber(linkOptions:match("^%d+")) or 0;
 	return C_Spell.GetSpellTexture(spellId);
 end
 
@@ -58,5 +58,5 @@ local function filter(_, _, msg, ...)
 end
 
 for k in pairs(getmetatable(ChatTypeInfo).__index) do
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_"..k, filter);
+	ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_"..k, filter);
 end

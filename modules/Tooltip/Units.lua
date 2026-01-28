@@ -97,11 +97,17 @@ end
 
 local function OnUnit(tooltip)
 	if (C_PetBattles and C_PetBattles.IsInBattle()) then
+		Reset(tooltip);
+		return;
+	end
+
+	if (InCombatLockdown()) then
+		Reset(tooltip);
 		return;
 	end
 
 	local _, unit, guid = TooltipUtil.GetDisplayedUnit(tooltip);
-	if (not unit) then
+	if (issecretvalue(unit) or issecretvalue(guid) or not unit) then
 		Reset(tooltip);
 		return;
 	end
@@ -154,25 +160,28 @@ local function OnUnit(tooltip)
 			if (UnitExists(unittarget)) then
 				table.insert(tbl, colorDefaultText:WrapTextInColorCode(":"));
 
-				if (UnitIsUnit(unittarget, "player")) then
-					table.insert(tbl, WHITE_FONT_COLOR:WrapTextInColorCode("<<YOU>>"));
-				else
-					local name = UnitName(unittarget);
-					local pvpName = UnitPVPName(unittarget);
-					local _, classFilename = UnitClass(unittarget);
-					local targetClassColor = RAID_CLASS_COLORS["PRIEST"];
-
-					if (UnitIsDead(unittarget) or not UnitIsConnected(unittarget)) then
-						targetClassColor = colorDefaultText;
-					elseif (UnitIsPlayer(unittarget)) then
-						targetClassColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
+				local isPlayer = UnitIsUnit(unittarget, "player");
+				if (not issecretvalue(isPlayer)) then
+					if (isPlayer) then
+						table.insert(tbl, WHITE_FONT_COLOR:WrapTextInColorCode("<<YOU>>"));
 					else
-						targetClassColor = getUnitReactionColor(unittarget);
-					end
+						local name = UnitName(unittarget);
+						local pvpName = UnitPVPName(unittarget);
+						local _, classFilename = UnitClass(unittarget);
+						local targetClassColor = RAID_CLASS_COLORS["PRIEST"];
 
-					table.insert(tbl, classColor:WrapTextInColorCode("[") ..
-						targetClassColor:WrapTextInColorCode(pvpName ~= "" and pvpName or name) ..
-						classColor:WrapTextInColorCode("]"));
+						if (UnitIsDead(unittarget) or not UnitIsConnected(unittarget)) then
+							targetClassColor = colorDefaultText;
+						elseif (UnitIsPlayer(unittarget)) then
+							targetClassColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
+						else
+							targetClassColor = getUnitReactionColor(unittarget);
+						end
+
+						table.insert(tbl, classColor:WrapTextInColorCode("[") ..
+							targetClassColor:WrapTextInColorCode(pvpName ~= "" and pvpName or name) ..
+							classColor:WrapTextInColorCode("]"));
+					end
 				end
 			end
 
@@ -200,7 +209,7 @@ local function OnUnit(tooltip)
 			end
 
 			-- reaction
-			if (reaction) then
+			if (reactionText) then
 				table.insert(tbl, reactionColor:WrapTextInColorCode(reactionText));
 			end
 
@@ -275,7 +284,9 @@ local function OnUnit(tooltip)
 			local inRaid = IsInRaid();
 			for i = 1, numGroup do
 				local groupUnit = (inRaid and "raid"..i or "party"..i);
-				if (UnitIsUnit(groupUnit.."target", unit) and not UnitIsUnit(groupUnit, "player")) then
+				local isUnit = UnitIsUnit(groupUnit.."target", unit);
+				local isPlayer = UnitIsUnit(groupUnit, "player");
+				if (not issecretvalue(isUnit) and not issecretvalue(isPlayer) and isUnit and not isPlayer) then
 					local _, _, classID = UnitClass(groupUnit);
 					local classInfo = C_CreatureInfo.GetClassInfo(classID);
 					if (classInfo) then

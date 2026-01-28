@@ -10,7 +10,7 @@ EventRegistry:RegisterFrameEventAndCallback("QUEST_COMPLETE", function()
 	for index = 1, num do
 		local link = GetQuestItemLink("choice", index);
 		if (link) then
-			local itemSellPrice = select(11, GetItemInfo(link));
+			local itemSellPrice = select(11, C_Item.GetItemInfo(link));
 			if (itemSellPrice and itemSellPrice > price) then
 				price = itemSellPrice;
 				choice = index;

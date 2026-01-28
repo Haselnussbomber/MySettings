@@ -5,7 +5,7 @@ EventUtil.ContinueOnAddOnLoaded("MinimalArchaeology", function()
 		cooldown:SetFrameStrata("TOOLTIP");
 
 		MinArchCompanion.events.SPELL_UPDATE_COOLDOWN = function()
-			local start, duration, enable, modRate = GetSpellCooldown(SURVEY_SPELL_ID);
+			local start, duration, enable, modRate = GetSpellCooldown(80451);
 			CooldownFrame_Set(cooldown, start, duration, enable, false, modRate);
 		end
 

@@ -19,6 +19,7 @@ local addonMessages = {
 	"BagSync: %[v%d+%.%d+%] /bgs, /bagsync",
 	"BetterBags integration enabled",
 	"BetterBags: Masque integration enabled",
+	"Endeavor Tracker: Loaded!",
 };
 
 local enabled = true;

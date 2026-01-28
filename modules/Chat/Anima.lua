@@ -5,7 +5,7 @@ local spell2anima = {
 	[336456] = 250,
 };
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, message, ...)
+ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, message, ...)
 	local link = message:match("|Hitem:.-|h.-|h");
 	if (not link) then
 		return false;
@@ -15,7 +15,7 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, message, 
 		return false;
 	end
 
-	local _, spellID = GetItemSpell(link);
+	local _, spellID = C_Item.GetItemSpell(link);
 	if (not spell2anima[spellID]) then
 		return false;
 	end

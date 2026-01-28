@@ -32,53 +32,106 @@ local function Reset(self)
 	powerBar:Hide();
 end
 
+local abbrevData = {
+	breakpointData = {
+		{
+			breakpoint = 1e12,
+			abbreviation = "B",
+			significandDivisor = 1e10,
+			fractionDivisor = 100,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e11,
+			abbreviation = "B",
+			significandDivisor = 1e9,
+			fractionDivisor = 1,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e10,
+			abbreviation = "B",
+			significandDivisor = 1e8,
+			fractionDivisor = 10,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e9,
+			abbreviation = "B",
+			significandDivisor = 1e7,
+			fractionDivisor = 100,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e8,
+			abbreviation = "M",
+			significandDivisor = 1e6,
+			fractionDivisor = 1,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e7,
+			abbreviation = "M",
+			significandDivisor = 1e5,
+			fractionDivisor = 10,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e6,
+			abbreviation = "M",
+			significandDivisor = 1e4,
+			fractionDivisor = 100,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e5,
+			abbreviation = "K",
+			significandDivisor = 1000,
+			fractionDivisor = 1,
+			abbreviationIsGlobal = false,
+		},
+		{
+			breakpoint = 1e4,
+			abbreviation = "K",
+			significandDivisor = 100,
+			fractionDivisor = 10,
+			abbreviationIsGlobal = false,
+		},
+	},
+}
+
 local function FormatValue(val)
-	if (val < 10000) then
-		return tostring(floor(val));
-	elseif (val < 1000000) then
-		return ("%.1fk"):format(val / 1000);
-	elseif (val < 1000000000) then
-		return ("%.2fm"):format(val / 1000000);
-	else
-		return ("%.2fg"):format(val / 1000000000);
-	end
+	return AbbreviateNumbers(val, abbrevData);
 end
 
-local function UpdateStatusBars(unit, hasPower)
+local function UpdateStatusBars(unit)
 	local cur = UnitHealth(unit);
 	local max = UnitHealthMax(unit);
+	local per = UnitHealthPercent(unit, nil, CurveConstants.ScaleTo100);
 
 	healthBar:SetMinMaxValues(0, max);
 	healthBar:SetValue(cur);
-	healthBar.text:SetFormattedText("%s / %s (%.0f%%)", FormatValue(cur), FormatValue(max), cur / max * 100);
+	healthBar.text:SetFormattedText("%s / %s (%d%%)", FormatValue(cur), FormatValue(max), per);
 
 	local _, classFilename = UnitClass(unit);
 	local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
 	healthBar:SetStatusBarColor(classColor.r, classColor.g, classColor.b);
 
-	local minWidth = healthBar.text:GetStringWidth() + BAR_SPACING * 4;
+	local powerType = UnitPowerType(unit);
 
-	if (hasPower) then
-		local powerType = UnitPowerType(unit);
+	cur = UnitPower(unit, powerType);
+	max = UnitPowerMax(unit, powerType);
+	per = UnitPowerPercent(unit, powerType, nil, CurveConstants.ScaleTo100);
 
-		cur = UnitPower(unit, powerType);
-		max = UnitPowerMax(unit, powerType);
-
-		powerBar:SetMinMaxValues(0, max);
-		powerBar:SetValue(cur);
-		powerBar.text:SetFormattedText("%s / %s (%.0f%%)", FormatValue(cur), FormatValue(max), cur / max * 100);
-
-		minWidth = math.max(minWidth, healthBar.text:GetStringWidth() + BAR_SPACING * 4);
-
-		if (powerType == 0) then
-			powerBar:SetStatusBarColor(0.3, 0.55, 0.9);
-		else
-			local powerColor = PowerBarColor[powerType or 5];
-			powerBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b);
-		end
+	powerBar:SetMinMaxValues(0, max);
+	powerBar:SetValue(cur);
+	powerBar.text:SetFormattedText("%s / %s (%d%%)", FormatValue(cur), FormatValue(max), per);
+	if (powerType == 0) then
+		powerBar:SetStatusBarColor(0.3, 0.55, 0.9);
+	else
+		local powerColor = PowerBarColor[powerType or 5];
+		powerBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b);
 	end
-
-	GameTooltip:SetMinimumWidth(minWidth);
 end
 
 local function OnUnit(tooltip)
@@ -87,7 +140,7 @@ local function OnUnit(tooltip)
 	end
 
 	local _, unit, guid = TooltipUtil.GetDisplayedUnit(tooltip);
-	if (not unit) then
+	if (issecretvalue(unit) or issecretvalue(guid) or not unit) then
 		Reset(tooltip);
 		return;
 	end
@@ -95,25 +148,21 @@ local function OnUnit(tooltip)
 	currentGuid = guid;
 
 	if (not healthBar:IsShown()) then
-		local hasPower = UnitPowerMax(unit) > 0;
-
-		GameTooltip_AddBlankLinesToTooltip(tooltip, hasPower and 3 or 2);
-		local lastLine = _G[tooltip:GetName() .. "TextLeft" .. (tooltip:NumLines() - (hasPower and 2 or 1))];
+		GameTooltip_AddBlankLinesToTooltip(tooltip, 3);
+		local lastLine = _G[tooltip:GetName() .. "TextLeft" .. (tooltip:NumLines() - 2)];
 		tooltip:Show();
 
-		UpdateStatusBars(unit, hasPower);
+		UpdateStatusBars(unit);
 
 		healthBar:ClearAllPoints();
-		healthBar:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, hasPower and 8 or 5);
-		healthBar:SetPoint("TOPRIGHT", tooltip, "RIGHT", -10, hasPower and 8 or 5);
+		healthBar:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, 8);
+		healthBar:SetPoint("TOPRIGHT", tooltip, "RIGHT", -10, 8);
 		healthBar:Show();
 
-		if (hasPower) then
-			powerBar:ClearAllPoints();
-			powerBar:SetPoint("TOPLEFT", healthBar, "BOTTOMLEFT", 0, -BAR_SPACING);
-			powerBar:SetPoint("TOPRIGHT", healthBar, "BOTTOMRIGHT", 0, -BAR_SPACING);
-			powerBar:Show();
-		end
+		powerBar:ClearAllPoints();
+		powerBar:SetPoint("TOPLEFT", healthBar, "BOTTOMLEFT", 0, -BAR_SPACING);
+		powerBar:SetPoint("TOPRIGHT", healthBar, "BOTTOMRIGHT", 0, -BAR_SPACING);
+		powerBar:Show();
 	end
 
 	tooltip:Show(); -- to trigger size update
@@ -130,7 +179,18 @@ f:RegisterEvent("UNIT_DISPLAYPOWER");
 f:RegisterEvent("UNIT_POWER_UPDATE");
 f:RegisterEvent("UNIT_MAXPOWER");
 f:SetScript("OnEvent", function(self, event, unit, ...)
-	if (currentGuid == UnitGUID(unit)) then
-		UpdateStatusBars(unit, UnitPowerMax(unit) > 0);
+	if (InCombatLockdown()) then
+		Reset(GameTooltip);
+		return;
+	end
+
+	local guid = UnitGUID(unit);
+	if (issecretvalue(guid) or issecretvalue(currentGuid)) then
+		Reset(GameTooltip);
+		return;
+	end
+
+	if (currentGuid == guid) then
+		UpdateStatusBars(unit);
 	end
 end);

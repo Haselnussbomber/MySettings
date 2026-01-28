@@ -39,6 +39,31 @@ local function CreateAuraFrame(parent)
 	return aura;
 end
 
+local Enum_DispelType = {
+    -- https://wago.tools/db2/SpellDispelType
+    None = 0,
+    Magic = 1,
+    Curse = 2,
+    Disease = 3,
+    Poison = 4,
+    Enrage = 9,
+    Bleed = 11,
+}
+local DEBUFF_DISPLAY_COLOR_INFO = {
+    [Enum_DispelType.None] = DEBUFF_TYPE_NONE_COLOR,
+    [Enum_DispelType.Magic] = DEBUFF_TYPE_MAGIC_COLOR,
+    [Enum_DispelType.Curse] = DEBUFF_TYPE_CURSE_COLOR,
+    [Enum_DispelType.Disease] = DEBUFF_TYPE_DISEASE_COLOR,
+    [Enum_DispelType.Poison] = DEBUFF_TYPE_POISON_COLOR,
+    [Enum_DispelType.Enrage] = DEBUFF_TYPE_BLEED_COLOR, -- enrage
+    [Enum_DispelType.Bleed] = DEBUFF_TYPE_BLEED_COLOR,
+}
+local dispelColorCurve = C_CurveUtil.CreateColorCurve()
+dispelColorCurve:SetType(Enum.LuaCurveType.Step)
+for i, c in pairs(DEBUFF_DISPLAY_COLOR_INFO) do
+    dispelColorCurve:AddPoint(i, c)
+end
+
 local function DisplayAuras(unit, auraType, auraOffset)
 	local aurasPerRow = floor((GameTooltip:GetWidth() - 4) / (AURA_SIZE + 1));
 	local xOffsetBasis = (auraType == "HELPFUL" and 1 or -1);
@@ -71,19 +96,20 @@ local function DisplayAuras(unit, auraType, auraOffset)
 		end
 
 		-- cooldown
-		if (auraData.duration and auraData.duration > 0 and auraData.expirationTime and auraData.expirationTime > 0) then
-			aura.cooldown:SetCooldown(auraData.expirationTime - auraData.duration, auraData.duration);
-		else
-			aura.cooldown:Hide();
-		end
+		-- C_UnitAuras.DoesAuraHaveExpirationTime(unit, auraData.auraInstanceID)
+		local auraDuration = C_UnitAuras.GetAuraDuration(unit, auraData.auraInstanceID);
+		aura.cooldown:SetCooldownFromDurationObject(auraDuration);
 
-		-- texture + count
+		-- icon
 		aura.icon:SetTexture(auraData.icon);
-		aura.count:SetText(auraData.applications and auraData.applications > 1 and auraData.applications or "");
+
+		-- stack count
+		local count = C_UnitAuras.GetAuraApplicationDisplayCount(unit, auraData.auraInstanceID);
+		aura.count:SetText(count);
 
 		-- border for debuffs
 		if (auraType == "HARMFUL") then
-			local color = DebuffTypeColor[auraData.dispelName] or DebuffTypeColor["none"];
+			local color = C_UnitAuras.GetAuraDispelTypeColor(unit, auraData.auraInstanceID, dispelColorCurve)
 			aura.border:SetVertexColor(color.r, color.g, color.b);
 			aura.border:Show();
 		else
@@ -112,7 +138,7 @@ local function OnUnit(tooltip)
 	end
 
 	local _, unit, guid = TooltipUtil.GetDisplayedUnit(tooltip);
-	if (not unit) then
+	if (issecretvalue(unit) or issecretvalue(guid) or not unit) then
 		Reset(tooltip);
 		return;
 	end
@@ -129,7 +155,18 @@ GameTooltip:HookScript("OnTooltipCleared", Reset);
 local f = CreateFrame("frame");
 f:RegisterEvent("UNIT_AURA");
 f:SetScript("OnEvent", function(self, event, unit, ...)
-	if (event == "UNIT_AURA" and currentGuid == UnitGUID(unit)) then
+	if (InCombatLockdown()) then
+		Reset(GameTooltip);
+		return;
+	end
+
+	local guid = UnitGUID(unit);
+	if (issecretvalue(guid) or issecretvalue(currentGuid)) then
+		Reset(GameTooltip);
+		return;
+	end
+
+	if (event == "UNIT_AURA" and currentGuid == guid) then
 		UpdateAuras(unit);
 	end
 end);

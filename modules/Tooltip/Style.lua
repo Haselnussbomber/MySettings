@@ -87,12 +87,12 @@ local function handleItemLink(tooltip, itemLink)
 	if (not itemLink or not tooltip.SetBackdropBorderColor) then
 		return;
 	end
-	local _, _, itemRarity = GetItemInfo(itemLink);
+	local _, _, itemRarity = C_Item.GetItemInfo(itemLink);
 	local linkType = LinkUtil.ExtractLink(itemLink);
 	if (linkType == "keystone") then
 		itemRarity = 4;
 	end
-	local r, g, b = GetItemQualityColor(itemRarity or 0);
+	local r, g, b = C_Item.GetItemQualityColor(itemRarity or 0);
 	tooltip:SetBackdropBorderColor(r, g, b, 1);
 end
 

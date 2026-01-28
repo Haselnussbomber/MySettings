@@ -58,5 +58,5 @@ local function filter(self, event, message, ...)
 	return false, message, ...;
 end
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_MONEY", filter);
-ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", filter);
+ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_MONEY", filter);
+ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_SYSTEM", filter);

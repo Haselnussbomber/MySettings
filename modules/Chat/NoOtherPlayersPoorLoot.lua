@@ -1,6 +1,6 @@
 local playerGUID = UnitGUID("player");
 
-ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, ...)
+ChatFrameUtil.AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, ...)
 	local senderGUID = select(12, ...);
 	if (senderGUID == playerGUID) then
 		return false;
@@ -12,6 +12,6 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", function(self, event, ...)
 		return false;
 	end
 
-	local _, _, itemRarity = GetItemInfo(link);
+	local _, _, itemRarity = C_Item.GetItemInfo(link);
 	return itemRarity == Enum.ItemQuality.Poor;
 end);
