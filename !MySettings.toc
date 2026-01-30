@@ -46,4 +46,3 @@ modules/SubscriptionInterstitial.lua
 modules/TalkingHeadFrame.lua
 modules/UntrackHiddenQuests.lua
 modules/UntrackTravelersLog.lua
-modules/WorldMap.lua
