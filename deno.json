@@ -1,7 +1,0 @@
-{
-  "license": "WTFPL",
-  "lock": false,
-  "tasks": {
-    "update": "deno run --allow-read=scripts/data/ --allow-write=data/ --allow-net=wago.tools scripts/update.ts"
-  }
-}

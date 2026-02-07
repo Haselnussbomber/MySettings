@@ -1,1 +1,0 @@
-BagsBar:Hide();

@@ -1,48 +1,19 @@
-## Interface: 120000
+## Interface: 20505
 ## Title: !MySettings
 ## Author: Haselnussbomber
-## Dependencies: Ace3, SharedMedia, LibDBIcon-1.0
-
-data/mawpower.lua
-
-modules/Setup.lua
 
 modules/Addons/AppearanceTooltip.lua
-modules/Addons/BadBoy_Ignore.lua
-modules/Addons/FarmHud.lua
-modules/Addons/MinimalArchaeology.lua
-
-modules/Tooltip/Icons.lua
-modules/Tooltip/Style.lua
-modules/Tooltip/Units.lua
-modules/Tooltip/Auras.lua
-modules/Tooltip/StatusBars.lua
+modules/Addons/DragonflightUI.lua
 
 modules/Chat/FilterAddonMessages.lua
 modules/Chat/FilterSpamMessages.lua
-modules/Chat/FilterSystemMessages.lua
 modules/Chat/ItemIcons.lua
-modules/Chat/ItemLevel.lua
-modules/Chat/MapMarker.lua
-modules/Chat/NoOtherPlayersPoorLoot.lua
-modules/Chat/Anima.lua
 modules/Chat/Money.lua
 
 modules/AutoSellAndRepair.lua
-modules/BagsBar.lua
 modules/CVars.lua
-modules/ClassAddons.lua
 modules/CombatText.lua
 modules/FadeRep.lua
-modules/Fonts.lua
 modules/FriendListColors.lua
-modules/GameMenuFrame.lua
-modules/MicroMenu.lua
-modules/Minimap.lua
 modules/PaperDoll.lua
 modules/QuestReward.lua
-modules/StatusTrackingBarManager.lua
-modules/SubscriptionInterstitial.lua
-modules/TalkingHeadFrame.lua
-modules/UntrackHiddenQuests.lua
-modules/UntrackTravelersLog.lua

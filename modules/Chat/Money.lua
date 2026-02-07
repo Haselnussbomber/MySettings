@@ -1,9 +1,6 @@
 -- "Ihr plündert %s" -> "Ihr plündert (.*)"
 local REGEX_YOU_LOOT_MONEY = YOU_LOOT_MONEY:gsub("%%s", "(.*)");
 
--- "Erhalten: |cffffffff%s|r" -> "Erhalten: |cffffffff(.*)|r"
-local REGEX_GENERIC_MONEY_GAINED_RECEIPT = GENERIC_MONEY_GAINED_RECEIPT:gsub("%%s", "(.*)");
-
 -- "Erhalten: %s." -> "Erhalten: (.*)%."
 local REGEX_ERR_QUEST_REWARD_MONEY_S = ERR_QUEST_REWARD_MONEY_S:gsub("%.", "%%."):gsub("%%s", "(.*)");
 
@@ -28,10 +25,6 @@ local replacers = {
 local function filter(self, event, message, ...)
 	local match = message:match(REGEX_YOU_LOOT_MONEY);
 	local format = YOU_LOOT_MONEY;
-	if (not match) then
-		match = message:match(REGEX_GENERIC_MONEY_GAINED_RECEIPT);
-		format = GENERIC_MONEY_GAINED_RECEIPT;
-	end
 	if (not match) then
 		match = message:match(REGEX_ERR_QUEST_REWARD_MONEY_S);
 		format = ERR_QUEST_REWARD_MONEY_S;

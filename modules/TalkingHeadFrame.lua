@@ -1,1 +1,0 @@
-TalkingHeadFrame:SetScale(0.8);
