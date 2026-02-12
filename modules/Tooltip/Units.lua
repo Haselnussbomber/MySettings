@@ -150,14 +150,20 @@ local function OnUnit(tooltip)
 			table.insert(tbl, playerFlag .. classColor:WrapTextInColorCode(fullName));
 
 			-- status (DC/AFK/DND)
-			local status = (not UnitIsConnected(unit) and "<DC>") or (UnitIsAFK(unit) and "<AFK>") or (UnitIsDND(unit) and "<DND>");
-			if (status) then
-				table.insert(tbl, status);
+			local unitIsNotConnected = UnitIsConnected(unit);
+			local unitIsAFK = UnitIsAFK(unit);
+			local unitIsDND = UnitIsDND(unit);
+			if (not issecretvalue(unitIsNotConnected) and not issecretvalue(unitIsAFK) and not issecretvalue(unitIsDND)) then
+				local status = (not UnitIsConnected(unit) and "<DC>") or (UnitIsAFK(unit) and "<AFK>") or (UnitIsDND(unit) and "<DND>");
+				if (status) then
+					table.insert(tbl, status);
+				end
 			end
 
 			-- target
 			local unittarget = unit.."target";
-			if (UnitExists(unittarget)) then
+			local targetExists = UnitExists(unittarget);
+			if (not issecretvalue(targetExists) and targetExists) then
 				table.insert(tbl, colorDefaultText:WrapTextInColorCode(":"));
 
 				local isPlayer = UnitIsUnit(unittarget, "player");
