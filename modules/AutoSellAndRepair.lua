@@ -16,9 +16,7 @@ MerchantFrame:HookScript("OnShow", function(self)
 				if (itemLink and not info.hasNoValue) then
 					local _, _, rarity, _, _, _, _, _, _, _, itemPrice, classID, _, bindType = C_Item.GetItemInfo(itemLink);
 
-					if (rarity and rarity == 0
-						and (classID ~= 12 or bindType ~= 4) -- Quest can be classID:12 or bindType:4
-						and (not C_TransmogCollection.GetItemInfo(itemLink) or C_TransmogCollection.PlayerHasTransmogByItemInfo(itemLink))) then -- skip transmogable items
+					if (rarity and rarity == 0 and (classID ~= 12 or bindType ~= 4)) then -- Quest can be classID:12 or bindType:4
 						C_Container.UseContainerItem(bagID, slotID);
 					end
 				end
