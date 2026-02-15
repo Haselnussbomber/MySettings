@@ -22,6 +22,8 @@ libs/Ace3/Ace3.lua
 
 libs/LibDataBroker-1.1/LibDataBroker-1.1.lua
 
+Utils.lua
+
 modules/Addons/AppearanceTooltip.lua
 modules/Addons/DragonflightUI.lua
 
@@ -29,6 +31,11 @@ modules/Chat/FilterAddonMessages.lua
 modules/Chat/FilterSpamMessages.lua
 modules/Chat/ItemIcons.lua
 modules/Chat/Money.lua
+
+modules/Datatexts/Clock.lua
+modules/Datatexts/Friends.lua
+modules/Datatexts/Mail.lua
+modules/Datatexts/WeaponSkill.lua
 
 modules/AutoSellAndRepair.lua
 modules/CVars.lua
