@@ -33,7 +33,6 @@ modules/Chat/ItemIcons.lua
 modules/Chat/Money.lua
 
 modules/Datatexts/Clock.lua
-modules/Datatexts/Friends.lua
 modules/Datatexts/Mail.lua
 modules/Datatexts/WeaponSkill.lua
 
