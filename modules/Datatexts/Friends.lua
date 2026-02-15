@@ -35,7 +35,7 @@ function dataObject:OnClick(button)
 end
 
 local function Update()
-	local numFriends = C_FriendList.GetNumFriends();
+	local numFriends = C_FriendList.GetNumFriends() or 0;
 	local numOnline = 0;
 
 	for i = 1, numFriends do
