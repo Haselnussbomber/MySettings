@@ -7,6 +7,16 @@ local nameFormatConnected = "|T%s:0|t %s (%s)"
 local nameFormatNotConnected = "|T%s:0|t %s"
 FrameUtil.RegisterFrameForEvents(frame, { "FRIENDLIST_UPDATE" });
 
+local function GetBNetAccountInfoFromCharacterName(name)
+	local _, numBNetOnline = BNGetNumFriends();
+	for i = 1, numBNetOnline do
+		local accountInfo = C_BattleNet.GetFriendAccountInfo(i);
+		if accountInfo and accountInfo.gameAccountInfo.characterName and (strcmputf8i(name, accountInfo.gameAccountInfo.characterName) == 0) then
+			return accountInfo;
+		end
+	end
+end
+
 function dataObject:OnTooltipShow()
 	self:ClearLines();
 	self:AddLine(FRIENDS);
@@ -19,8 +29,17 @@ function dataObject:OnTooltipShow()
 			FRIENDS_TEXTURE_ONLINE;
 
 		if (friendInfo.connected) then
-			local name = addon:GetClassColorByLocalizedName(friendInfo.className):WrapTextInColorCode(friendInfo.name);
-			self:AddDoubleLine(nameFormatConnected:format(icon, name, format(FRIENDS_LEVEL_TEMPLATE, friendInfo.level, friendInfo.className)), friendInfo.area, 1, 1, 1);
+			local coloredName = addon:GetClassColorByLocalizedName(friendInfo.className):WrapTextInColorCode(friendInfo.name);
+			local area = friendInfo.area;
+
+			if (area == UNKNOWN) then
+				local accountInfo = GetBNetAccountInfoFromCharacterName(friendInfo.name);
+				if (accountInfo) then
+					area = accountInfo.gameAccountInfo.areaName;
+				end
+			end
+
+			self:AddDoubleLine(nameFormatConnected:format(icon, coloredName, format(FRIENDS_LEVEL_TEMPLATE, friendInfo.level, friendInfo.className)), area, 1, 1, 1);
 		else
 			self:AddLine(nameFormatNotConnected:format(icon, friendInfo.name), FRIENDS_GRAY_COLOR.r, FRIENDS_GRAY_COLOR.g, FRIENDS_GRAY_COLOR.b);
 		end
