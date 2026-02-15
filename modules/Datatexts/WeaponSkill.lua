@@ -7,6 +7,65 @@ local frame = CreateFrame("Frame", name .. "_Frame");
 
 FrameUtil.RegisterFrameForEvents(frame, { "PLAYER_EQUIPMENT_CHANGED", "SKILL_LINES_CHANGED", "CHARACTER_POINTS_CHANGED" });
 
+-- Add more from here if needed https://github.com/Questie/Questie/blob/80ff80/Localization/Translations/WeaponSkills.lua
+
+local weaponSkillLocales = {};
+
+if GetLocale() == "deDE" then
+	weaponSkillLocales = {
+		[Enum.ItemWeaponSubclass.Axe1H] = "Äxte",
+		[Enum.ItemWeaponSubclass.Axe2H] = "Zweihandäxte",
+		[Enum.ItemWeaponSubclass.Bows] = "Bögen",
+		[Enum.ItemWeaponSubclass.Guns] = "Schusswaffen",
+		[Enum.ItemWeaponSubclass.Mace1H] = "Streitkolben",
+		[Enum.ItemWeaponSubclass.Mace2H] = "Zweihandstreitkolben",
+		[Enum.ItemWeaponSubclass.Polearm] = "Stangenwaffen",
+		[Enum.ItemWeaponSubclass.Sword1H] = "Schwerter",
+		[Enum.ItemWeaponSubclass.Sword2H] = "Zweihandschwerter",
+		-- [Enum.ItemWeaponSubclass.Warglaive] = "",
+		[Enum.ItemWeaponSubclass.Staff] = "Stäbe",
+		-- [Enum.ItemWeaponSubclass.Bearclaw] = "",
+		-- [Enum.ItemWeaponSubclass.Catclaw] = "",
+		-- [Enum.ItemWeaponSubclass.Unarmed] = "",
+		-- [Enum.ItemWeaponSubclass.Generic] = "",
+		[Enum.ItemWeaponSubclass.Dagger] = "Dolche",
+		[Enum.ItemWeaponSubclass.Thrown] = "Wurfwaffen",
+		-- [Enum.ItemWeaponSubclass.Obsolete3] = "",
+		[Enum.ItemWeaponSubclass.Crossbow] = "Armbrüste",
+		-- [Enum.ItemWeaponSubclass.Wand] = "",
+		-- [Enum.ItemWeaponSubclass.Fishingpole] = "",
+
+		-- Faustwaffen?
+	};
+else
+	-- probably not correct, but i don't play with the english client
+	weaponSkillLocales = {
+		[Enum.ItemWeaponSubclass.Axe1H] = "One-Handed Axes",
+		[Enum.ItemWeaponSubclass.Axe2H] = "Two-Handed Axes",
+		[Enum.ItemWeaponSubclass.Bows] = "Bows",
+		[Enum.ItemWeaponSubclass.Guns] = "Guns",
+		[Enum.ItemWeaponSubclass.Mace1H] = "One-Handed Maces",
+		[Enum.ItemWeaponSubclass.Mace2H] = "Two-Handed Maces",
+		[Enum.ItemWeaponSubclass.Polearm] = "Polearms",
+		[Enum.ItemWeaponSubclass.Sword1H] = "One-Handed Swords",
+		[Enum.ItemWeaponSubclass.Sword2H] = "Two-Handed Swords",
+		-- [Enum.ItemWeaponSubclass.Warglaive] = "",
+		[Enum.ItemWeaponSubclass.Staff] = "Staves",
+		-- [Enum.ItemWeaponSubclass.Bearclaw] = "",
+		-- [Enum.ItemWeaponSubclass.Catclaw] = "",
+		-- [Enum.ItemWeaponSubclass.Unarmed] = "",
+		-- [Enum.ItemWeaponSubclass.Generic] = "",
+		[Enum.ItemWeaponSubclass.Dagger] = "Daggers",
+		[Enum.ItemWeaponSubclass.Thrown] = "Thrown",
+		-- [Enum.ItemWeaponSubclass.Obsolete3] = "",
+		[Enum.ItemWeaponSubclass.Crossbow] = "Crossbows",
+		-- [Enum.ItemWeaponSubclass.Wand] = "",
+		-- [Enum.ItemWeaponSubclass.Fishingpole] = "",
+
+		-- Fist Weapons?
+	};
+end
+
 function dataObject:OnTooltipShow()
 	self:ClearLines();
 	self:AddLine(WeaponSkillTitle);
@@ -58,7 +117,8 @@ local function Update()
 			isWeaponSkills = skillName == WeaponSkillTitle;
 		else
 			if (isWeaponSkills) then
-				if (skillName == C_Item.GetItemSubClassInfo(Enum.ItemClass.Weapon, subClassID)) then
+				-- local subclassName = C_Item.GetItemSubClassInfo(Enum.ItemClass.Weapon, subClassID);
+				if (weaponSkillLocales[subClassID] and skillName == weaponSkillLocales[subClassID]) then
 					local color = addon:ColorGradient(skillRank / skillMaxRank, 1,0,0, 1,1,0, 0,1,0);
 					dataObject.icon = texture;
 					dataObject.text = color:WrapTextInColorCode(("%d/%d"):format(skillRank, skillMaxRank));
