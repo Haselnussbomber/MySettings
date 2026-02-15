@@ -4,10 +4,10 @@ local _, addon = ...
 function addon:ColorGradient(perc, ...)
 	if perc >= 1 then
 		local r, g, b = select(select('#', ...) - 2, ...)
-		return r, g, b
+		return CreateColor(r, g, b, 1)
 	elseif perc <= 0 then
 		local r, g, b = ...
-		return r, g, b
+		return CreateColor(r, g, b, 1)
 	end
 
 	local num = select('#', ...) / 3
