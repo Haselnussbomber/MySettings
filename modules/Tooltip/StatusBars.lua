@@ -114,10 +114,11 @@ local function UpdateStatusBars(unit)
 	healthBar.text:SetFormattedText("%s / %s (%d%%)", FormatValue(cur), FormatValue(max), per);
 
 	local _, classFilename = UnitClass(unit);
-	local classColor = RAID_CLASS_COLORS[classFilename] or RAID_CLASS_COLORS["PRIEST"];
+	local classColor = C_ClassColor.GetClassColor(classFilename or "PRIEST");
 	healthBar:SetStatusBarColor(classColor.r, classColor.g, classColor.b);
 
 	local powerType = UnitPowerType(unit);
+	local powerColor = GetPowerBarColor(powerType) or CreateColor(0.3, 0.55, 0.9);
 
 	cur = UnitPower(unit, powerType);
 	max = UnitPowerMax(unit, powerType);
@@ -126,12 +127,7 @@ local function UpdateStatusBars(unit)
 	powerBar:SetMinMaxValues(0, max);
 	powerBar:SetValue(cur);
 	powerBar.text:SetFormattedText("%s / %s (%d%%)", FormatValue(cur), FormatValue(max), per);
-	if (powerType == 0) then
-		powerBar:SetStatusBarColor(0.3, 0.55, 0.9);
-	else
-		local powerColor = PowerBarColor[powerType or 5];
-		powerBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b);
-	end
+	powerBar:SetStatusBarColor(powerColor.r, powerColor.g, powerColor.b);
 end
 
 local function OnUnit(tooltip)
