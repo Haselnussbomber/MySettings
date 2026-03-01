@@ -1,9 +1,3 @@
-local orig_DEFAULT_CHAT_FRAME_AddMessage = DEFAULT_CHAT_FRAME.AddMessage;
-
-local function clearString(str)
-	return str:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "");
-end
-
 local addonMessages = {
 	"Wowhead Looter loaded",
 	"Wowhead Looter geladen",
@@ -20,22 +14,44 @@ local addonMessages = {
 	"BetterBags integration enabled",
 	"BetterBags: Masque integration enabled",
 	"Endeavor Tracker: Loaded!",
+	"Housing Codex: .* decor collected",
 };
 
 local enabled = true;
 
-DEFAULT_CHAT_FRAME.AddMessage = function(self, message, r, g, b, ...)
-	if (enabled) then
-		for _, v in ipairs(addonMessages) do
-			if (clearString(message):find(v)) then
-				return; -- filter
-			end
+local function shouldFilter(message)
+	if (not enabled or not message) then
+		return false;
+	end
+
+	local clean = C_StringUtil.StripHyperlinks(message, false, false, false, false, false);
+	for _, pattern in ipairs(addonMessages) do
+		if (clean:find(pattern)) then
+			return true;
 		end
 	end
 
-	orig_DEFAULT_CHAT_FRAME_AddMessage(self, message, r, g, b, ...);
+	return false;
 end
 
+local originalPrint = _G.print;
+_G.print = function(...)
+	local message = select(1, ...);
+	if (shouldFilter(message)) then
+		return;
+	end
+
+	originalPrint(...);
+end
+
+local originalAddMessage = DEFAULT_CHAT_FRAME.AddMessage
+DEFAULT_CHAT_FRAME.AddMessage = function(self, message, ...)
+	if (shouldFilter(message)) then
+		return;
+	end
+
+	originalAddMessage(self, message, ...);
+end
 
 EventUtil.RegisterOnceFrameEventAndCallback("LOADING_SCREEN_DISABLED", function()
 	C_Timer.After(30, function()
