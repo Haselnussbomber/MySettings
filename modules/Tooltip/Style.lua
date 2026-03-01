@@ -1,5 +1,6 @@
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
+--[[
 GAME_TOOLTIP_BACKDROP_STYLE_AZERITE_ITEM.padding = nil;
 
 local function SetSkin(tooltip)
@@ -17,8 +18,8 @@ local function SetSkin(tooltip)
 	end
 
 	tooltip:SetBackdrop({
-		bgFile = [[Interface\Buttons\WHITE8X8]],
-		edgeFile = [[Interface\Buttons\WHITE8X8]],
+		bgFile = [ [Interface\Buttons\WHITE8X8] ],
+		edgeFile = [ [Interface\Buttons\WHITE8X8] ],
 		edgeSize = PixelUtil.GetNearestPixelSize(PixelUtil.GetPixelToUIUnitFactor(), UIParent:GetEffectiveScale())
 	});
 
@@ -62,6 +63,8 @@ hooksecurefunc("SharedTooltip_SetBackdropStyle", function(tooltip, parent)
 	SetSkin(tooltip);
 end);
 
+]]--
+
 -- reposition anchor
 hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 	tooltip:ClearAllPoints();
@@ -76,7 +79,7 @@ local function OnTooltip(tooltip)
 		itemDataLoadedCancelFunc = nil;
 	end
 
-	SetSkin(tooltip);
+	-- SetSkin(tooltip);
 
 	if (tooltip.SetBackdropBorderColor) then
 		tooltip:SetBackdropBorderColor(0.8, 0.8, 0.8, 1);
