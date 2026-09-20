@@ -3,6 +3,7 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 	-- cameraDistanceMaxZoomFactor calculation by https://www.wowinterface.com/downloads/info24927-MaxCamClassic.html
 
 	-- Camera
+	SetCVar("cameraDistanceMaxZoomFactor", 39 / 15);
 	SetCVar("cameraPitchMoveSpeed", 45);
 	SetCVar("cameraSmoothStyle", 0);         -- Never adjust camera.
 	SetCVar("cameraSmoothTrackingStyle", 0); -- Never adjust camera. (for click to move)
@@ -20,6 +21,8 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 	SetCVar("raidFramesDisplayClassColors", true);
 	SetCVar("raidFramesDisplayOnlyHealerPowerBars", true);
 	SetCVar("countdownForCooldowns", true);
+	SetCVar("autoDismountFlying", true);
+	SetCVar("nameplateShowSelf", false); -- class ressource bar
 
 	-- Chat
 	SetCVar("chatBubblesParty", false);
@@ -47,13 +50,6 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 	SetCVar("Sound_EnableErrorSpeech", false);
 	SetCVar("Sound_EnableMusic", false);
 	SetCVar("Sound_EnableSoundWhenGameIsInBG", true);
-
-	-- Camera
-	SetCVar("cameraDistanceMaxZoomFactor", 39 / 15);
-
-	-- Interface
-	SetCVar("autoDismountFlying", true);
-	SetCVar("nameplateShowSelf", false); -- class ressource bar
 
 	-- Tutorials
 	SetCVar("showNPETutorials", false);
