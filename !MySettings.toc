@@ -14,9 +14,6 @@ modules/Addons/MinimalArchaeology.lua
 
 modules/Tooltip/Icons.lua
 modules/Tooltip/Style.lua
-modules/Tooltip/Units.lua
-#modules/Tooltip/Auras.lua
-modules/Tooltip/StatusBars.lua
 
 modules/Chat/FilterAddonMessages.lua
 modules/Chat/FilterSpamMessages.lua
