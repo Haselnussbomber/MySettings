@@ -1,16 +1,16 @@
-## Interface: 120000
+## Interface: 120100, 16001
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Dependencies: Ace3, SharedMedia, LibDBIcon-1.0
 
-data/mawpower.lua
+data/mawpower.lua [AllowLoadGameType mainline]
 
-modules/Setup.lua
+modules/Setup.lua [AllowLoadGameType mainline]
 
-modules/Addons/AppearanceTooltip.lua
-modules/Addons/BadBoy_Ignore.lua
-modules/Addons/FarmHud.lua
-modules/Addons/MinimalArchaeology.lua
+modules/Addons/AppearanceTooltip.lua [AllowLoadGameType mainline]
+modules/Addons/BadBoy_Ignore.lua [AllowLoadGameType mainline]
+modules/Addons/FarmHud.lua [AllowLoadGameType mainline]
+modules/Addons/MinimalArchaeology.lua [AllowLoadGameType mainline]
 
 modules/Tooltip/Icons.lua
 modules/Tooltip/Style.lua
@@ -26,7 +26,7 @@ modules/Chat/Anima.lua
 modules/Chat/Money.lua
 
 modules/AutoSellAndRepair.lua
-modules/BagsBar.lua
+modules/BagsBar.lua [AllowLoadGameType mainline]
 modules/CVars.lua
 modules/ClassAddons.lua
 modules/CombatText.lua
