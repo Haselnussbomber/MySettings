@@ -1,0 +1,3 @@
+local _, addon = ...
+
+addon.IsForever = select(4, GetBuildInfo()) == 16001;

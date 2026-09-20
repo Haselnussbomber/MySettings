@@ -3,6 +3,8 @@
 ## Author: Haselnussbomber
 ## Dependencies: Ace3, SharedMedia, LibDBIcon-1.0
 
+addon.lua
+
 data/mawpower.lua [AllowLoadGameType mainline]
 
 modules/Setup.lua [AllowLoadGameType mainline]
