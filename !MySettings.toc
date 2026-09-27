@@ -39,6 +39,7 @@ modules/GameMenuFrame.lua
 modules/MicroMenu.lua
 modules/Minimap.lua
 modules/PaperDoll.lua
+modules/PlayerFrameClassColor.lua
 modules/QuestReward.lua
 modules/StatusTrackingBarManager.lua
 modules/SubscriptionInterstitial.lua
