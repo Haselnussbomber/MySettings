@@ -2,10 +2,6 @@
 ## Title: !MySettings
 ## Author: Haselnussbomber
 ## Dependencies: Ace3, SharedMedia, LibDBIcon-1.0
-## X-Family: [Family]
-## X-Game: [Game]
-
-addon.lua
 
 data/mawpower.lua [AllowLoadGameType mainline]
 
