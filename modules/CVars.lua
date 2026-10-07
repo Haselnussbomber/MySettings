@@ -19,7 +19,7 @@ EventUtil.RegisterOnceFrameEventAndCallback("PLAYER_ENTERING_WORLD", function()
 	SetCVar("raidOptionDisplayMainTankAndAssist", false);
 	SetCVar("raidFramesDisplayPowerBars", true);
 	SetCVar("raidFramesDisplayClassColors", true);
-	SetCVar("raidFramesDisplayOnlyHealerPowerBars", true);
+	SetCVar("raidFramesDisplayOnlyHealerPowerBars", false);
 	SetCVar("countdownForCooldowns", true);
 	SetCVar("autoDismountFlying", true);
 	SetCVar("nameplateShowSelf", false); -- class ressource bar

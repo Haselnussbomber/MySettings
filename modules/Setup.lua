@@ -1,35 +1,28 @@
 _G["SLASH_SETUP1"] = "/setup";
 SlashCmdList["SETUP"] = function()
-	-- Minimap Tracking
-	local trackingTextures = {
-		136025, -- Mineraliensuche
-		136456, -- Flugmeister
-		237607, -- Niedrigstufige Quests
-
-		136452, -- Auktionator
-		136453, -- Bankier
-		3852099, -- Barbier
-		136458, -- Gastwirt
-		136459, -- Briefkasten
-		136465, -- Reparieren
-		1598183, -- Transmogrifizierer
-		524051, -- Fokusziel
-	};
-	local count = C_Minimap.GetNumTrackingTypes();
-	for id=1, count do
-		local _, texture, active = C_Minimap.GetTrackingInfo(id);
-		if (tContains(trackingTextures, texture) and not active) then
-			C_Minimap.SetTracking(id, true);
-		end
+	-- Enable all tinimap tracking types
+	for index = 1, C_Minimap.GetNumTrackingTypes() do
+		C_Minimap.SetTracking(index, true);
 	end
 
-	-- UI Layout
-	C_EditMode.SetActiveLayout(3);
-	C_EditMode.OnEditModeExit();
+	-- Enable UI Layout
+	local layoutInfo = C_EditMode.GetLayouts();
+	for index, layoutInfo in ipairs(layoutInfo.layouts) do
+		if layoutInfo.layoutName == "MyProfile" then
+			C_EditMode.SetActiveLayout(#EditModePresetLayoutManager.presetLayoutInfo + index);
+			C_EditMode.OnEditModeExit();
+			break;
+		end
+	end
 
 	-- Sort bags from top to bottom
 	C_Container.SetInsertItemsLeftToRight(true);
 	C_Container.SetSortBagsRightToLeft(true);
+
+	-- Enable additional action bars
+	Settings.SetValue("PROXY_SHOW_ACTIONBAR_2", true);
+	Settings.SetValue("PROXY_SHOW_ACTIONBAR_3", true);
+	Settings.SetValue("PROXY_SHOW_ACTIONBAR_4", true);
 
 	-- Kui Nameplates
 	if (KuiNameplatesCoreCharacterSaved) then
@@ -42,5 +35,7 @@ SlashCmdList["SETUP"] = function()
 	end
 
 	-- /reflux switch MyProfile
-	SlashCmdList["REFLUX"]("switch MyProfile"); -- reloads ui!
+	if (SlashCmdList["REFLUX"]) then
+		SlashCmdList["REFLUX"]("switch MyProfile"); -- reloads ui!
+	end
 end;
